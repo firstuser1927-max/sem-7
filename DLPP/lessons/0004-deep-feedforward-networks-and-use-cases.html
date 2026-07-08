@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 0004: Deep Feedforward Networks & Use Cases</title>
+  <link rel="stylesheet" href="../../assets/lesson.css">
+  <!-- Load Mermaid Library for rendering flowcharts in HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      securityLevel: 'loose'
+    });
+  </script>
+  <!-- Load MathJax for rendering LaTeX equations in HTML -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+  <!-- Lesson Header -->
+  <div class="lesson-header">
+    <span class="subject-badge">DLPP (3174201)</span>
+    <h1>Lesson 0004: Deep Feedforward Networks & Use Cases</h1>
+    <div class="lesson-meta">
+      <span>⏱️ <strong>Duration:</strong> 20 mins</span>
+      <span>📖 <strong>Unit:</strong> 2 (Neural Networks)</span>
+      <span>🎯 <strong>GTU Weightage:</strong> 25% (Unit 2)</span>
+    </div>
+  </div>
+
+  <!-- Hook -->
+  <div class="callout">
+    <div class="callout-title">🎣 The Hook</div>
+    <p>Imagine a high-efficiency assembly line at a car factory. Steel sheets enter at one end, are stamped into shapes, welded together, painted by robots, and finally roll out as complete cars at the other end. Crucially, the conveyor belt only moves in <strong>one direction</strong>. A half-built car never goes backward on the track. 
+    <br>This is exactly how a <strong>Deep Feedforward Network</strong> (also called a Multilayer Perceptron or MLP) processes information. Data goes in, travels forward layer-by-layer, gets processed, and exits as a prediction. There are no feedback loops.</p>
+  </div>
+
+  <!-- Big Picture -->
+  <h2>🗺️ The Big Picture</h2>
+  <p>Where does this fit? We now know how individual nodes work (Lesson 2) and how the network trains (Lesson 3). Today, we look at the full multi-layered feedforward structure and how it is applied to solve real industry problems.</p>
+  
+  <div class="mermaid">
+    graph TD
+        L3["Lesson 3: Backpropagation (Completed)"] --> L4["Lesson 4: Deep Feedforward Networks & Use Cases (Current)"]
+        L4 --> L5["Lesson 5: TensorFlow & Transfer Learning (Next)"]
+
+        style L3 fill:#d3f9d8,stroke:#2f9e44,stroke-width:1px
+        style L4 fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        style L5 fill:#f8fafc,stroke:#868e96,stroke-width:1px
+  </div>
+
+  <!-- Section 1 -->
+  <h2>1. Deep Feedforward Networks (DFFN)</h2>
+  <p>A <strong>Deep Feedforward Network</strong> is the quintessential deep learning model. The goal of a feedforward network is to approximate some function $y = f^*(x)$. For example, a classifier maps an input $x$ to a category $y$.</p>
+
+  <h3>⚙️ Why is it called "Feedforward"?</h3>
+  <ul>
+    <li><strong>Feedforward:</strong> Information flows in one direction only: from the input layer, through the hidden layers, to the output layer. There are <strong>no feedback connections</strong> where outputs are fed back into the same layer (networks that do have feedback loops are called <em>Recurrent Neural Networks</em> or RNNs).</li>
+    <li><strong>Deep:</strong> The network has multiple hidden layers (often tens or hundreds in industry models).</li>
+  </ul>
+
+  <div class="mermaid">
+    graph LR
+        Input["Input Layer<br/>(x)"] --> Hidden1["Hidden Layer 1<br/>(Extracts edges)"]
+        Hidden1 --> Hidden2["Hidden Layer 2<br/>(Extracts shapes)"]
+        Hidden2 --> Output["Output Layer<br/>(Prediction y)"]
+
+        style Input fill:#ffe8cc,stroke:#d9480f,stroke-width:1px
+        style Hidden1 fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
+        style Hidden2 fill:#e8f5e9,stroke:#2e7d32,stroke-width:1px
+        style Output fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+  </div>
+
+  <!-- Section 2 -->
+  <h2>2. A Real-World Use Case: Customer Churn Prediction</h2>
+  <p>Let's see how a telecom company (like Jio or Airtel) uses a Deep Feedforward Network to predict <strong>customer churn</strong> (whether a customer is going to cancel their subscription).</p>
+
+  <div class="mermaid">
+    graph LR
+        subgraph Inputs["Input Layer (Customer Data)"]
+            x1["Age"]
+            x2["Monthly Bill ($)"]
+            x3["Data Usage (GB)"]
+            x4["Support Calls"]
+        end
+
+        subgraph Hidden["Hidden Layers (Behavior Profiles)"]
+            h1["Node 1"]
+            h2["Node 2"]
+            h3["Node 3"]
+            h4["Node 4"]
+        end
+
+        subgraph Output["Output Layer (Probability)"]
+            y["Churn Probability<br/>(0.0 to 1.0)"]
+        end
+
+        x1 --> h1
+        x1 --> h2
+        x1 --> h3
+        x1 --> h4
+        x2 --> h1
+        x2 --> h2
+        x2 --> h3
+        x2 --> h4
+        x3 --> h1
+        x3 --> h2
+        x3 --> h3
+        x3 --> h4
+        x4 --> h1
+        x4 --> h2
+        x4 --> h3
+        x4 --> h4
+
+        h1 --> y
+        h2 --> y
+        h3 --> y
+        h4 --> y
+
+        style Inputs fill:#ffe8cc,stroke:#d9480f
+        style Hidden fill:#e8f5e9,stroke:#2e7d32
+        style Output fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+  </div>
+
+  <h3>How the data flows:</h3>
+  <ol>
+    <li><strong>Inputs ($x$):</strong> The network takes raw customer attributes (Age, Bill, Usage, Calls).</li>
+    <li><strong>Hidden Layers ($h$):</strong> The hidden nodes combine these inputs to detect hidden, abstract patterns. For example, one hidden node might trigger only when a customer has <em>low usage but high support calls</em> (indicating frustration).</li>
+    <li><strong>Output ($y$):</strong> The output node uses a <strong>Sigmoid</strong> activation function to output a single probability score between $0$ (loyal customer) and $1$ (will cancel). If the score is $>0.5$, the company sends the customer a discount coupon.</li>
+  </ol>
+
+  <!-- Section 3 -->
+  <h2>3. ANN vs. BNN (Deep Dive)</h2>
+  <p>While Artificial Neural Networks (ANN) are <em>inspired</em> by the Biological Neural Networks (BNN) in our brain, they are actually very different in how they function.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Biological Neural Network (BNN)</th>
+        <th>Artificial Neural Network (ANN)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Processing Element</strong></td>
+        <td>Synapse-connected neurons (billion-fold parallelism).</td>
+        <td>Nodes running on silicon processors (CPUs/GPUs).</td>
+      </tr>
+      <tr>
+        <td><strong>Learning Mechanism</strong></td>
+        <td>Complex biochemical changes (Synaptic Plasticity).</td>
+        <td>Backpropagation & Gradient Descent (Calculus).</td>
+      </tr>
+      <tr>
+        <td><strong>Speed</strong></td>
+        <td>Slow signal transmission (milliseconds).</td>
+        <td>Near speed-of-light calculations (nanoseconds).</td>
+      </tr>
+      <tr>
+        <td><strong>Energy Efficiency</strong></td>
+        <td>Extremely efficient (runs on ~20 Watts).</td>
+        <td>Highly inefficient (needs hundreds of Watts for GPUs).</td>
+      </tr>
+      <tr>
+        <td><strong>Architecture</strong></td>
+        <td>Highly complex, dynamic, self-rewiring loops.</td>
+        <td>Fixed, layered static layouts.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Exam Corner -->
+  <div class="callout exam">
+    <div class="callout-title">🎯 GTU Exam Corner</div>
+    
+    <p><strong>Q1. Write a detailed note on Deep Feedforward Networks with a neat block diagram. (5 Marks)</strong></p>
+    <ul>
+      <li><strong>Definition:</strong> Feedforward networks are multilayered networks where connections flow strictly in one direction (forward) and do not form cycles.</li>
+      <li><strong>Block Diagram:</strong> Draw the Input Layer ➡️ Hidden Layer 1 ➡️ Hidden Layer 2 ➡️ Output Layer diagram.</li>
+      <li><strong>Purpose:</strong> They represent the basis for advanced architectures like CNNs and RNNs.</li>
+    </ul>
+
+    <p style="margin-top: 1rem;"><strong>Q2. Differentiate between Artificial Neural Networks (ANN) and Biological Neural Networks (BNN). (5 Marks)</strong></p>
+    <ul>
+      <li><strong>Points to cover:</strong> Compare their processing elements (nodes vs. biological neurons), learning mechanisms (Backpropagation vs. synaptic plasticity), speed (fast electronics vs. slow chemical impulses), and power consumption.</li>
+    </ul>
+
+    <p style="margin-top: 1rem;"><strong>Q3. Explain any one application/use case of ANN in detail. (7 Marks)</strong></p>
+    <ul>
+      <li><em>Tip:</em> Use the <strong>Customer Churn Prediction</strong> or <strong>House Price Prediction</strong> case study. Clearly lay out the inputs (features), what happens in the hidden layers (feature extraction), and what the output represents.</li>
+    </ul>
+  </div>
+
+  <!-- Recall Challenge -->
+  <div class="exercise">
+    <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+    <p>Don't scroll up! Close your eyes and answer these 3 simple questions in your head:</p>
+    <ol>
+      <li>What makes a network "feedforward" instead of "recurrent"?</li>
+      <li>What activation function would you use in the output layer for Customer Churn Prediction?</li>
+      <li>Name two advantages BNNs have over ANNs (hint: think energy and wiring).</li>
+    </ol>
+  </div>
+
+  <!-- Lesson Footer -->
+  <div class="lesson-footer">
+    <span>Next Lesson: 0005 — TensorFlow & Transfer Learning</span>
+    <span>GTU Semester 7 AI&DS Study Circle</span>
+  </div>
+
+</body>
+</html>
