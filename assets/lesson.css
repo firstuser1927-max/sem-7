@@ -1,0 +1,175 @@
+/* GTU Sem 7 Teaching Workspace — Shared Lesson Styles */
+/* Inspired by Edward Tufte's principles: clarity, precision, elegance */
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --text: #1a1a2e;
+  --bg: #fefefe;
+  --accent: #4f46e5;
+  --accent-light: #eef2ff;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --code-bg: #f8fafc;
+  --highlight: #fef3c7;
+  --success: #d1fae5;
+  --danger: #fee2e2;
+  --warning: #ffedd5;
+  --serif: 'Merriweather', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 2rem 6rem;
+}
+
+/* ── Typography ─────────────────────────────────── */
+h1 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.5rem; color: var(--accent); font-family: var(--sans); }
+h2 { font-size: 1.35rem; font-weight: 700; margin: 2.5rem 0 0.75rem; font-family: var(--sans); border-bottom: 2px solid var(--border); padding-bottom: 0.4rem; }
+h3 { font-size: 1.1rem; font-weight: 600; margin: 1.8rem 0 0.5rem; font-family: var(--sans); color: #374151; }
+p  { margin-bottom: 1.2rem; }
+strong { font-weight: 700; color: #111827; }
+em { font-style: italic; }
+
+/* ── Header / Meta ───────────────────────────────── */
+.lesson-header {
+  border-bottom: 3px solid var(--accent);
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+}
+.lesson-meta {
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+}
+.lesson-meta span { display: flex; align-items: center; gap: 0.3rem; }
+.subject-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Callouts ────────────────────────────────────── */
+.callout {
+  border-left: 4px solid var(--accent);
+  background: var(--accent-light);
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+}
+.callout.warn  { border-color: #f59e0b; background: var(--warning); }
+.callout.tip   { border-color: #10b981; background: var(--success); }
+.callout.exam  { border-color: #ef4444; background: var(--danger); }
+.callout-title { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+
+/* ── Code ────────────────────────────────────────── */
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  color: #c7254e;
+}
+pre {
+  font-family: var(--mono);
+  font-size: 0.83rem;
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  line-height: 1.6;
+}
+pre code { background: none; border: none; color: inherit; padding: 0; font-size: 1em; }
+
+/* ── Tables ──────────────────────────────────────── */
+table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-family: var(--sans); font-size: 0.9rem; }
+th { background: var(--accent); color: white; text-align: left; padding: 0.6rem 1rem; font-weight: 600; }
+td { padding: 0.55rem 1rem; border-bottom: 1px solid var(--border); }
+tr:nth-child(even) td { background: #f9fafb; }
+tr:last-child td { border-bottom: none; }
+
+/* ── Quiz / Exercises ────────────────────────────── */
+.exercise {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--sans);
+}
+.exercise-title { font-weight: 700; color: #15803d; margin-bottom: 0.75rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+.recall-box {
+  background: var(--highlight);
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  margin: 2rem 0;
+  font-family: var(--sans);
+}
+.recall-title { font-weight: 700; color: #92400e; margin-bottom: 0.75rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+/* ── Key Terms ───────────────────────────────────── */
+.key-term { font-weight: 700; color: var(--accent); }
+.definition { margin-left: 1.5rem; color: #374151; font-style: italic; }
+
+/* ── Diagram placeholder ─────────────────────────── */
+.diagram {
+  background: #f8fafc;
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  margin: 1.5rem 0;
+}
+
+/* ── Footer ──────────────────────────────────────── */
+.lesson-footer {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media print {
+  body { max-width: 100%; padding: 1rem; font-size: 11pt; }
+  h1 { font-size: 18pt; }
+  pre { background: #f4f4f4 !important; color: #000 !important; border: 1px solid #ccc; }
+  .callout, .exercise, .recall-box { break-inside: avoid; }
+}
