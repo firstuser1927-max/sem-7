@@ -13,11 +13,24 @@
 ## 🗺️ The Big Picture
 Where does this fit in your Artificial Intelligence journey?
 
+```mermaid
+graph TD
+    AI["Artificial Intelligence (AI)<br/>(Broad concept: making machines smart)"]
+    ML["Machine Learning (ML)<br/>(Learning rules from data without manual code)"]
+    DL["Deep Learning (DL)<br/>(Multi-layered networks mimicking biological brains)"]
+
+    AI --> ML
+    ML --> DL
+
+    style AI fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+    style ML fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+    style DL fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
 ```
-Artificial Intelligence (AI)  ── [Broad concept: making machines smart]
-   └── Machine Learning (ML)  ── [Learning from data without manual rules]
-         └── Deep Learning (DL) ── [Deep neural networks copying biological brains]
-```
+
+> [!TIP]
+> ### 🗺️ Interactive Mindmap Canvas
+> We have created an interactive visual Canvas summary of this entire lesson!
+> Open **[0001-deep-learning-basics-mindmap.canvas](../reference/0001-deep-learning-basics-mindmap.canvas)** inside Obsidian to view it.
 
 ---
 
@@ -32,12 +45,28 @@ You already know the basics of Machine Learning. In ML, if you want to classify 
 
 In Deep Learning, we skip manual feature extraction. We feed the raw image directly into the model, and the model figures out what features are important on its own.
 
-```
-Machine Learning Flow:
-Raw Data (Image) ──> [Human Expert Extracts Features] ──> [Algorithm Classifier] ──> Output
+```mermaid
+graph TB
+    subgraph Traditional_ML["Traditional Machine Learning Flow"]
+        direction LR
+        Data1["Raw Data<br/>(Image)"] --> Feat["Manual Feature<br/>Engineering"]
+        Feat --> Algo["ML Model<br/>(Classifier)"]
+        Algo --> Out1["Output<br/>(Class)"]
+    end
 
-Deep Learning Flow:
-Raw Data (Image) ───────────────────────────────────> [Deep Neural Network] ──> Output
+    subgraph Deep_Learning["Deep Learning Flow"]
+        direction LR
+        Data2["Raw Data<br/>(Image)"] --> DNN["Deep Neural Network<br/>(Automatic Features + Classifier)"]
+        DNN --> Out2["Output<br/>(Class)"]
+    end
+
+    style Data1 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+    style Data2 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+    style Out1 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+    style Out2 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+    style Feat fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+    style Algo fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+    style DNN fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
 ```
 
 ---
@@ -47,6 +76,35 @@ At its core, **Deep Learning** is a subset of Machine Learning that uses multi-l
 
 ### 🧠 The Biological Inspiration (ANN vs BNN)
 Deep Learning models run on **Artificial Neural Networks (ANN)** *(computer networks inspired by the human brain)*. Let's see how they compare to our biological brain parts:
+
+```mermaid
+graph LR
+    subgraph BNN["Biological Neural Network (BNN)"]
+        direction TB
+        Neuron["Neuron (Cell)"]
+        Dendrite["Dendrites (Inputs)"]
+        Synapse["Synapses (Connection Strength)"]
+        Soma["Soma (Activation Decision)"]
+    end
+
+    subgraph ANN["Artificial Neural Network (ANN)"]
+        direction TB
+        Node["Node / Artificial Neuron"]
+        Input["Inputs (x)"]
+        Weight["Weights (w)"]
+        Act["Activation Function (σ)"]
+    end
+
+    Dendrite -.->|Equivalent to| Input
+    Synapse -.->|Equivalent to| Weight
+    Soma -.->|Equivalent to| Act
+    Neuron -.->|Equivalent to| Node
+
+    style BNN fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+    style ANN fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+    style Node fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+    style Neuron fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+```
 
 | Biological Brain Part (BNN) | Artificial Equivalent (ANN) | What it does (Simplified) |
 | :--- | :--- | :--- |

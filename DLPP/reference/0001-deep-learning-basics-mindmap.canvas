@@ -1,0 +1,220 @@
+{
+  "nodes": [
+    {
+      "id": "root-001",
+      "type": "text",
+      "text": "# Deep Learning Basics\nUnit 1 Overview",
+      "x": 0,
+      "y": 0,
+      "width": 260,
+      "height": 100,
+      "color": "6"
+    },
+    {
+      "id": "branch-ml-vs-dl",
+      "type": "text",
+      "text": "### Traditional ML vs. Deep Learning\nManual vs. Automated Feature Extraction",
+      "x": -450,
+      "y": -200,
+      "width": 280,
+      "height": 120,
+      "color": "2"
+    },
+    {
+      "id": "leaf-feature-eng",
+      "type": "text",
+      "text": "**Feature Engineering**\nIn ML, human experts must manually extract features (edges, color histograms) before feeding them to classifiers.",
+      "x": -850,
+      "y": -320,
+      "width": 260,
+      "height": 130,
+      "color": "2"
+    },
+    {
+      "id": "leaf-auto-learning",
+      "type": "text",
+      "text": "**End-to-End Learning**\nIn DL, raw data is fed directly. The hidden layers learn hierarchical features automatically.",
+      "x": -850,
+      "y": -80,
+      "width": 260,
+      "height": 130,
+      "color": "2"
+    },
+    {
+      "id": "branch-dl-drivers",
+      "type": "text",
+      "text": "### What Drives Deep Learning?\nWhy it became popular recently",
+      "x": 450,
+      "y": -200,
+      "width": 280,
+      "height": 120,
+      "color": "5"
+    },
+    {
+      "id": "leaf-big-data",
+      "type": "text",
+      "text": "**Big Data Era**\nNeural networks scale with more data. Standard ML performance plateaus; DL keeps improving.",
+      "x": 850,
+      "y": -320,
+      "width": 260,
+      "height": 130,
+      "color": "5"
+    },
+    {
+      "id": "leaf-gpu-compute",
+      "type": "text",
+      "text": "**GPU Acceleration**\nMassive parallel calculations (matrix multiplies) are handled efficiently by graphics cards.",
+      "x": 850,
+      "y": -80,
+      "width": 260,
+      "height": 130,
+      "color": "5"
+    },
+    {
+      "id": "branch-apps",
+      "type": "text",
+      "text": "### Key Applications\nWhere DL is used today",
+      "x": -450,
+      "y": 200,
+      "width": 280,
+      "height": 120,
+      "color": "4"
+    },
+    {
+      "id": "leaf-computer-vision",
+      "type": "text",
+      "text": "**Computer Vision**\nSelf-driving cars, facial recognition, medical imaging (tumor scans).",
+      "x": -850,
+      "y": 80,
+      "width": 260,
+      "height": 110,
+      "color": "4"
+    },
+    {
+      "id": "leaf-nlp",
+      "type": "text",
+      "text": "**Natural Language Processing**\nVoice assistants (Siri, Alexa), Google Translate, Large Language Models (ChatGPT).",
+      "x": -850,
+      "y": 260,
+      "width": 260,
+      "height": 110,
+      "color": "4"
+    },
+    {
+      "id": "branch-challenges",
+      "type": "text",
+      "text": "### Major Challenges\nLimitations and blockers",
+      "x": 450,
+      "y": 200,
+      "width": 280,
+      "height": 120,
+      "color": "1"
+    },
+    {
+      "id": "leaf-black-box",
+      "type": "text",
+      "text": "**Black Box Problem**\nLack of explainability. Difficult to understand *why* the network made a certain decision.",
+      "x": 850,
+      "y": 80,
+      "width": 260,
+      "height": 110,
+      "color": "1"
+    },
+    {
+      "id": "leaf-data-compute-cost",
+      "type": "text",
+      "text": "**Resource Cost**\nRequires millions of labeled training instances and high electricity/hardware costs.",
+      "x": 850,
+      "y": 260,
+      "width": 260,
+      "height": 110,
+      "color": "1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-root-to-ml",
+      "fromNode": "root-001",
+      "fromSide": "left",
+      "toNode": "branch-ml-vs-dl",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-ml-to-feat",
+      "fromNode": "branch-ml-vs-dl",
+      "fromSide": "left",
+      "toNode": "leaf-feature-eng",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-ml-to-auto",
+      "fromNode": "branch-ml-vs-dl",
+      "fromSide": "left",
+      "toNode": "leaf-auto-learning",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-root-to-drivers",
+      "fromNode": "root-001",
+      "fromSide": "right",
+      "toNode": "branch-dl-drivers",
+      "toSide": "left"
+    },
+    {
+      "id": "edge-drivers-to-data",
+      "fromNode": "branch-dl-drivers",
+      "fromSide": "right",
+      "toNode": "leaf-big-data",
+      "toSide": "left"
+    },
+    {
+      "id": "edge-drivers-to-gpu",
+      "fromNode": "branch-dl-drivers",
+      "fromSide": "right",
+      "toNode": "leaf-gpu-compute",
+      "toSide": "left"
+    },
+    {
+      "id": "edge-root-to-apps",
+      "fromNode": "root-001",
+      "fromSide": "left",
+      "toNode": "branch-apps",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-apps-to-cv",
+      "fromNode": "branch-apps",
+      "fromSide": "left",
+      "toNode": "leaf-computer-vision",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-apps-to-nlp",
+      "fromNode": "branch-apps",
+      "fromSide": "left",
+      "toNode": "leaf-nlp",
+      "toSide": "right"
+    },
+    {
+      "id": "edge-root-to-challenges",
+      "fromNode": "root-001",
+      "fromSide": "right",
+      "toNode": "branch-challenges",
+      "toSide": "left"
+    },
+    {
+      "id": "edge-challenges-to-box",
+      "fromNode": "branch-challenges",
+      "fromSide": "right",
+      "toNode": "leaf-black-box",
+      "toSide": "left"
+    },
+    {
+      "id": "edge-challenges-to-cost",
+      "fromNode": "branch-challenges",
+      "fromSide": "right",
+      "toNode": "leaf-data-compute-cost",
+      "toSide": "left"
+    }
+  ]
+}
