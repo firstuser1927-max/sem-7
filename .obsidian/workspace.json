@@ -11,10 +11,10 @@
             "id": "e3a8c813768dc513",
             "type": "leaf",
             "state": {
-              "type": "empty",
+              "type": "graph",
               "state": {},
-              "icon": "lucide-file",
-              "title": "New tab"
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
             }
           }
         ]
@@ -176,8 +176,26 @@
       "bases:Create new base": false
     }
   },
-  "active": "5fe85c36ac5c0378",
+  "active": "e3a8c813768dc513",
   "lastOpenFiles": [
+    "syllabus/Computer-Vision-3174206.md",
+    "syllabus/AIET-Academic-Calendar-Sem7-2026-27.md",
+    "syllabus/02-index.md",
+    "syllabus/00-GTU-Semester-VII-Subject-List.md",
+    "sem-7/create a link.md",
+    "TEACHER-PROFILE.md",
+    "Untitled.canvas",
+    "RESOURCES.md",
+    "NOTES.md",
+    "DLPP/lessons/0004-deep-feedforward-networks-and-use-cases.html",
+    "DLPP/lessons/0004-deep-feedforward-networks-and-use-cases.md",
+    "DLPP/lessons/0003-backpropagation-and-training.html",
+    "DLPP/lessons/0003-backpropagation-and-training.md",
+    "DLPP/lessons/0002-neural-network-architecture-and-activation-functions.html",
+    "DLPP/lessons/0002-neural-network-architecture-and-activation-functions.md",
+    "DLPP/learning-records/0002-unit-1-completed.md",
+    "DLPP/reference/0001-unit-1-reference-sheet.md",
+    "DLPP/lessons/0001-deep-learning-basics.html",
     "DLPP/reference/0001-deep-learning-basics-mindmap.canvas"
   ]
 }
