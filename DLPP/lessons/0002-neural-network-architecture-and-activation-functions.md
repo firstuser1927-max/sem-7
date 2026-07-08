@@ -16,8 +16,8 @@ Where does this fit in our journey? We are moving from high-level definitions (U
 
 ```mermaid
 graph TD
-    U1["Unit 1: DL Basics (Completed)"] ──> U2_L2["Lesson 2: Nodes, Weights, Bias & Activations (Current)"]
-    U2_L2 ──> U3["Lesson 3: Backpropagation & Training (Next)"]
+    U1["Unit 1: DL Basics (Completed)"] --> U2_L2["Lesson 2: Nodes, Weights, Bias & Activations (Current)"]
+    U2_L2 --> U3["Lesson 3: Backpropagation & Training (Next)"]
 
     style U1 fill:#d3f9d8,stroke:#2f9e44,stroke-width:1px
     style U2_L2 fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
@@ -31,11 +31,11 @@ A neural network is made of thousands of tiny processing units called **nodes** 
 
 ```mermaid
 graph LR
-    x1["Input x1"] -->|Weight w1| Sum["Weighted Sum (Σ)<br/>z = w1*x1 + w2*x2 + b"]
+    x1["Input x1"] -->|Weight w1| Sum["Weighted Sum Sigma<br/>z = w1*x1 + w2*x2 + b"]
     x2["Input x2"] -->|Weight w2| Sum
-    Bias["Bias (b)"] --> Sum
-    Sum -->|Net Input (z)| Act["Activation Function (σ)"]
-    Act --> Out["Output (y)"]
+    Bias["Bias b"] --> Sum
+    Sum -->|Net Input z| Act["Activation Function σ"]
+    Act --> Out["Output y"]
 
     style Sum fill:#e5dbff,stroke:#5f3dc4,stroke-width:2px
     style Act fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px
@@ -75,9 +75,15 @@ graph LR
         out1["Output Node"]
     end
 
-    i1 --> h1 & h2 & h3
-    i2 --> h1 & h2 & h3
-    h1 & h2 & h3 --> out1
+    i1 --> h1
+    i1 --> h2
+    i1 --> h3
+    i2 --> h1
+    i2 --> h2
+    i2 --> h3
+    h1 --> out1
+    h2 --> out1
+    h3 --> out1
 
     style Input_Layer fill:#f8fafc,stroke:#cbd5e1
     style Hidden_Layer fill:#e8f5e9,stroke:#2e7d32
