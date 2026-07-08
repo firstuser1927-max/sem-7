@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 0002: Neural Network Architecture & Activation Functions</title>
+  <link rel="stylesheet" href="../../assets/lesson.css">
+  <!-- Load Mermaid Library for rendering flowcharts in HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      securityLevel: 'loose'
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Lesson Header -->
+  <div class="lesson-header">
+    <span class="subject-badge">DLPP (3174201)</span>
+    <h1>Lesson 0002: Neural Network Architecture & Activation Functions</h1>
+    <div class="lesson-meta">
+      <span>⏱️ <strong>Duration:</strong> 20 mins</span>
+      <span>📖 <strong>Unit:</strong> 2 (Neural Networks)</span>
+      <span>🎯 <strong>GTU Weightage:</strong> 25% (Unit 2)</span>
+    </div>
+  </div>
+
+  <!-- Hook -->
+  <div class="callout">
+    <div class="callout-title">🎣 The Hook</div>
+    <p>Imagine you are trying to decide whether to go to a music concert tonight. Your decision depends on three simple inputs: Is the weather good? Is your friend going? Is the ticket cheap? You might care a lot about the weather, but not care at all if your friend goes. In a neural network, this "importance level" is called a <strong>weight</strong>. But what if the concert requires a minimum entrance fee? That threshold is your <strong>bias</strong>. Today, we'll see how computers combine these inputs, weights, and biases to make decisions just like humans do.</p>
+  </div>
+
+  <!-- Big Picture -->
+  <h2>🗺️ The Big Picture</h2>
+  <p>Where does this fit in our journey? We are moving from high-level definitions (Unit 1) to the actual gears that make a neural network work (Unit 2).</p>
+  
+  <div class="mermaid">
+    graph TD
+        U1["Unit 1: DL Basics (Completed)"] ──> U2_L2["Lesson 2: Nodes, Weights, Bias & Activations (Current)"]
+        U2_L2 ──> U3["Lesson 3: Backpropagation & Training (Next)"]
+
+        style U1 fill:#d3f9d8,stroke:#2f9e44,stroke-width:1px
+        style U2_L2 fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        style U3 fill:#f8fafc,stroke:#868e96,stroke-width:1px
+  </div>
+
+  <!-- Section 1 -->
+  <h2>1. Inside a Single Node (The Artificial Neuron)</h2>
+  <p>A neural network is made of thousands of tiny processing units called <strong>nodes</strong> (or neurons). Let's zoom into a single node to see how it calculates an output.</p>
+
+  <div class="mermaid">
+    graph LR
+        x1["Input x1"] -->|Weight w1| Sum["Weighted Sum (Σ)<br/>z = w1*x1 + w2*x2 + b"]
+        x2["Input x2"] -->|Weight w2| Sum
+        Bias["Bias (b)"] --> Sum
+        Sum -->|Net Input (z)| Act["Activation Function (σ)"]
+        Act --> Out["Output (y)"]
+
+        style Sum fill:#e5dbff,stroke:#5f3dc4,stroke-width:2px
+        style Act fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px
+        style x1 fill:#f8fafc,stroke:#cbd5e1
+        style x2 fill:#f8fafc,stroke:#cbd5e1
+        style Bias fill:#fff4e6,stroke:#e67700
+        style Out fill:#c5f6fa,stroke:#0c8599,stroke-width:2px
+  </div>
+
+  <p>Every neuron does two simple steps of math:</p>
+  <ol>
+    <li><strong>The Weighted Sum ($z$):</strong> It multiplies each input by its weight, adds them together, and adds a <strong>bias</strong>.
+      <br><code>z = (x1 * w1) + (x2 * w2) + b</code>
+    </li>
+    <li><strong>The Activation ($\sigma$):</strong> It passes $z$ through an <strong>activation function</strong> to get the final output.
+      <br><code>y = σ(z)</code>
+    </li>
+  </ol>
+
+  <h3>⚖️ Weights ($w$) vs. Biases ($b$)</h3>
+  <ul>
+    <li><strong>Weights ($w$):</strong> Decide how much influence an input has on the node. (e.g., if $w_1 = 0.9$ and $w_2 = 0.1$, the network cares a lot about input $x_1$ and almost ignores $x_2$).</li>
+    <li><strong>Bias ($b$):</strong> An offset value added to the sum. It controls how easy it is to trigger the neuron. Without a bias, if all inputs ($x$) are $0$, the output of the sum is always $0$. A bias allows the node to output a signal even when the inputs are zero.</li>
+  </ul>
+
+  <!-- Section 2 -->
+  <h2>2. The Multi-Layer Network Structure (MLP)</h2>
+  <p>Nodes are arranged in layers to form a <strong>Multi-Layer Perceptron (MLP)</strong>:</p>
+
+  <div class="mermaid">
+    graph LR
+        subgraph Input_Layer["Input Layer"]
+            i1["Input 1"]
+            i2["Input 2"]
+        end
+        subgraph Hidden_Layer["Hidden Layer"]
+            h1["Hidden Node 1"]
+            h2["Hidden Node 2"]
+            h3["Hidden Node 3"]
+        end
+        subgraph Output_Layer["Output Layer"]
+            out1["Output Node"]
+        end
+
+        i1 --> h1 & h2 & h3
+        i2 --> h1 & h2 & h3
+        h1 & h2 & h3 --> out1
+
+        style Input_Layer fill:#f8fafc,stroke:#cbd5e1
+        style Hidden_Layer fill:#e8f5e9,stroke:#2e7d32
+        style Output_Layer fill:#e7f5ff,stroke:#1971c2
+  </div>
+
+  <ul>
+    <li><strong>Input Layer:</strong> Receives the raw data (e.g., image pixels or word counts).</li>
+    <li><strong>Hidden Layers:</strong> Intermediate layers that do the heavy lifting of extracting features. A network is "deep" if it has multiple hidden layers.</li>
+    <li><strong>Output Layer:</strong> Produces the final prediction (e.g., class label or stock price).</li>
+  </ul>
+
+  <!-- Section 3 -->
+  <h2>3. Activation Functions: The Non-Linear Gatekeepers</h2>
+  <p>An <strong>activation function</strong> is a mathematical formula that decides whether a neuron should "fire" (output a strong signal) or not.</p>
+
+  <h3>❓ Why do we need Activation Functions?</h3>
+  <p>Without activation functions, a neural network is just a series of linear additions and multiplications ($z = wx+b$). <strong>No matter how many layers you stack, a combination of linear functions is still just a linear function (a straight line).</strong></p>
+  <p>Activation functions introduce <strong>non-linearity</strong>, allowing the network to learn complex curves, waves, and patterns (like recognizing shapes or speech).</p>
+
+  <h3>⚙️ The Three Most Common Activation Functions (GTU favorites!)</h3>
+
+  <h4>1. Sigmoid Function</h4>
+  <p>Maps any input to a value between <strong>0 and 1</strong>.</p>
+  <ul>
+    <li><strong>Formula:</strong> <code>σ(z) = 1 / (1 + e^-z)</code></li>
+    <li><strong>Best for:</strong> The output layer of a binary classifier (since the output represents a probability between 0% and 100%).</li>
+    <li><strong>Drawback:</strong> Suffer from the <strong>vanishing gradient problem</strong> (slows down learning when inputs are extreme).</li>
+  </ul>
+
+  <h4>2. Tanh (Hyperbolic Tangent)</h4>
+  <p>Maps any input to a value between <strong>-1 and 1</strong>.</p>
+  <ul>
+    <li><strong>Formula:</strong> <code>tanh(z) = (e^z - e^-z) / (e^z + e^-z)</code></li>
+    <li><strong>Best for:</strong> Hidden layers. Since the output is zero-centered, it makes training the next layer easier.</li>
+    <li><strong>Drawback:</strong> Also suffers from the vanishing gradient problem.</li>
+  </ul>
+
+  <h4>3. ReLU (Rectified Linear Unit)</h4>
+  <p>If the input is negative, it outputs <strong>0</strong>. If the input is positive, it outputs the <strong>same value</strong>.</p>
+  <ul>
+    <li><strong>Formula:</strong> <code>f(z) = max(0, z)</code></li>
+    <li><strong>Best for:</strong> Almost all hidden layers in modern deep learning models.</li>
+    <li><strong>Advantages:</strong> Extremely fast to calculate, and avoids vanishing gradients.</li>
+  </ul>
+
+  <!-- Exam Corner -->
+  <div class="callout exam">
+    <div class="callout-title">🎯 GTU Exam Corner</div>
+    
+    <p><strong>Q1. What is an Activation Function? Why is it required in Neural Networks? (5 Marks)</strong></p>
+    <ul>
+      <li><strong>What it is:</strong> A mathematical function applied to the net input of a neuron to determine its output.</li>
+      <li><strong>Why it's required:</strong> It introduces non-linearity. Without it, the neural network acts as a single-layer linear regression model and cannot learn complex, non-linear patterns (like images or voice).</li>
+    </ul>
+
+    <p style="margin-top: 1rem;"><strong>Q2. Compare Sigmoid, Tanh, and ReLU activation functions. (7 Marks)</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Sigmoid</th>
+          <th>Tanh</th>
+          <th>ReLU</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Output Range</strong></td>
+          <td>0 to 1</td>
+          <td>-1 to 1</td>
+          <td>0 to $\infty$</td>
+        </tr>
+        <tr>
+          <td><strong>Zero-Centered</strong></td>
+          <td>No</td>
+          <td>Yes</td>
+          <td>No</td>
+        </tr>
+        <tr>
+          <td><strong>Common Use</strong></td>
+          <td>Output layer (binary)</td>
+          <td>Hidden layers (historical)</td>
+          <td>Hidden layers (modern)</td>
+        </tr>
+        <tr>
+          <td><strong>Pros</strong></td>
+          <td>Good for probability.</td>
+          <td>Zero-centered speeds up learning.</td>
+          <td>Fast; avoids vanishing gradient.</td>
+        </tr>
+        <tr>
+          <td><strong>Cons</strong></td>
+          <td>Vanishing gradient.</td>
+          <td>Vanishing gradient.</td>
+          <td>Dying ReLU (nodes output 0 forever).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recall Challenge -->
+  <div class="exercise">
+    <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+    <p>Don't scroll up! Close your eyes and answer these 3 simple questions in your head:</p>
+    <ol>
+      <li>Why is a network with many hidden layers but no activation functions just a linear regression model?</li>
+      <li>What activation function outputs values between -1 and 1?</li>
+      <li>What is the mathematical formula for ReLU?</li>
+    </ol>
+  </div>
+
+  <!-- Lesson Footer -->
+  <div class="lesson-footer">
+    <span>Next Lesson: 0003 — Backpropagation & Neural Network Training</span>
+    <span>GTU Semester 7 AI&DS Study Circle</span>
+  </div>
+
+</body>
+</html>
