@@ -2,7 +2,7 @@
 
 Welcome to the ultimate, AI-assisted study workspace for the **GTU Semester 7 Artificial Intelligence and Data Science (AI&DS)** branch. 
 
-This repository is designed to turn your local environment into an interactive, stateful teaching workspace. If you use AI coding assistants (like Claude, Cursor, Copilot, or Gemini), this repository has special configuration files (`.claude/skills/teach`) and customized instruction profiles that guide the AI to teach you the syllabus step-by-step using modern visual techniques.
+This repository is designed to turn your local environment into an interactive, stateful teaching workspace. Using customized instruction profiles, any AI assistant (like Claude, Cursor, Copilot, or Gemini) will teach you the syllabus step-by-step using modern visual techniques.
 
 ---
 
@@ -10,14 +10,18 @@ This repository is designed to turn your local environment into an interactive, 
 
 ### 1. For Students (How to Study)
 - **Select a Subject**: Go to the subject folders (e.g., `DLPP/`, `NLP/`, `DVM/`) and open their `NOTES.md`. These files contain unit breakdowns, practical lists, exam weightage, and a pre-planned lesson tracker.
-- **Track Your Progress**: Keep `INDEX.md` updated as you complete lessons to see your overall readiness for the GTU Mid-Sems and Final Exams.
+- **Visual Mindmaps**: Open the `.canvas` files inside the `/reference/` folders in **Obsidian** to view interactive concept maps.
+- **Track Your Progress**: Keep [INDEX.md](./INDEX.md) updated as you complete lessons to see your overall readiness for the GTU Mid-Sems and Final Exams.
 
-### 2. For AI Agents (How to Activate the "Teach" Skill)
-If you open this directory in an AI-assisted editor, the AI will automatically load the configuration files inside `.claude/skills/productivity/teach`. 
+### 2. For AI Assistant Integration (How to Teach)
+Open this folder in your AI-assisted editor (Cursor, VS Code, etc.). The AI will read the local [LEARNER-PROFILE.md](./LEARNER-PROFILE.md) and [TEACHER-PROFILE.md](./TEACHER-PROFILE.md) guidelines automatically. 
 Simply tell the AI:
 > *"Teach me DLPP Unit 1 Lesson 1"* or *"Create the next lesson for NLP N-grams"*
 
-The AI will read the syllabus file, look up the [Learner Profile](./LEARNER-PROFILE.md) and [Teacher Profile](./TEACHER-PROFILE.md), and generate a beautiful, self-contained HTML lesson inside the subject's `/lessons/` folder.
+The AI will read the syllabus files and generate:
+- A native **`.md` lesson** (for reading in the Obsidian sidebar).
+- A browser-friendly **`.html` lesson** (containing interactive flowcharts rendered via Mermaid CDN and LaTeX math rendered via MathJax CDN).
+- An **`.canvas` mindmap** (for spatial concept tracking).
 
 ---
 
@@ -38,12 +42,12 @@ gtu-syllabus-md/
 │
 ├── 📁 syllabus/             ← All GTU official syllabi, timetables, and calendars (moved for cleanliness)
 │
-├── 📁 DLPP/ ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Deep Learning Core
-├── 📁 DVM/  ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Data Viz & Modeling Core
-├── 📁 NLP/  ── lessons/ | learning-records/ | reference/ | NOTES.md  ← NLP Elective
-├── 📁 BDA/  ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Big Data Elective
-├── 📁 SINA/ ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Social Networks Open Elective
-└── 📁 CF/   ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Cyber Forensics Elective
+├── 📁 DLPP/ ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
+├── 📁 DVM/  ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
+├── 📁 NLP/  ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
+├── 📁 BDA/  ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
+├── 📁 SINA/ ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
+└── 📁 CF/   ── lessons/ (.md & .html) | learning-records/ | reference/ (.canvas & cheat-sheets) | NOTES.md
 ```
 
 ---
