@@ -3,7 +3,7 @@
 
 **Code:** 3174205 | **Credits:** 4 | **Total Marks:** 150
 **Category:** Professional Elective V
-**Syllabus:** [Natural-Language-Processing-3174205.md](../Natural-Language-Processing-3174205.md)
+**Syllabus:** [Natural-Language-Processing-3174205.md](../syllabus/Natural-Language-Processing-3174205.md)
 
 ## Unit Breakdown (~45 hours total)
 

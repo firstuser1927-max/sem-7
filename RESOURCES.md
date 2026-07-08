@@ -4,33 +4,33 @@
 
 All GTU official syllabi are located in this workspace directory.
 
-- [Deep Learning Principles & Practices — Syllabus](./Deep-Learning-Principles-and-Practices-3174201.md)
+- [Deep Learning Principles & Practices — Syllabus](./syllabus/Deep-Learning-Principles-and-Practices-3174201.md)
   GTU official syllabus. Use for: unit topics, hours allocation, exam weightage, practicals list, reference books.
 
-- [Natural Language Processing — Syllabus](./Natural-Language-Processing-3174205.md)
+- [Natural Language Processing — Syllabus](./syllabus/Natural-Language-Processing-3174205.md)
   GTU official syllabus. Use for: NLP pipeline topics, language modeling, machine translation, mark distribution.
 
-- [Big Data Analytics — Syllabus](./Big-Data-Analytics-3174207.md)
+- [Big Data Analytics — Syllabus](./syllabus/Big-Data-Analytics-3174207.md)
   GTU official syllabus. Use for: Hadoop, MapReduce, NoSQL, Spark topics, case study stages.
 
-- [Social & Information Network Analysis — Syllabus](./Social-and-Information-Network-Analysis-3174209.md)
+- [Social & Information Network Analysis — Syllabus](./syllabus/Social-and-Information-Network-Analysis-3174209.md)
   GTU official syllabus. Use for: Semantic Web, community detection, visualization, privacy topics.
 
-- [Data Visualization & Modeling — Syllabus](./Data-Visualization-and-Modeling-3174301.md)
+- [Data Visualization & Modeling — Syllabus](./syllabus/Data-Visualization-and-Modeling-3174301.md)
   GTU official syllabus. Use for: Matplotlib, Seaborn, Power BI, DAX, data modeling topics.
 
-- [Cyber Forensics — Syllabus](./Cyber-Forensics-3174303.md)
+- [Cyber Forensics — Syllabus](./syllabus/Cyber-Forensics-3174303.md)
   GTU official syllabus. Use for: IT Act 2000, evidence handling, network forensics, email forensics.
 
 ## Schedule References
 
-- [Academic Calendar — Sem 7 2026-27](./AIET-Academic-Calendar-Sem7-2026-27.md)
+- [Academic Calendar — Sem 7 2026-27](./syllabus/AIET-Academic-Calendar-Sem7-2026-27.md)
   Key dates: Term start 07/07/2026, Mid-sem 01–03/10, TW/Viva 05–10/10, Term end 14/10/2026.
 
-- [Timetable — AIET Sem 7 AI&DS](./01-AIET-Sem7-AIDS-Timetable.md)
+- [Timetable — AIET Sem 7 AI&DS](./syllabus/01-AIET-Sem7-AIDS-Timetable.md)
   Weekly schedule. Room 317 for theory, Room 206 for practicals.
 
-- [Subject List with Credits & Marks](./00-GTU-Semester-VII-Subject-List.md)
+- [Subject List with Credits & Marks](./syllabus/00-GTU-Semester-VII-Subject-List.md)
   All subject codes, credit structure, and mark distribution (E/M/I/V).
 
 ## Online Learning Resources

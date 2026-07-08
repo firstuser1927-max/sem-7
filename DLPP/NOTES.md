@@ -3,7 +3,7 @@
 
 **Code:** 3174201 | **Credits:** 5 | **Total Marks:** 150
 **Category:** Professional Core (mandatory)
-**Syllabus:** [Deep-Learning-Principles-and-Practices-3174201.md](../Deep-Learning-Principles-and-Practices-3174201.md)
+**Syllabus:** [Deep-Learning-Principles-and-Practices-3174201.md](../syllabus/Deep-Learning-Principles-and-Practices-3174201.md)
 
 ## Unit Breakdown (48 hours total)
 

@@ -36,6 +36,7 @@ gtu-syllabus-md/
 ├── 📁 assets/               
 │   └── lesson.css           ← Shared elegant Tufte-style CSS sheet for all generated lessons
 │
+├── 📁 syllabus/             ← All GTU official syllabi, timetables, and calendars (moved for cleanliness)
 ├── 📁 .claude/skills/teach/ ← Project-level custom AI instructions (The "Teach" skill)
 │
 ├── 📁 DLPP/ ── lessons/ | learning-records/ | reference/ | NOTES.md  ← Deep Learning Core

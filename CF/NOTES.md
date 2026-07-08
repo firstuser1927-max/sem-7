@@ -3,7 +3,7 @@
 
 **Code:** 3174303 | **Credits:** 3 | **Total Marks:** 100
 **Category:** Professional Elective IV
-**Syllabus:** [Cyber-Forensics-3174303.md](../Cyber-Forensics-3174303.md)
+**Syllabus:** [Cyber-Forensics-3174303.md](../syllabus/Cyber-Forensics-3174303.md)
 
 ⚠️ **NO PRACTICAL COMPONENT** — Theory only (E=70 + M=30 = 100 marks)
 

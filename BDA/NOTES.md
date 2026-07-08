@@ -3,7 +3,7 @@
 
 **Code:** 3174207 | **Credits:** 4 | **Total Marks:** 150
 **Category:** Professional Elective VI
-**Syllabus:** [Big-Data-Analytics-3174207.md](../Big-Data-Analytics-3174207.md)
+**Syllabus:** [Big-Data-Analytics-3174207.md](../syllabus/Big-Data-Analytics-3174207.md)
 
 ## Unit Breakdown (44 hours total)
 

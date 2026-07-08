@@ -58,11 +58,11 @@ gtu-syllabus-md/
 
 ## 📁 Quick Links — Syllabus Files
 
-- [DLPP Syllabus](./Deep-Learning-Principles-and-Practices-3174201.md)
-- [NLP Syllabus](./Natural-Language-Processing-3174205.md)
-- [BDA Syllabus](./Big-Data-Analytics-3174207.md)
-- [SINA Syllabus](./Social-and-Information-Network-Analysis-3174209.md)
-- [DVM Syllabus](./Data-Visualization-and-Modeling-3174301.md)
-- [CF Syllabus](./Cyber-Forensics-3174303.md)
-- [Timetable](./01-AIET-Sem7-AIDS-Timetable.md)
-- [Academic Calendar](./AIET-Academic-Calendar-Sem7-2026-27.md)
+- [DLPP Syllabus](./syllabus/Deep-Learning-Principles-and-Practices-3174201.md)
+- [NLP Syllabus](./syllabus/Natural-Language-Processing-3174205.md)
+- [BDA Syllabus](./syllabus/Big-Data-Analytics-3174207.md)
+- [SINA Syllabus](./syllabus/Social-and-Information-Network-Analysis-3174209.md)
+- [DVM Syllabus](./syllabus/Data-Visualization-and-Modeling-3174301.md)
+- [CF Syllabus](./syllabus/Cyber-Forensics-3174303.md)
+- [Timetable](./syllabus/01-AIET-Sem7-AIDS-Timetable.md)
+- [Academic Calendar](./syllabus/AIET-Academic-Calendar-Sem7-2026-27.md)

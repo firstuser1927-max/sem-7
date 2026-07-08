@@ -3,7 +3,7 @@
 
 **Code:** 3174301 | **Credits:** 5 | **Total Marks:** 150
 **Category:** Professional Core (mandatory)
-**Syllabus:** [Data-Visualization-and-Modeling-3174301.md](../Data-Visualization-and-Modeling-3174301.md)
+**Syllabus:** [Data-Visualization-and-Modeling-3174301.md](../syllabus/Data-Visualization-and-Modeling-3174301.md)
 
 ## Unit Breakdown (42 hours total)
 

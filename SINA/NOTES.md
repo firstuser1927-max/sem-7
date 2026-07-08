@@ -3,7 +3,7 @@
 
 **Code:** 3174209 | **Credits:** 3 | **Total Marks:** 150
 **Category:** Open Elective III
-**Syllabus:** [Social-and-Information-Network-Analysis-3174209.md](../Social-and-Information-Network-Analysis-3174209.md)
+**Syllabus:** [Social-and-Information-Network-Analysis-3174209.md](../syllabus/Social-and-Information-Network-Analysis-3174209.md)
 
 ## Unit Breakdown (35 hours total)
 
