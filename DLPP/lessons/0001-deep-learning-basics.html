@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 0001: Why Deep Learning? (The ML vs. DL Shift)</title>
+  <link rel="stylesheet" href="../../assets/lesson.css">
+  <!-- Load Mermaid Library for rendering flowcharts in HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      securityLevel: 'loose'
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Lesson Header -->
+  <div class="lesson-header">
+    <span class="subject-badge">DLPP (3174201)</span>
+    <h1>Lesson 0001: Why Deep Learning? (The ML vs. DL Shift)</h1>
+    <div class="lesson-meta">
+      <span>⏱️ <strong>Duration:</strong> 15 mins</span>
+      <span>📖 <strong>Unit:</strong> 1 (Introduction)</span>
+      <span>🎯 <strong>GTU Weightage:</strong> 10% (Unit 1)</span>
+    </div>
+  </div>
+
+  <!-- Hook -->
+  <div class="callout">
+    <div class="callout-title">🎣 The Hook</div>
+    <p>A 2-year-old child can look at a street dog and instantly say "doggy." Yet, for over 50 years, the smartest computer scientists in the world couldn't get a million-dollar supercomputer to do the same thing. Why? Because writing rules for what makes a dog look like a dog (ears, nose, fur, tail) is incredibly hard. Deep Learning changed everything by doing something different: it stopped trying to write rules and started trying to copy the human brain.</p>
+  </div>
+
+  <!-- Big Picture -->
+  <h2>🗺️ The Big Picture</h2>
+  <p>Where does this fit in your Artificial Intelligence journey?</p>
+  
+  <div class="mermaid">
+    graph TD
+        AI["Artificial Intelligence (AI)<br/>(Broad concept: making machines smart)"]
+        ML["Machine Learning (ML)<br/>(Learning rules from data without manual code)"]
+        DL["Deep Learning (DL)<br/>(Multi-layered networks mimicking brains)"]
+
+        AI --> ML
+        ML --> DL
+
+        style AI fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        style ML fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+        style DL fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+  </div>
+
+  <!-- Section 1 -->
+  <h2>1. The Problem with Traditional Machine Learning</h2>
+  <p>You already know the basics of Machine Learning. In ML, if you want to classify images of cars vs. bikes, you have to tell the model exactly what features to look for. This manual process is called <span class="key-term">feature engineering</span> (extracting relevant characteristics from raw data manually).</p>
+  
+  <div class="callout warn">
+    <div class="callout-title">💡 The Potato Analogy</div>
+    <p>Imagine making a potato dish:
+    <br>• <strong>Traditional ML</strong> is like having to wash, peel, chop, and measure the potatoes yourself, and then feeding them to a cooker that only handles the final heat. 
+    <br>• <strong>Deep Learning</strong> is like throwing dirty, whole potatoes into a smart machine that washes, peels, chops, and cooks them all on its own.</p>
+  </div>
+
+  <p>In Deep Learning, we skip manual feature extraction. We feed the raw data (like an image) directly into the model, and the network figures out what features are important on its own.</p>
+
+  <div class="mermaid">
+    graph TB
+        subgraph Traditional_ML["Traditional Machine Learning Flow"]
+            direction LR
+            Data1["Raw Data<br/>(Image)"] --> Feat["Manual Feature<br/>Engineering"]
+            Feat --> Algo["ML Model<br/>(Classifier)"]
+            Algo --> Out1["Output<br/>(Class)"]
+        end
+
+        subgraph Deep_Learning["Deep Learning Flow"]
+            direction LR
+            Data2["Raw Data<br/>(Image)"] --> DNN["Deep Neural Network<br/>(Automatic Features + Classifier)"]
+            DNN --> Out2["Output<br/>(Class)"]
+        end
+
+        style Data1 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+        style Data2 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+        style Out1 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+        style Out2 fill:#f8fafc,stroke:#64748b,stroke-width:1px
+        style Feat fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+        style Algo fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+        style DNN fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+  </div>
+
+  <!-- Section 2 -->
+  <h2>2. What is Deep Learning?</h2>
+  <p>At its core, <strong>Deep Learning</strong> is a subset of Machine Learning that uses multi-layered artificial networks to learn representations of data. The word "deep" refers to the number of <span class="key-term">hidden layers</span> (computational layers between input and output) in the network.</p>
+
+  <h3>🧠 The Biological Inspiration (ANN vs BNN)</h3>
+  <p>Deep Learning models run on <strong>Artificial Neural Networks (ANN)</strong> (computer networks inspired by the human brain). Let's see how they compare to our biological brain parts:</p>
+
+  <div class="mermaid">
+    graph LR
+        subgraph BNN["Biological Neural Network (BNN)"]
+            direction TB
+            Neuron["Neuron (Cell)"]
+            Dendrite["Dendrites (Inputs)"]
+            Synapse["Synapses (Connection Strength)"]
+            Soma["Soma (Activation Decision)"]
+        end
+
+        subgraph ANN["Artificial Neural Network (ANN)"]
+            direction TB
+            Node["Node / Artificial Neuron"]
+            Input["Inputs (x)"]
+            Weight["Weights (w)"]
+            Act["Activation Function (σ)"]
+        end
+
+        Dendrite -.->|Equivalent to| Input
+        Synapse -.->|Equivalent to| Weight
+        Soma -.->|Equivalent to| Act
+        Neuron -.->|Equivalent to| Node
+
+        style BNN fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+        style ANN fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px
+        style Node fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        style Neuron fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Biological Brain Part (BNN)</th>
+        <th>Artificial Equivalent (ANN)</th>
+        <th>What it does (Simplified)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Neuron</strong></td>
+        <td><strong>Node / Artificial Neuron</strong></td>
+        <td>The basic unit that processes information.</td>
+      </tr>
+      <tr>
+        <td><strong>Dendrites</strong></td>
+        <td><strong>Inputs</strong></td>
+        <td>Receives signals from other neurons.</td>
+      </tr>
+      <tr>
+        <td><strong>Synapses (Strength)</strong></td>
+        <td><strong>Weights ($w$)</strong></td>
+        <td>Decides how important an incoming signal is.</td>
+      </tr>
+      <tr>
+        <td><strong>Soma (Cell Body)</strong></td>
+        <td><strong>Activation Function</strong></td>
+        <td>Combines the inputs and decides whether to fire a signal.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 3 -->
+  <h2>3. Real-World Applications</h2>
+  <p>Deep Learning runs almost every advanced technology you use today:</p>
+  <ul>
+    <li><strong>Computer Vision:</strong> Face Unlock on your phone, self-driving cars (Tesla identifying pedestrians), and medical scans (detecting tumors).</li>
+    <li><strong>Natural Language Processing (NLP):</strong> Google Translate, voice assistants (Alexa, Siri), and LLMs (like ChatGPT or Gemini translating and writing code).</li>
+    <li><strong>Generative AI:</strong> Creating art (Midjourney), synthetic voices, and deepfakes.</li>
+  </ul>
+
+  <!-- Section 4 -->
+  <h2>4. The Major Challenges</h2>
+  <p>If Deep Learning is so powerful, why isn't it used for absolutely everything? Because it has major limitations:</p>
+  <ol>
+    <li><strong>Extreme Data Hunger:</strong> While a standard ML model can learn from 500 rows of Excel data, a Deep Learning model often needs millions of samples to perform well.</li>
+    <li><strong>Computational Cost:</strong> Training these networks requires massive, power-hungry computer processors called <strong>GPUs (Graphics Processing Units)</strong>. It is expensive!</li>
+    <li><strong>The Black Box Problem:</strong> A deep model might make a correct prediction, but because of its billions of parameters, it is very hard to explain <em>why</em> it made that decision. This makes it risky for medical or legal applications.</li>
+  </ol>
+
+  <!-- Exam Corner -->
+  <div class="callout exam">
+    <div class="callout-title">🎯 GTU Exam Corner</div>
+    
+    <p><strong>Q1. Differentiate between Machine Learning (ML) and Deep Learning (DL). (5 Marks)</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Machine Learning</th>
+          <th>Deep Learning</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Data Size</strong></td>
+          <td>Works well on small/medium datasets.</td>
+          <td>Requires massive datasets to perform well.</td>
+        </tr>
+        <tr>
+          <td><strong>Feature Selection</strong></td>
+          <td>Requires manual feature engineering.</td>
+          <td>Learns features automatically from raw data.</td>
+        </tr>
+        <tr>
+          <td><strong>Training Time</strong></td>
+          <td>Takes minutes to hours to train.</td>
+          <td>Can take days to weeks (requires GPUs).</td>
+        </tr>
+        <tr>
+          <td><strong>Hardware</strong></td>
+          <td>Runs fine on a standard CPU.</td>
+          <td>Needs highly parallel GPUs/TPUs.</td>
+        </tr>
+        <tr>
+          <td><strong>Explainability</strong></td>
+          <td>Easy to interpret (e.g., Decision Trees).</td>
+          <td>Hard to interpret (Black Box).</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 1rem;"><strong>Q2. What is the role of Hidden Layers in Deep Learning? (2 Marks)</strong></p>
+    <p class="definition">Hidden layers extract hierarchical features. Lower layers find simple edges/lines, middle layers find shapes/eyes, and higher layers combine them to identify the final object (like a face or car).</p>
+  </div>
+
+  <!-- Recall Challenge -->
+  <div class="exercise">
+    <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+    <p>Don't scroll up! Close your eyes and answer these 3 simple questions in your head:</p>
+    <ol>
+      <li>What is the name of the manual process in ML that Deep Learning skips?</li>
+      <li>Why is Deep Learning called a "Black Box"?</li>
+      <li>What artificial neuron component corresponds to the biological brain's synapse strength?</li>
+    </ol>
+  </div>
+
+  <!-- Lesson Footer -->
+  <div class="lesson-footer">
+    <span>Next Lesson: 0002 — Artificial Neural Network Architecture</span>
+    <span>GTU Semester 7 AI&DS Study Circle</span>
+  </div>
+
+</body>
+</html>
