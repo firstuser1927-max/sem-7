@@ -10,7 +10,7 @@
 
 | Subject | Code | Credits | Priority | Lessons | Records | Status |
 |---------|------|---------|----------|---------|---------|--------|
-| [DLPP](./DLPP/NOTES.md) | 3174201 | 5 ⭐⭐ | 🔴 High | 3/8 | 2 | 🟢 Studying Unit 2 |
+| [DLPP](./DLPP/NOTES.md) | 3174201 | 5 ⭐⭐ | 🔴 High | 4/8 | 2 | 🟢 Unit 2 Complete |
 | [DVM](./DVM/NOTES.md)  | 3174301 | 5 ⭐⭐ | 🔴 High | 0/7 | 0 | 🟡 Not started |
 | [NLP](./NLP/NOTES.md)  | 3174205 | 4 ⭐   | 🟠 Med  | 0/7 | 0 | 🟡 Not started |
 | [BDA](./BDA/NOTES.md)  | 3174207 | 4 ⭐   | 🟠 Med  | 0/9 | 0 | 🟡 Not started |
