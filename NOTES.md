@@ -45,7 +45,9 @@
 
 ## Working Notes
 
-- [ ] First lesson to create: DLPP Unit 1 — Deep Learning Basics & Applications
-- [ ] Set up `./lessons/` directory structure
-- [ ] Set up `./learning-records/` directory
-- [ ] Set up `./reference/` directory for cheat sheets
+- [x] First lesson to create: DLPP Unit 1 — Deep Learning Basics & Applications
+- [x] Set up `./lessons/` directory structure
+- [x] Set up `./learning-records/` directory
+- [x] Set up `./reference/` directory for cheat sheets
+- [ ] Upgrade DLPP Unit 2 Lessons 2 & 3 with math expansions (derivatives, numerical calculations, backprop calculus derivation, and Perceptrons/XOR problem)
+- [ ] Begin DLPP Unit 3 (Fuzzy Logic Neural Systems) Lessons

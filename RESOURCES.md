@@ -22,6 +22,15 @@ All GTU official syllabi are located in this workspace directory.
 - [Cyber Forensics — Syllabus](./syllabus/Cyber-Forensics-3174303.md)
   GTU official syllabus. Use for: IT Act 2000, evidence handling, network forensics, email forensics.
 
+## Past Exam Papers (PYQs)
+
+Access compiled GTU previous year question papers directly in this workspace:
+*   [DLPP Past Papers Folder](./syllabus/past-papers/DLPP/)
+    *   [Winter 2023 Exam Paper](./syllabus/past-papers/DLPP/w23-3174201.md) (Markdown)
+    *   [Winter 2024 Exam Paper](./syllabus/past-papers/DLPP/w24-3174201.md) (Markdown)
+    *   [Winter 2025 Exam Paper](./syllabus/past-papers/DLPP/w25-3174201.md) (Markdown)
+    *   [Summer 2026 Exam Paper](./syllabus/past-papers/DLPP/s26-3174201.md) (Markdown)
+
 ## Schedule References
 
 - [Academic Calendar — Sem 7 2026-27](./syllabus/AIET-Academic-Calendar-Sem7-2026-27.md)
