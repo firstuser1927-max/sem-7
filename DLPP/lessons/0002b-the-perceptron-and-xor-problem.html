@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 0002b: The Perceptron & The XOR Problem</title>
+  <link rel="stylesheet" href="../../assets/lesson.css">
+  <!-- Load Mermaid Library for rendering flowcharts in HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'neutral',
+      securityLevel: 'loose'
+    });
+  </script>
+  <!-- Load MathJax for rendering LaTeX equations in HTML -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+
+  <!-- Lesson Header -->
+  <div class="lesson-header">
+    <span class="subject-badge">DLPP (3174201)</span>
+    <h1>Lesson 0002b: The Perceptron & The XOR Problem</h1>
+    <div class="lesson-meta">
+      <span>⏱️ <strong>Duration:</strong> 15 mins</span>
+      <span>📖 <strong>Unit:</strong> 2 (Neural Networks)</span>
+      <span>🎯 <strong>GTU Weightage:</strong> 15% (Unit 2)</span>
+    </div>
+  </div>
+
+  <!-- Hook -->
+  <div class="callout">
+    <div class="callout-title">🎣 The Hook</div>
+    <p>Imagine you have a table with red apples and green apples on it. 
+    <br>• If all the red apples are on the left and the green apples are on the right, you can easily place a long wooden ruler (a straight line) between them to separate them. This is called <strong>linear separability</strong>.
+    <br>• But what if they are placed diagonally? Red apples at the top-left and bottom-right, and green apples at the top-right and bottom-left. Try as you might, you can <strong>never</strong> place a single straight ruler to separate the red ones from the green ones. 
+    <br>This simple geometric puzzle is the famous <strong>XOR Problem</strong>. In 1969, it mathematically proved that the earliest form of artificial intelligence (the Perceptron) was severely limited, shutting down AI research funding for over a decade!</p>
+  </div>
+
+  <!-- Big Picture -->
+  <h2>🗺️ The Big Picture</h2>
+  <p>Where does this fit? In Lesson 2, we looked at modern nodes. Today, we step back to look at the historical "grandfather" of neural networks—the <strong>Perceptron</strong>—and understand why we were forced to stack them into Multi-Layer Perceptrons (MLPs).</p>
+  
+  <div class="mermaid">
+    graph TD
+        L2["Lesson 2: Nodes & Activations (Completed)"] --> L2b["Lesson 2b: Perceptron & XOR Problem (Current)"]
+        L2b --> L3["Lesson 3: Backpropagation & Training (Next)"]
+
+        style L2 fill:#d3f9d8,stroke:#2f9e44,stroke-width:1px
+        style L2b fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        style L3 fill:#f8fafc,stroke:#868e96,stroke-width:1px
+  </div>
+
+  <!-- Section 1 -->
+  <h2>1. The Single-Layer Perceptron (SLP)</h2>
+  <p>Invented by Frank Rosenblatt in 1958, the <strong>Perceptron</strong> is the simplest form of a neural network used for binary classification.</p>
+
+  <h3>⚙️ How it works:</h3>
+  <p>It takes inputs, multiplies them by weights, adds a bias, and passes the sum through a simple <strong>Step Activation Function</strong> (Threshold function).</p>
+
+  <div class="mermaid">
+    graph LR
+        x1["Input x1"] -->|w1| Sum["Weighted Sum z"]
+        x2["Input x2"] -->|w2| Sum
+        Bias["Bias b"] --> Sum
+        Sum -->|z| Step["Step function<br/>y = 1 if z >= 0 else 0"]
+        Step --> Out["Output y"]
+
+        style Sum fill:#e5dbff,stroke:#5f3dc4,stroke-width:2px
+        style Step fill:#ffe3e3,stroke:#c92a2a,stroke-width:2px
+  </div>
+
+  <ul>
+    <li><strong>Step Function Formula:</strong>
+      $$y = \begin{cases} 1 & \text{if } \sum w_i x_i + b \ge 0 \\ 0 & \text{if } \sum w_i x_i + b < 0 \end{cases}$$
+    </li>
+    <li><strong>The Decision Boundary:</strong> Because it uses a simple sum, the boundary line where the classification changes from $0$ to $1$ is a <strong>straight line</strong> (a linear hyperplane: $w_1 x_1 + w_2 x_2 + b = 0$).</li>
+  </ul>
+
+  <!-- Section 2 -->
+  <h2>2. Linear Separability & The Logic Gates</h2>
+  <p>A dataset is <strong>linearly separable</strong> if you can separate the classes with a single straight line. Perceptrons can solve any linearly separable logic gate:</p>
+
+  <h3>🟢 AND Gate (Linearly Separable)</h3>
+  <p>Output is 1 only if BOTH inputs are 1.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>$x_1$</th>
+        <th>$x_2$</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td><strong>0</strong></td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td><strong>1</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>🟢 OR Gate (Linearly Separable)</h3>
+  <p>Output is 1 if AT LEAST ONE input is 1.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>$x_1$</th>
+        <th>$x_2$</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong></td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td><strong>1</strong></td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td><strong>1</strong></td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td><strong>1</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Section 3 -->
+  <h2>3. The XOR Problem (The Non-Linear Wall)</h2>
+  <p><strong>XOR (Exclusive OR)</strong> outputs $1$ if the inputs are <strong>different</strong>, and $0$ if they are the <strong>same</strong>.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>$x_1$</th>
+        <th>$x_2$</th>
+        <th>Output</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0</td>
+        <td>0</td>
+        <td><strong>0</strong> (Same)</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>1</td>
+        <td><strong>1</strong> (Different)</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>0</td>
+        <td><strong>1</strong> (Different)</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>1</td>
+        <td><strong>0</strong> (Same)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Let's look at the coordinates plotted on a 2D graph:</p>
+  <pre style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 1rem; border-radius: 4px; font-family: monospace;">
+  x2
+  ▲
+1 ┼  (0,1) [1]          (1,1) [0]
+  │
+  │
+0 ┼  (0,0) [0]          (1,0) [1]
+  ┼───────────────────────────────► x1
+     0                  1
+  </pre>
+  <p>Try to draw a single straight line that separates the <code>[1]</code> points from the <code>[0]</code> points. <strong>It is geometrically impossible.</strong></p>
+
+  <div class="callout warn">
+    <div class="callout-title">⚠️ The Core Limitation</div>
+    <p>Because the Single-Layer Perceptron can only draw straight decision boundaries, <strong>it cannot solve the XOR problem.</strong></p>
+  </div>
+
+  <!-- Section 4 -->
+  <h2>🛠️ The Solution: Multi-Layer Perceptron (MLP)</h2>
+  <p>To solve the XOR problem, we must add a <strong>hidden layer</strong> between the inputs and outputs. By adding a hidden layer, we warp the 2D space, allowing the network to combine intermediate features and draw <strong>non-linear (curved/complex) decision boundaries</strong>.</p>
+
+  <div class="mermaid">
+    graph LR
+        i1["x1"] --> h1["Hidden Node 1<br/>(Acts as OR)"]
+        i1 --> h2["Hidden Node 2<br/>(Acts as NAND)"]
+        i2["x2"] --> h1
+        i2 --> h2
+        h1 --> out["Output Node<br/>(Acts as AND)"]
+        h2 --> out
+
+        style h1 fill:#e8f5e9,stroke:#2e7d32
+        style h2 fill:#e8f5e9,stroke:#2e7d32
+        style out fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+  </div>
+
+  <p><strong>How it works:</strong></p>
+  <ol>
+    <li>Node 1 ($h_1$) fires if either input is on (<strong>OR</strong> function).</li>
+    <li>Node 2 ($h_2$) fires if both inputs are NOT on (<strong>NAND</strong> function).</li>
+    <li>The Output Node ($out$) fires only if both $h_1$ and $h_2$ fire (<strong>AND</strong> function).</li>
+  </ol>
+  <p>Combining these simple linear decisions allows the network to solve the XOR gate!</p>
+
+  <!-- Exam Corner -->
+  <div class="callout exam">
+    <div class="callout-title">🎯 GTU Exam Corner</div>
+    
+    <p><strong>Q1. What is the XOR problem in Perceptrons? Explain why a single-layer perceptron cannot solve it. (5 Marks)</strong></p>
+    <ul>
+      <li><strong>Core Answer:</strong> The XOR problem represents a classification task where classes are not linearly separable. A single-layer Perceptron computes a linear combination of inputs followed by a step function, which restricts its decision boundary to a straight line (hyperplane). Because XOR outputs are distributed diagonally on a 2D plane, no single straight line can separate the outputs. Thus, a single-layer perceptron fails to learn the XOR mapping.</li>
+    </ul>
+
+    <p style="margin-top: 1rem;"><strong>Q2. Differentiate between Single-Layer Perceptron (SLP) and Multi-Layer Perceptron (MLP). (5 Marks)</strong></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Single-Layer Perceptron (SLP)</th>
+          <th>Multi-Layer Perceptron (MLP)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Layers</strong></td>
+          <td>1 Input, 1 Output (No hidden layers).</td>
+          <td>Input, one or more Hidden layers, Output.</td>
+        </tr>
+        <tr>
+          <td><strong>Decision Boundary</strong></td>
+          <td>Strictly Linear (straight line).</td>
+          <td>Non-linear (curves, complex shapes).</td>
+        </tr>
+        <tr>
+          <td><strong>Activation</strong></td>
+          <td>Simple Step/Threshold function.</td>
+          <td>Continuous/Non-linear (Sigmoid, Tanh, ReLU).</td>
+        </tr>
+        <tr>
+          <td><strong>Application</strong></td>
+          <td>Simple logic gates (AND, OR, NOT).</td>
+          <td>Complex tasks (XOR, Computer Vision, NLP).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recall Challenge -->
+  <div class="exercise">
+    <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+    <p>Don't scroll up! Close your eyes and answer these 3 simple questions in your head:</p>
+    <ol>
+      <li>Who invented the Perceptron, and in what year?</li>
+      <li>What does it mean for a dataset to be "linearly separable"?</li>
+      <li>How many hidden layers does a Single-Layer Perceptron have?</li>
+    </ol>
+  </div>
+
+  <!-- Lesson Footer -->
+  <div class="lesson-footer">
+    <span>Next Lesson: 0003 — Backpropagation & Neural Network Training</span>
+    <span>GTU Semester 7 AI&DS Study Circle</span>
+  </div>
+
+</body>
+</html>
