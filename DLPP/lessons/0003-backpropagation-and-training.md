@@ -57,6 +57,39 @@ Once we have the loss, the network goes backward. It uses the **Chain Rule of Ca
 *   It calculates the **gradient** (derivative of the loss function with respect to each weight, written as $\frac{\partial L}{\partial w}$).
 *   If the gradient is positive, increasing the weight increases the error. If the gradient is negative, increasing the weight decreases the error.
 
+> [!TIP]
+> ### 🧮 Step-by-Step Backpropagation Derivation (Simplest Form)
+> Let's derive the gradient for a simple 3-node pathway:
+> $$\text{Input } x \xrightarrow{w^{(1)}} \text{Hidden } h \xrightarrow{w^{(2)}} \text{Output } y_{pred}$$
+> Let our loss function be: $L = \frac{1}{2}(y_{true} - y_{pred})^2$.
+> We use the Sigmoid activation function ($\sigma(z)$), where the derivative is $\sigma'(z) = \sigma(z)(1 - \sigma(z))$.
+> 
+> **1. Output Layer Weight Gradient ($\frac{\partial L}{\partial w^{(2)}}$):**
+> To find how a change in $w^{(2)}$ affects $L$, we break it down using the Chain Rule:
+> $$\frac{\partial L}{\partial w^{(2)}} = \frac{\partial L}{\partial y_{pred}} \cdot \frac{\partial y_{pred}}{\partial z_2} \cdot \frac{\partial z_2}{\partial w^{(2)}}$$
+> *   **Part 1:** Derivative of Loss w.r.t prediction: $\frac{\partial L}{\partial y_{pred}} = -(y_{true} - y_{pred})$
+> *   **Part 2:** Derivative of activation w.r.t net input: $\frac{\partial y_{pred}}{\partial z_2} = \sigma'(z_2)$
+> *   **Part 3:** Derivative of net input $z_2 = w^{(2)}h + b^{(2)}$ w.r.t weight: $\frac{\partial z_2}{\partial w^{(2)}} = h$
+> 
+> Putting it all together:
+> $$\frac{\partial L}{\partial w^{(2)}} = -(y_{true} - y_{pred}) \cdot \sigma'(z_2) \cdot h$$
+> 
+> **2. Hidden Layer Weight Gradient ($\frac{\partial L}{\partial w^{(1)}}$):**
+> Moving backward to the hidden layer, we apply the Chain Rule again:
+> $$\frac{\partial L}{\partial w^{(1)}} = \frac{\partial L}{\partial y_{pred}} \cdot \frac{\partial y_{pred}}{\partial z_2} \cdot \frac{\partial z_2}{\partial h} \cdot \frac{\partial h}{\partial z_1} \cdot \frac{\partial z_1}{\partial w^{(1)}}$$
+> Since we already calculated the output error signal ($\delta_{out} = \frac{\partial L}{\partial z_2}$), we simplify:
+> $$\frac{\partial L}{\partial w^{(1)}} = \delta_{out} \cdot w^{(2)} \cdot \sigma'(z_1) \cdot x$$
+> 
+> This is how the error "flows" backward!
+
+> [!WARNING]
+> ### 📉 The Vanishing Gradient Problem Explained
+> Look at the Sigmoid derivative: $\sigma'(z) = \sigma(z)(1 - \sigma(z))$. The maximum value it can possibly output is **0.25** (when $z = 0$).
+> *   During backpropagation in deep networks, we calculate gradients by multiplying many of these activation derivatives together ($\sigma' \cdot \sigma' \cdot \sigma' \dots$).
+> *   If you multiply many small decimals together (e.g., $0.25 \times 0.25 \times 0.25 \times 0.25 = 0.0039$), the gradient **vanishes** (shrinks close to zero).
+> *   **Result:** The weights in the early hidden layers update by almost nothing, and the network stops learning!
+> *   **Solution:** This is why modern deep neural networks use **ReLU** ($f'(z) = 1.0$ for positive inputs) instead of Sigmoid/Tanh in hidden layers. Since $1 \times 1 \times 1 = 1$, the gradient never shrinks!
+
 ---
 
 ## 2. Gradient Descent: The Optimizer
