@@ -140,7 +140,39 @@
   </ol>
 
   <!-- Section 3 -->
-  <h2>3. ANN vs. BNN (Deep Dive)</h2>
+  <h2>3. Overfitting vs. Underfitting in MLPs</h2>
+  <p>During training, a Multi-Layer Perceptron can suffer from two major learning errors:</p>
+  <ul>
+    <li><strong>Underfitting (High Bias):</strong> The model is too simple to learn the pattern. It performs poorly on both training data and testing data.</li>
+    <li><strong>Overfitting (High Variance):</strong> The model learns the training data <em>too well</em> (including the random noise and details). It scores 100% on training data but fails completely on new, unseen testing data.</li>
+  </ul>
+
+  <div class="callout">
+    <div class="callout-title">📚 The Study Analogy</div>
+    <p>• <strong>Underfitting</strong> is like a student who only reads the index of the book. They fail the class tests and the final exam.
+    <br>• <strong>Overfitting</strong> is like a student who memorizes the exact punctuation, fonts, and page numbers of the textbook. They get 100% on practice questions, but fail the final exam because they don't know how to apply the formulas to slightly different numbers.
+    </p>
+  </div>
+
+  <h3>🛡️ Strategies to Prevent Overfitting (GTU Favorite!)</h3>
+  <p>To stop a network from overfitting, we use <strong>Regularization</strong> techniques:</p>
+  <ol>
+    <li><strong>L1 and L2 Regularization (Weight Decay):</strong>
+      <br>Adds a mathematical penalty to the loss function based on the size of the weights.
+      <br>• <strong>L1 Regularization (Lasso):</strong> Penalty is $\lambda \sum |w|$. It forces unimportant weights to become exactly <strong>0</strong>, creating a sparse model.
+      <br>• <strong>L2 Regularization (Ridge):</strong> Penalty is $\lambda \sum w^2$. It forces weights to be <strong>small decimals</strong>, preventing any single node from dominating the decision.
+    </li>
+    <li><strong>Dropout:</strong>
+      <br>During training, we randomly "turn off" (drop out) a percentage of neurons (e.g., 30%) in each training step.
+      <br><em>Why it works:</em> It forces the network to learn redundant representations. No single neuron can become a "star player" that the model depends on.
+    </li>
+    <li><strong>Early Stopping:</strong>
+      <br>We monitor the validation error. We stop training the moment the validation error starts to rise, even if the training error is still going down.
+    </li>
+  </ol>
+
+  <!-- Section 4 -->
+  <h2>4. ANN vs. BNN (Deep Dive)</h2>
   <p>While Artificial Neural Networks (ANN) are <em>inspired</em> by the Biological Neural Networks (BNN) in our brain, they are actually very different in how they function.</p>
 
   <table>
@@ -199,6 +231,18 @@
     <p style="margin-top: 1rem;"><strong>Q3. Explain any one application/use case of ANN in detail. (7 Marks)</strong></p>
     <ul>
       <li><em>Tip:</em> Use the <strong>Customer Churn Prediction</strong> or <strong>House Price Prediction</strong> case study. Clearly lay out the inputs (features), what happens in the hidden layers (feature extraction), and what the output represents.</li>
+    </ul>
+
+    <p style="margin-top: 1rem;"><strong>Q4. What is overfitting in MLP? Suggest any two methods to prevent it. (5 Marks)</strong></p>
+    <ul>
+      <li><strong>Overfitting:</strong> A phenomenon where a neural network learns the details and noise of the training data to the extent that it negatively impacts the model's performance on new, unseen data (poor generalization).</li>
+      <li><strong>Prevention Methods (Suggest any two):</strong>
+        <ol>
+          <li><strong>Dropout:</strong> Randomly shutting down a fraction of neurons during each training step to prevent co-dependency.</li>
+          <li><strong>Regularization (L2 Weight Decay):</strong> Adding a penalty term to the loss function to keep weights small and simple.</li>
+          <li><strong>Early Stopping:</strong> Monitoring validation error and ending training the moment the validation error begins to rise.</li>
+        </ol>
+      </li>
     </ul>
   </div>
 

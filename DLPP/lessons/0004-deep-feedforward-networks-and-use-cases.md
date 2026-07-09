@@ -85,7 +85,33 @@ graph LR
 
 ---
 
-## 3. ANN vs. BNN (Deep Dive)
+## 3. Overfitting vs. Underfitting in MLPs
+During training, a Multi-Layer Perceptron can suffer from two major learning errors:
+
+*   **Underfitting (High Bias):** The model is too simple to learn the pattern. It performs poorly on both training data and testing data.
+*   **Overfitting (High Variance):** The model learns the training data *too well* (including the random noise and details). It scores 100% on training data but fails completely on new, unseen testing data.
+
+> [!NOTE]
+> **📚 The Study Analogy:**
+> *   **Underfitting** is like a student who only reads the index of the book. They fail the class tests and the final exam.
+> *   **Overfitting** is like a student who memorizes the exact punctuation, fonts, and page numbers of the textbook. They get 100% on practice questions, but fail the final exam because they don't know how to apply the formulas to slightly different numbers.
+
+### 🛡️ Strategies to Prevent Overfitting (GTU Favorite!)
+To stop a network from overfitting, we use **Regularization** techniques:
+
+1.  **L1 and L2 Regularization (Weight Decay):**
+    *   Adds a mathematical penalty to the loss function based on the size of the weights.
+    *   **L1 Regularization (Lasso):** Penalty is $\lambda \sum |w|$. It forces unimportant weights to become exactly **0**, creating a sparse model.
+    *   **L2 Regularization (Ridge):** Penalty is $\lambda \sum w^2$. It forces weights to be **small decimals**, preventing any single node from dominating the decision.
+2.  **Dropout:**
+    *   During training, we randomly "turn off" (drop out) a percentage of neurons (e.g., 30%) in each training step.
+    *   *Why it works:* It forces the network to learn redundant representations. No single neuron can become a "star player" that the model depends on.
+3.  **Early Stopping:**
+    *   We monitor the validation error. We stop training the moment the validation error starts to rise, even if the training error is still going down.
+
+---
+
+## 4. ANN vs. BNN (Deep Dive)
 While Artificial Neural Networks (ANN) are *inspired* by the Biological Neural Networks (BNN) in our brain, they are actually very different in how they function.
 
 | Feature | Biological Neural Network (BNN) | Artificial Neural Network (ANN) |
@@ -111,6 +137,13 @@ While Artificial Neural Networks (ANN) are *inspired* by the Biological Neural N
 >
 > **Q3. Explain any one application/use case of ANN in detail. (7 Marks)**
 > *   *Tip:* Use the **Customer Churn Prediction** or **House Price Prediction** case study. Clearly lay out the inputs (features), what happens in the hidden layers (feature extraction), and what the output represents.
+>
+> **Q4. What is overfitting in MLP? Suggest any two methods to prevent it. (5 Marks)**
+> *   **Overfitting:** A phenomenon where a neural network learns the details and noise of the training data to the extent that it negatively impacts the model's performance on new, unseen data (poor generalization).
+> *   **Prevention Methods (Suggest any two):**
+>     1.  **Dropout:** Randomly shutting down a fraction of neurons during each training step to prevent co-dependency.
+>     2.  **Regularization (L2 Weight Decay):** Adding a penalty term to the loss function to keep weights small and simple.
+>     3.  **Early Stopping:** Monitoring validation error and ending training the moment the validation error begins to rise.
 
 ---
 
