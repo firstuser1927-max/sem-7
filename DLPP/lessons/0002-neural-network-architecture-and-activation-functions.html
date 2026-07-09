@@ -88,6 +88,26 @@
     </li>
   </ol>
 
+  <div class="callout tip">
+    <div class="callout-title">🧮 Manually Calculating a Neuron's Output (Numerical Example)</div>
+    <p>Let's calculate the output of a single neuron using real, simple numbers:
+    <br>• <strong>Inputs:</strong> $x_1 = 2$, $x_2 = 3$
+    <br>• <strong>Weights:</strong> $w_1 = 0.5$, $w_2 = -1$
+    <br>• <strong>Bias:</strong> $b = 1$
+    <br>• <strong>Activation Function:</strong> ReLU ($f(z) = \max(0, z)$)
+    </p>
+    <p><strong>Step 1: Calculate the Weighted Sum ($z$)</strong>
+    <br>$$z = (x_1 \cdot w_1) + (x_2 \cdot w_2) + b$$
+    <br>$$z = (2 \cdot 0.5) + (3 \cdot -1) + 1$$
+    <br>$$z = 1 - 3 + 1 = -1$$
+    </p>
+    <p><strong>Step 2: Apply the Activation Function ($\sigma$)</strong>
+    <br>$$y = \max(0, z) = \max(0, -1) = 0$$
+    <br>The output of this neuron is <strong>$0$</strong> (it does not "fire"). Simple!
+    </p>
+  </div>
+
+
   <h3>⚖️ Weights ($w$) vs. Biases ($b$)</h3>
   <ul>
     <li><strong>Weights ($w$):</strong> Decide how much influence an input has on the node. (e.g., if $w_1 = 0.9$ and $w_2 = 0.1$, the network cares a lot about input $x_1$ and almost ignores $x_2$).</li>
@@ -134,6 +154,23 @@
     <li><strong>Output Layer:</strong> Produces the final prediction (e.g., class label or stock price).</li>
   </ul>
 
+  <!-- Shallow vs Deep Networks -->
+  <h3>🎨 Shallow vs. Deep Networks (GTU Favorite Comparison)</h3>
+  <p><strong>Shallow Networks:</strong> Have only <strong>one</strong> hidden layer.</p>
+  <p><strong>Deep Networks:</strong> Have <strong>multiple</strong> hidden layers.</p>
+
+  <div class="callout">
+    <div class="callout-title">👨‍🍳 The Restaurant Kitchen Analogy</div>
+    <p>• <strong>A Shallow Network</strong> is like a tiny diner with just <strong>one cook</strong> doing everything (washing, chopping, cooking, plating). They get overwhelmed easily and cannot make complex, 5-star recipes.
+    <br>• <strong>A Deep Network</strong> is like a fine-dining restaurant with a <strong>hierarchical kitchen line</strong>:
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;1. <em>Prep Cook (Hidden Layer 1)</em>: Washes and chops raw vegetables (extracts simple lines and edges).
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;2. <em>Sauté Chef (Hidden Layer 2)</em>: Cooks the ingredients together (combines lines into shapes).
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;3. <em>Head Chef (Output Layer)</em>: Plates the dish and does quality check (makes the final classification).
+    </p>
+    <p>Deep networks are far more <strong>parameter-efficient</strong> — they can learn incredibly complex patterns (like human faces) with fewer total parameters than a massive, single-layer shallow network.</p>
+  </div>
+
+
   <!-- Section 3 -->
   <h2>3. Activation Functions: The Non-Linear Gatekeepers</h2>
   <p>An <strong>activation function</strong> is a mathematical formula that decides whether a neuron should "fire" (output a strong signal) or not.</p>
@@ -148,25 +185,29 @@
   <p>Maps any input to a value between <strong>0 and 1</strong>.</p>
   <ul>
     <li><strong>Formula:</strong> <code>σ(z) = 1 / (1 + e^-z)</code></li>
+    <li><strong>Derivative (for backprop):</strong> $\sigma'(z) = \sigma(z) \cdot (1 - \sigma(z))$</li>
     <li><strong>Best for:</strong> The output layer of a binary classifier (since the output represents a probability between 0% and 100%).</li>
-    <li><strong>Drawback:</strong> Suffer from the <strong>vanishing gradient problem</strong> (slows down learning when inputs are extreme).</li>
+    <li><strong>Drawback:</strong> Suffer from the <strong>vanishing gradient problem</strong> (slows down learning when inputs are extreme). Note that the maximum value of the derivative is only <strong>0.25</strong>!</li>
   </ul>
 
   <h4>2. Tanh (Hyperbolic Tangent)</h4>
   <p>Maps any input to a value between <strong>-1 and 1</strong>.</p>
   <ul>
     <li><strong>Formula:</strong> <code>tanh(z) = (e^z - e^-z) / (e^z + e^-z)</code></li>
+    <li><strong>Derivative (for backprop):</strong> $\tanh'(z) = 1 - \tanh^2(z)$</li>
     <li><strong>Best for:</strong> Hidden layers. Since the output is zero-centered, it makes training the next layer easier.</li>
-    <li><strong>Drawback:</strong> Also suffers from the vanishing gradient problem.</li>
+    <li><strong>Drawback:</strong> Also suffers from the vanishing gradient problem. Max value of derivative is <strong>1.0</strong>.</li>
   </ul>
 
   <h4>3. ReLU (Rectified Linear Unit)</h4>
   <p>If the input is negative, it outputs <strong>0</strong>. If the input is positive, it outputs the <strong>same value</strong>.</p>
   <ul>
     <li><strong>Formula:</strong> <code>f(z) = max(0, z)</code></li>
+    <li><strong>Derivative (for backprop):</strong> $f'(z) = 1$ if $z > 0$, else $0$.</li>
     <li><strong>Best for:</strong> Almost all hidden layers in modern deep learning models.</li>
-    <li><strong>Advantages:</strong> Extremely fast to calculate, and avoids vanishing gradients.</li>
+    <li><strong>Advantages:</strong> Extremely fast to calculate, and avoids vanishing gradients (since derivative is always exactly <strong>1.0</strong> for positive inputs).</li>
   </ul>
+
 
   <!-- Exam Corner -->
   <div class="callout exam">
