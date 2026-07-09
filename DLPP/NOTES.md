@@ -28,11 +28,12 @@
 - Unit 5 has the most algorithms — make a cheat sheet reference
 
 ## Lesson Plan
-- [ ] 0001 — DL Basics & Why DL > ML
-- [ ] 0002 — Neural Network Architecture & Activation Functions
-- [ ] 0003 — Backpropagation & Training
-- [ ] 0004 — Fuzzy Logic + Neural Realization
-- [ ] 0005 — TensorFlow & Transfer Learning
-- [ ] 0006 — CNN Deep Dive
-- [ ] 0007 — RNN, LSTM, GRU
-- [ ] 0008 — GAN, DBN, RBM, SOM
+- [x] [0001 — DL Basics & Why DL > ML](./lessons/0001-deep-learning-basics.md) (Browser version: [HTML](./lessons/0001-deep-learning-basics.html))
+- [x] [0002 — Neural Network Architecture & Activation Functions](./lessons/0002-neural-network-architecture-and-activation-functions.md) (Browser version: [HTML](./lessons/0002-neural-network-architecture-and-activation-functions.html))
+- [x] [0003 — Backpropagation & Training](./lessons/0003-backpropagation-and-training.md) (Browser version: [HTML](./lessons/0003-backpropagation-and-training.html))
+- [x] [0004 — Deep Feedforward Networks & Use Cases](./lessons/0004-deep-feedforward-networks-and-use-cases.md) (Browser version: [HTML](./lessons/0004-deep-feedforward-networks-and-use-cases.html))
+- [ ] 0005 — Fuzzy Logic & Neural Realization (Unit 3)
+- [ ] 0006 — TensorFlow & Transfer Learning (Unit 4)
+- [ ] 0007 — CNN Deep Dive (Unit 5)
+- [ ] 0008 — RNN, LSTM, GRU (Unit 5)
+- [ ] 0009 — GAN, DBN, RBM, SOM (Unit 5)
