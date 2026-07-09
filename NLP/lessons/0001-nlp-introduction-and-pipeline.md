@@ -99,18 +99,69 @@ When coding NLP systems, developers rely on two major Python libraries:
 
 ---
 
+## 5. Advantages & Disadvantages of NLP
+*(Asked as 3–4 marks in EVERY past paper — learn this list!)*
+
+**✅ Advantages:**
+1.  Computers can process large volumes of text data at superhuman speed (e.g., scanning 10,000 product reviews in seconds).
+2.  Enables automation of repetitive language tasks — document summarization, auto-reply emails, chatbots.
+3.  Breaks language barriers through real-time Machine Translation (Google Translate, DeepL).
+4.  Improves accessibility for visually impaired users via text-to-speech systems.
+5.  Powers intelligent search engines (Google understands query *intent*, not just keywords).
+
+**❌ Disadvantages:**
+1.  Human language is highly ambiguous — sarcasm, idioms, and metaphors are extremely difficult to model.
+2.  NLP systems have **data bias** — a model trained on English news articles will perform poorly on informal social media text.
+3.  High computational cost — large language models (like GPT) need massive hardware to train.
+4.  Poor performance on **low-resource languages** (languages with little digital text data available).
+5.  Lacks true **understanding** — NLP models find statistical patterns in text but do not genuinely comprehend meaning like humans do.
+
+---
+
+## 6. The 6 Phases (Levels) of NLP 🔥
+*This is the #1 most-asked question in ALL FOUR past papers — worth 7 marks!*
+
+To process a sentence, an NLP system passes it through **six hierarchical levels of analysis**, from raw sounds down to social context:
+
+```mermaid
+graph TD
+    P1["1️⃣ Phonological/Phonetic Phase"] --> P2["2️⃣ Morphological Phase"]
+    P2 --> P3["3️⃣ Syntactic Phase (Parsing)"]
+    P3 --> P4["4️⃣ Semantic Phase"]
+    P4 --> P5["5️⃣ Discourse Phase"]
+    P5 --> P6["6️⃣ Pragmatic Phase"]
+
+    style P1 fill:#ffe8cc,stroke:#d9480f
+    style P3 fill:#e8f5e9,stroke:#2e7d32
+    style P6 fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+```
+
+| # | Phase | What it Analyses | Example |
+|---|-------|------------------|---------|
+| 1 | **Phonological** | Sound patterns and pronunciation rules (for speech input). | The word *"read"* sounds different in *"I read"* (past) vs. *"I will read"* (future). |
+| 2 | **Morphological** | Internal word structure — breaking words into root + affixes (**morphemes**). | `"unbelievable"` = `un` (prefix) + `believ` (root) + `able` (suffix). |
+| 3 | **Syntactic** | Grammar and sentence structure — parsing subject, verb, object. | *"The dog bit the man"* vs. *"The man bit the dog"* — same words, different meaning based on grammar. |
+| 4 | **Semantic** | Literal meaning of words and sentences. | Understanding that *"fast"* (adjective) ≠ *"fast"* (verb: to not eat food). |
+| 5 | **Discourse** | Context across multiple sentences — coreference resolution. | *"Alice went to the store. **She** bought milk."* → The system must know **"she"** = Alice. |
+| 6 | **Pragmatic** | Real-world intent and social context — sarcasm, idioms, metaphors. | *"Sure, that was really helpful!"* (said sarcastically) means the opposite of the literal words. |
+
+---
+
 > [!CAUTION]
 > ### 🎯 GTU Exam Corner
 >
-> **Q1. Why is Natural Language Processing difficult? Explain with examples of ambiguity. (5 Marks)**
+> **Q1. Why is Natural Language Processing difficult? Explain with examples of ambiguity. (3–5 Marks)**
 > *   **Core Answer:** Human language is unstructured and highly ambiguous. Highlight the **4 types of ambiguity** (Lexical, Syntactic, Semantic, Pragmatic) with the exact examples listed in Section 1.
 >
-> **Q2. Compare Stemming and Lemmatization. (5 Marks)**
+> **Q2. State advantages and disadvantages of Natural Language Processing. (3–4 Marks)**
+> *   List at least **3 advantages** (speed, automation, translation) and **3 disadvantages** (ambiguity, bias, low-resource languages). Section 5 has the complete list.
+>
+> **Q3. Compare Stemming and Lemmatization. (4–5 Marks)**
 > *   **Stemming:** Crude, heuristic-based chopping of suffixes (e.g., `"replacing"` ➡️ `"replac"`). Fast but can create non-dictionary words.
 > *   **Lemmatization:** Vocabulary and morphological analysis to find the base form (e.g., `"replacing"` ➡️ `"replace"`). Slower but grammatically accurate.
 >
-> **Q3. Draw and explain the phases of an NLP pipeline. (7 Marks)**
-> *   *Tip:* Draw the flowchart from Section 3. Clearly define each stage: Text Normalization, Tokenization, Stopwords Removal, and Stemming/Lemmatization, detailing their inputs and outputs.
+> **Q4. 🔥 Explain the phases/levels of Natural Language Processing in detail with a diagram. (7 Marks)**
+> *   *This appeared in ALL FOUR papers!* Draw the vertical flowchart from Section 6. For each of the **6 phases**, write: (1) What it analyses, (2) One example sentence showing the input/output. Use the table in Section 6 directly.
 
 ---
 
