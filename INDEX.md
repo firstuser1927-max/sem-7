@@ -12,7 +12,7 @@
 |---------|------|---------|----------|---------|---------|--------|
 | [DLPP](./DLPP/NOTES.md) | 3174201 | 5 ⭐⭐ | 🔴 High | 4/8 | 2 | 🟢 Unit 2 Complete |
 | [DVM](./DVM/NOTES.md)  | 3174301 | 5 ⭐⭐ | 🔴 High | 0/7 | 0 | 🟡 Not started |
-| [NLP](./NLP/NOTES.md)  | 3174205 | 4 ⭐   | 🟠 Med  | 0/7 | 0 | 🟡 Not started |
+| [NLP](./NLP/NOTES.md)  | 3174205 | 4 ⭐   | 🟠 Med  | 5/5 | 0 | 🟢 Complete |
 | [BDA](./BDA/NOTES.md)  | 3174207 | 4 ⭐   | 🟠 Med  | 0/9 | 0 | 🟡 Not started |
 | [SINA](./SINA/NOTES.md)| 3174209 | 3      | 🟢 Low  | 0/5 | 0 | 🟡 Not started |
 | [CF](./CF/NOTES.md)    | 3174303 | 3      | 🟢 Low  | 0/5 | 0 | 🟡 Not started |

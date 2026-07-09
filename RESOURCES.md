@@ -30,6 +30,11 @@ Access compiled GTU previous year question papers directly in this workspace:
     *   [Winter 2024 Exam Paper](./syllabus/past-papers/DLPP/w24-3174201.md) (Markdown)
     *   [Winter 2025 Exam Paper](./syllabus/past-papers/DLPP/w25-3174201.md) (Markdown)
     *   [Summer 2026 Exam Paper](./syllabus/past-papers/DLPP/s26-3174201.md) (Markdown)
+*   [NLP Past Papers Folder](./syllabus/past-papers/NLP/)
+    *   [Winter 2023 Exam Paper](./syllabus/past-papers/NLP/w23-3174205.md) (Markdown)
+    *   [Winter 2024 Exam Paper](./syllabus/past-papers/NLP/w24-3174205.md) (Markdown)
+    *   [Winter 2025 Exam Paper](./syllabus/past-papers/NLP/w25-3174205.md) (Markdown)
+    *   [Summer 2026 Exam Paper](./syllabus/past-papers/NLP/s26-3174205.md) (Markdown)
 
 ## Schedule References
 
