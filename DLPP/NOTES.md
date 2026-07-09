@@ -30,6 +30,7 @@
 ## Lesson Plan
 - [x] [0001 — DL Basics & Why DL > ML](./lessons/0001-deep-learning-basics.md) (Browser version: [HTML](./lessons/0001-deep-learning-basics.html))
 - [x] [0002 — Neural Network Architecture & Activation Functions](./lessons/0002-neural-network-architecture-and-activation-functions.md) (Browser version: [HTML](./lessons/0002-neural-network-architecture-and-activation-functions.html))
+- [x] [0002b — The Perceptron & The XOR Problem](./lessons/0002b-the-perceptron-and-xor-problem.md) (Browser version: [HTML](./lessons/0002b-the-perceptron-and-xor-problem.html))
 - [x] [0003 — Backpropagation & Training](./lessons/0003-backpropagation-and-training.md) (Browser version: [HTML](./lessons/0003-backpropagation-and-training.html))
 - [x] [0004 — Deep Feedforward Networks & Use Cases](./lessons/0004-deep-feedforward-networks-and-use-cases.md) (Browser version: [HTML](./lessons/0004-deep-feedforward-networks-and-use-cases.html))
 - [ ] 0005 — Fuzzy Logic & Neural Realization (Unit 3)
