@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 1: Introduction to NLP — NLP (3174205) | GTU Sem 7</title>
+  <meta name="description" content="Complete study notes for NLP Unit 1: Introduction to NLP. Covers NLP definition, ambiguity, history, pipeline, phases, APIs and libraries for GTU Semester 7." />
+  <link rel="stylesheet" href="../../assets/lesson.css" />
+
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+  <!-- Mermaid -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:true, theme:'neutral', securityLevel:'loose'});</script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       LESSON HEADER
+  ════════════════════════════════════════════════════ -->
+  <div class="lesson-header">
+    <span class="subject-badge">NLP (3174205)</span>
+    <h1>Unit 1: Introduction to NLP</h1>
+    <p class="lesson-hook">Your phone predicts your next word. Google understands your questions, not just keywords. Siri talks back. Grammarly fixes your grammar. ChatGPT writes essays. <strong>All of these run on Natural Language Processing.</strong></p>
+    <div class="lesson-meta">
+      <span>⏱ 6 Hours</span>
+      <span>📘 Unit 1 of 5</span>
+      <span>🎯 14% Weightage</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 1: WHAT IS NLP?
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 1: What is NLP?</h2>
+  <p>
+    <strong>Natural Language Processing (NLP)</strong> is a branch of <em>Artificial Intelligence</em> and
+    <em>Computational Linguistics</em> that enables computers to understand, interpret, and generate human language.
+    It sits at the intersection of three fields:
+  </p>
+  <ul>
+    <li><strong>NLU (Natural Language Understanding)</strong> — Read &amp; comprehend language</li>
+    <li><strong>NLG (Natural Language Generation)</strong> — Write &amp; produce language</li>
+    <li><strong>Speech Processing</strong> — Process spoken language</li>
+  </ul>
+
+  <div class="mermaid">
+flowchart TD
+    AI["🤖 Artificial Intelligence"]
+    CL["📚 Computational Linguistics"]
+    CS["💻 Computer Science"]
+    NLP["🌐 NLP\n(Natural Language Processing)"]
+
+    AI --> NLP
+    CL --> NLP
+    CS --> NLP
+
+    NLP --> NLU["NLU\n(Read / Understand)"]
+    NLP --> NLG["NLG\n(Write / Generate)"]
+    NLP --> SP["Speech\nProcessing"]
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 2: WHY IS NLP DIFFICULT?
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 2: Why is NLP Difficult?</h2>
+  <p>Human language is inherently ambiguous, context-dependent, and ever-evolving. The four primary sources of difficulty are the four types of <strong>ambiguity</strong>:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Type of Ambiguity</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>Lexical</strong></td>
+        <td>A single word has multiple meanings</td>
+        <td>"I went to the <em>bank</em>" — river bank or financial bank?</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Syntactic</strong></td>
+        <td>A sentence can be parsed in multiple ways</td>
+        <td>"I saw the man with the telescope" — who has the telescope?</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Semantic</strong></td>
+        <td>The meaning of a sentence is unclear</td>
+        <td>"The car hit the pole while it was moving" — what was moving?</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Pragmatic</strong></td>
+        <td>Speaker intent differs from literal meaning</td>
+        <td>"Can you pass the salt?" — request, not a yes/no question</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Other Reasons NLP is Hard</h3>
+  <ul>
+    <li>🗣️ <strong>Informal language</strong> — slang, abbreviations, emojis</li>
+    <li>🔗 <strong>Coreference</strong> — resolving pronouns ("he", "it", "they")</li>
+    <li>🌀 <strong>Metaphors &amp; idioms</strong> — "kick the bucket" ≠ literally kicking a bucket</li>
+    <li>✏️ <strong>Spelling &amp; grammatical errors</strong></li>
+    <li>🌍 <strong>Low-resource languages</strong> — insufficient training data</li>
+    <li>🌐 <strong>Cultural context</strong> — meaning varies across cultures</li>
+  </ul>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 3: HISTORY OF NLP
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 3: History of NLP</h2>
+
+  <div class="mermaid">
+timeline
+    title Evolution of NLP
+    1950s : Rule-Based Systems
+           : Turing Test proposed
+           : ELIZA chatbot
+    1970s : Symbolic / Logic-Based
+           : SHRDLU program
+           : Expert Systems
+    1990s : Statistical NLP
+           : IBM speech recognition
+           : Probabilistic models
+    2000s : Machine Learning Era
+           : SVMs, CRFs
+           : Word2Vec (2013)
+    2017  : Transformer Revolution
+           : Attention Is All You Need
+           : BERT, GPT, ChatGPT
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Era</th>
+        <th>Period</th>
+        <th>Key Idea</th>
+        <th>Example Systems</th>
+        <th>Limitation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Rule-Based</strong></td>
+        <td>1950s–60s</td>
+        <td>Hand-crafted grammar rules</td>
+        <td>ELIZA, SHRDLU</td>
+        <td>Brittle — breaks on novel input</td>
+      </tr>
+      <tr>
+        <td><strong>Symbolic / Logic</strong></td>
+        <td>1970s–80s</td>
+        <td>Logic &amp; knowledge bases</td>
+        <td>Prolog-based parsers</td>
+        <td>Cannot scale; knowledge bottleneck</td>
+      </tr>
+      <tr>
+        <td><strong>Statistical NLP</strong></td>
+        <td>1990s</td>
+        <td>Probability &amp; corpora</td>
+        <td>n-gram LMs, HMMs</td>
+        <td>Requires large labeled data</td>
+      </tr>
+      <tr>
+        <td><strong>Machine Learning</strong></td>
+        <td>2000s–2016</td>
+        <td>Features + classifiers, embeddings</td>
+        <td>SVM, Word2Vec, GloVe</td>
+        <td>Feature engineering is manual</td>
+      </tr>
+      <tr>
+        <td><strong>Transformer / LLM</strong></td>
+        <td>2017–present</td>
+        <td>Self-attention; pre-train &amp; fine-tune</td>
+        <td>BERT, GPT-4, ChatGPT</td>
+        <td>High compute; hallucinations</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 4: ADVANTAGES OF NLP
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 4: Advantages of NLP</h2>
+  <ol>
+    <li><strong>Massive Scale Processing</strong> — Analyzes millions of documents in seconds; impossible for humans.</li>
+    <li><strong>Task Automation</strong> — Automates repetitive language tasks: email sorting, form filling, summarization.</li>
+    <li><strong>Language Translation</strong> — Real-time multilingual translation (Google Translate, DeepL).</li>
+    <li><strong>Accessibility</strong> — Text-to-speech and speech-to-text empower users with disabilities.</li>
+    <li><strong>Intelligent Search</strong> — Semantic search goes beyond keyword matching to understand intent.</li>
+    <li><strong>Sentiment Analysis</strong> — Mines opinions from reviews and social media at scale for business intelligence.</li>
+  </ol>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 5: DISADVANTAGES OF NLP
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 5: Disadvantages of NLP</h2>
+  <ol>
+    <li><strong>Ambiguity Resolution</strong> — Multiple valid interpretations are hard to resolve without deep context.</li>
+    <li><strong>Data Bias</strong> — Models trained on biased corpora reproduce and amplify societal biases.</li>
+    <li><strong>High Computational Cost</strong> — Large language models require massive GPU resources to train and run.</li>
+    <li><strong>Low-Resource Language Gap</strong> — Most NLP tools perform poorly on languages with scarce digital text.</li>
+    <li><strong>Lack of True Understanding</strong> — Models statistically pattern-match; they do not truly "understand" language.</li>
+    <li><strong>Privacy Concerns</strong> — Processing personal data (emails, chats) raises data security and ethics issues.</li>
+  </ol>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 6: COMPONENTS OF NLP
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 6: Components of NLP</h2>
+
+  <div class="mermaid">
+flowchart LR
+    RT["📝 Raw Text\n(Human Input)"] --> NLU["🔍 NLU\nNatural Language\nUnderstanding"]
+    NLU --> P["⚙️ Processing\n&amp; Reasoning"]
+    P --> NLG["✍️ NLG\nNatural Language\nGeneration"]
+    NLG --> MR["🤖 Machine\nResponse"]
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Component</th>
+        <th>Full Form</th>
+        <th>Job</th>
+        <th>Examples</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>NLU</strong></td>
+        <td>Natural Language Understanding</td>
+        <td>Interpret &amp; extract meaning from human language input</td>
+        <td>Intent detection, NER, sentiment analysis, parsing</td>
+      </tr>
+      <tr>
+        <td><strong>NLG</strong></td>
+        <td>Natural Language Generation</td>
+        <td>Produce coherent, fluent human-like text as output</td>
+        <td>Report generation, chatbot replies, text summarization</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 7: APPLICATIONS OF NLP
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 7: Applications of NLP</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Application</th>
+        <th>Description</th>
+        <th>Real-World Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>Search Engines</strong></td>
+        <td>Understand query intent, not just keywords</td>
+        <td>Google Search, Bing</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Chatbots &amp; Virtual Assistants</strong></td>
+        <td>Converse naturally with users</td>
+        <td>Siri, Alexa, ChatGPT, customer support bots</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Machine Translation</strong></td>
+        <td>Translate text between languages</td>
+        <td>Google Translate, DeepL</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Sentiment Analysis</strong></td>
+        <td>Detect opinion polarity in text</td>
+        <td>Product review mining, social media analytics</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>Text Summarization</strong></td>
+        <td>Condense long documents into key points</td>
+        <td>News summarizers, research abstract generators</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Named Entity Recognition (NER)</strong></td>
+        <td>Extract persons, places, organizations from text</td>
+        <td>Information extraction, document indexing</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td><strong>Spam Detection</strong></td>
+        <td>Classify emails/messages as spam or ham</td>
+        <td>Gmail spam filter</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td><strong>Medical NLP</strong></td>
+        <td>Extract clinical information from health records</td>
+        <td>cTAKES, IBM Watson Health</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td><strong>Autocomplete / Predictive Text</strong></td>
+        <td>Predict next word or sentence</td>
+        <td>Gmail Smart Compose, phone keyboards</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 8: NLP PIPELINE
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 8: NLP Pipeline</h2>
+  <p>The NLP pipeline is the sequence of preprocessing steps that transform raw text into a structured format suitable for machine learning models.</p>
+
+  <div class="mermaid">
+flowchart LR
+    A["📝 Raw Text"] --> B["🔤 Normalization\n(lowercase, punctuation)"]
+    B --> C["✂️ Tokenization\n(split into tokens)"]
+    C --> D["🚫 Stopword Removal\n(remove 'the', 'is', 'a')"]
+    D --> E["🌱 Stemming /\nLemmatization"]
+    E --> F["📊 Feature Extraction\n(TF-IDF, Word2Vec)"]
+    F --> G["🤖 ML Model\nInput"]
+  </div>
+
+  <h3>Step-by-Step Explanation</h3>
+
+  <h3>Step 1: Normalization</h3>
+  <p>Convert all text to a consistent format before processing.</p>
+  <ul>
+    <li>Lowercase: <code>"Hello World"</code> → <code>"hello world"</code></li>
+    <li>Remove punctuation, HTML tags, special characters</li>
+    <li>Expand contractions: <code>"can't"</code> → <code>"cannot"</code></li>
+  </ul>
+
+  <h3>Step 2: Tokenization</h3>
+  <p>Split text into individual units called <strong>tokens</strong> (usually words or subwords).</p>
+  <ul>
+    <li>Input: <code>"NLP is amazing!"</code></li>
+    <li>Output: <code>["NLP", "is", "amazing", "!"]</code></li>
+    <li>Tools: NLTK <code>word_tokenize</code>, spaCy tokenizer</li>
+  </ul>
+
+  <h3>Step 3: Stopword Removal</h3>
+  <p>Remove high-frequency words that carry little semantic meaning.</p>
+  <ul>
+    <li>Examples: <em>the, is, a, an, of, in, on, at, to, and</em></li>
+    <li>Input: <code>["NLP", "is", "a", "field", "of", "AI"]</code></li>
+    <li>Output: <code>["NLP", "field", "AI"]</code></li>
+  </ul>
+
+  <h3>Step 4: Stemming &amp; Lemmatization</h3>
+  <p>Reduce words to their base/root form to group morphological variants.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>Stemming</th>
+        <th>Lemmatization</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Method</strong></td>
+        <td>Chops off suffixes (heuristic)</td>
+        <td>Uses dictionary &amp; grammar rules</td>
+      </tr>
+      <tr>
+        <td><strong>Output</strong></td>
+        <td>May not be a real word</td>
+        <td>Always a valid dictionary word</td>
+      </tr>
+      <tr>
+        <td><strong>Speed</strong></td>
+        <td>Faster</td>
+        <td>Slower (needs POS tag)</td>
+      </tr>
+      <tr>
+        <td><strong>Accuracy</strong></td>
+        <td>Lower</td>
+        <td>Higher</td>
+      </tr>
+      <tr>
+        <td><strong>Example</strong></td>
+        <td>"running" → "runn"</td>
+        <td>"running" → "run"</td>
+      </tr>
+      <tr>
+        <td><strong>Example</strong></td>
+        <td>"better" → "better"</td>
+        <td>"better" → "good"</td>
+      </tr>
+      <tr>
+        <td><strong>Tool</strong></td>
+        <td>NLTK PorterStemmer</td>
+        <td>NLTK WordNetLemmatizer, spaCy</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Step 5: Feature Extraction</h3>
+  <p>Convert text tokens to numerical vectors that ML models can process.</p>
+  <ul>
+    <li><strong>Bag of Words (BoW)</strong> — word frequency counts</li>
+    <li><strong>TF-IDF</strong> — weighs term importance across documents</li>
+    <li><strong>Word2Vec / GloVe</strong> — dense semantic embeddings</li>
+    <li><strong>BERT Embeddings</strong> — context-aware representations</li>
+  </ul>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 9: PHASES OF NLP 🔥
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 9: Phases / Levels of NLP <span style="color:#e74c3c;">🔥 GUARANTEED 7 MARKS — ALL 4 PAPERS</span></h2>
+  <p>NLP analysis proceeds through six hierarchical phases, from the smallest sound units up to real-world context and speaker intent.</p>
+
+  <div class="mermaid">
+flowchart TD
+    P1["🔊 Phase 1: Phonological Analysis\nSounds &amp; phonemes"]
+    P2["🔤 Phase 2: Morphological Analysis\nWord structure &amp; morphemes"]
+    P3["📐 Phase 3: Syntactic Analysis\nGrammar &amp; sentence structure"]
+    P4["💡 Phase 4: Semantic Analysis\nMeaning of words &amp; sentences"]
+    P5["📄 Phase 5: Discourse Analysis\nMulti-sentence coherence"]
+    P6["🎯 Phase 6: Pragmatic Analysis\nSpeaker intent &amp; real-world context"]
+
+    P1 --> P2 --> P3 --> P4 --> P5 --> P6
+
+    style P1 fill:#dbeafe,stroke:#3b82f6
+    style P2 fill:#dcfce7,stroke:#22c55e
+    style P3 fill:#fef9c3,stroke:#eab308
+    style P4 fill:#ffe4e6,stroke:#f43f5e
+    style P5 fill:#f3e8ff,stroke:#a855f7
+    style P6 fill:#ffedd5,stroke:#f97316
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Phase</th>
+        <th>What It Analyses</th>
+        <th>Key Concepts</th>
+        <th>Example</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>Phonological</strong></td>
+        <td>Sounds and phonemes of language</td>
+        <td>Phoneme mapping, speech-to-text, prosody</td>
+        <td>"cat" has 3 phonemes: /k/, /æ/, /t/</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>Morphological</strong></td>
+        <td>Internal structure of words</td>
+        <td>Morphemes, stemming, inflection, derivation</td>
+        <td>"unhappiness" = un- + happy + -ness</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>Syntactic</strong></td>
+        <td>Grammar rules &amp; sentence structure</td>
+        <td>Parsing, parse trees, POS tagging, CFG</td>
+        <td>"The dog bit the man" — Subject-Verb-Object</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td><strong>Semantic</strong></td>
+        <td>Meaning of words and sentences</td>
+        <td>Word sense disambiguation, semantic roles, NER</td>
+        <td>"bank" = financial institution (not river bank)</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td><strong>Discourse</strong></td>
+        <td>Meaning across multiple sentences</td>
+        <td>Coreference resolution, coherence, cohesion</td>
+        <td>"John fell. <em>He</em> got hurt." — "He" refers to John</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td><strong>Pragmatic</strong></td>
+        <td>Real-world context &amp; speaker intent</td>
+        <td>Speech acts, implicature, world knowledge</td>
+        <td>"Can you open the window?" = Please open it</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <div class="callout-title">📌 Memory Tip</div>
+    <p>Remember the 6 phases with: <strong>"Please Make Sure Students Do Pass"</strong></p>
+    <p><strong>P</strong>honological → <strong>M</strong>orphological → <strong>S</strong>yntactic → <strong>S</strong>emantic → <strong>D</strong>iscourse → <strong>P</strong>ragmatic</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 10: NLP APIs
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 10: NLP APIs</h2>
+  <p>Cloud-based NLP APIs allow developers to add language intelligence to applications without training models from scratch.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>API</th>
+        <th>Provider</th>
+        <th>Key Features</th>
+        <th>Best For</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Google Cloud Natural Language API</strong></td>
+        <td>Google</td>
+        <td>Sentiment, Entity, Syntax, Content Classification</td>
+        <td>General NLP tasks; Google ecosystem</td>
+      </tr>
+      <tr>
+        <td><strong>Amazon Comprehend</strong></td>
+        <td>AWS</td>
+        <td>Entity recognition, key phrases, sentiment, topic modeling</td>
+        <td>AWS-integrated applications</td>
+      </tr>
+      <tr>
+        <td><strong>Azure Text Analytics</strong></td>
+        <td>Microsoft</td>
+        <td>Sentiment, NER, key phrase extraction, language detection</td>
+        <td>Microsoft / Office 365 ecosystem</td>
+      </tr>
+      <tr>
+        <td><strong>IBM Watson NLU</strong></td>
+        <td>IBM</td>
+        <td>Emotion analysis, relations, semantic roles, categories</td>
+        <td>Enterprise &amp; research applications</td>
+      </tr>
+      <tr>
+        <td><strong>OpenAI API</strong></td>
+        <td>OpenAI</td>
+        <td>Text generation, Q&amp;A, summarization, code generation (GPT-4)</td>
+        <td>Conversational AI, advanced generation</td>
+      </tr>
+      <tr>
+        <td><strong>Hugging Face Inference API</strong></td>
+        <td>Hugging Face</td>
+        <td>Access to 200,000+ open-source models; all NLP tasks</td>
+        <td>Research, prototyping, custom fine-tuning</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       TOPIC 11: NLP LIBRARIES
+  ════════════════════════════════════════════════════ -->
+  <h2>Topic 11: NLP Libraries</h2>
+  <p>Python offers three dominant NLP libraries, each with different strengths and design philosophies.</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Feature</th>
+        <th>NLTK</th>
+        <th>spaCy</th>
+        <th>Hugging Face Transformers</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Best For</strong></td>
+        <td>Learning &amp; teaching NLP</td>
+        <td>Production NLP pipelines</td>
+        <td>State-of-the-art deep learning models</td>
+      </tr>
+      <tr>
+        <td><strong>Speed</strong></td>
+        <td>Slow</td>
+        <td>Fast (optimized C++ core)</td>
+        <td>GPU-accelerated, model-dependent</td>
+      </tr>
+      <tr>
+        <td><strong>Philosophy</strong></td>
+        <td>Educational, modular</td>
+        <td>Opinionated, production-ready</td>
+        <td>Pre-train &amp; fine-tune paradigm</td>
+      </tr>
+      <tr>
+        <td><strong>POS Tagging</strong></td>
+        <td>✅ Yes</td>
+        <td>✅ Yes (faster)</td>
+        <td>✅ Yes (via pipeline)</td>
+      </tr>
+      <tr>
+        <td><strong>NER</strong></td>
+        <td>✅ Limited</td>
+        <td>✅ Built-in, accurate</td>
+        <td>✅ State-of-the-art</td>
+      </tr>
+      <tr>
+        <td><strong>Ease of Use</strong></td>
+        <td>Moderate (verbose)</td>
+        <td>Easy (clean API)</td>
+        <td>Easy (pipeline abstraction)</td>
+      </tr>
+      <tr>
+        <td><strong>Languages</strong></td>
+        <td>Primarily English</td>
+        <td>60+ languages</td>
+        <td>100+ languages (multilingual models)</td>
+      </tr>
+      <tr>
+        <td><strong>Example Use</strong></td>
+        <td>Assignments, prototyping</td>
+        <td>Real-time NLP apps</td>
+        <td>BERT, GPT-2, T5 fine-tuning</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ═══════════════════════════════════════════════════
+       GTU EXAM CORNER
+  ════════════════════════════════════════════════════ -->
+  <div class="callout exam">
+    <div class="callout-title">🎓 GTU Exam Corner — Expected Questions</div>
+
+    <p><strong>Q1 (3 marks):</strong> What is NLP? Why is it difficult to process natural language?</p>
+    <p><em>Hint:</em> Define NLP, mention AI + Linguistics + CS, then list 3–4 ambiguity types.</p>
+
+    <p><strong>Q2 (3–4 marks — ALL PAPERS):</strong> Write advantages and disadvantages of NLP.</p>
+    <p><em>Hint:</em> Write 3 advantages and 3 disadvantages with one-line explanations each.</p>
+
+    <p><strong>Q3 (4 marks):</strong> Explain the NLP Pipeline with a diagram.</p>
+    <p><em>Hint:</em> Draw the 5-step pipeline (Raw Text → ... → ML Model Input) and explain each step.</p>
+
+    <p><strong>Q4 🔥 (7 marks — ALL FOUR PAPERS):</strong> Explain the Phases / Levels of NLP with a neat diagram.</p>
+    <p><em>Hint:</em> Draw the vertical flowchart of all 6 phases. Fill the table with name, what it analyses, and example for each phase. Use the mnemonic "Please Make Sure Students Do Pass".</p>
+
+    <p><strong>Q5 (4–5 marks):</strong> Difference between Stemming and Lemmatization with examples.</p>
+    <p><em>Hint:</em> Draw the comparison table (Method, Output, Speed, Accuracy, Example, Tool).</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       ACTIVE RECALL
+  ════════════════════════════════════════════════════ -->
+  <div class="exercise">
+    <div class="exercise-title">🧠 Active Recall — Test Yourself</div>
+
+    <p><strong>Question 1:</strong> Without looking above, name all 6 phases of NLP in order. For each phase, write one example sentence and what analysis is performed on it.</p>
+
+    <p><strong>Question 2:</strong> What is the difference between Stemming and Lemmatization? Give two examples where their outputs differ significantly. Which one would you choose for a production search engine, and why?</p>
+
+    <p><strong>Question 3:</strong> Classify each of the following as which type of ambiguity — Lexical, Syntactic, Semantic, or Pragmatic:</p>
+    <ul>
+      <li>"I saw her duck."</li>
+      <li>"The chicken is ready to eat."</li>
+      <li>"It's freezing in here." (said while standing next to an open window)</li>
+      <li>"The bat broke." (sports context vs. animal context)</li>
+    </ul>
+
+    <p><strong>Question 4:</strong> Compare NLTK, spaCy, and Hugging Face Transformers. If you were building a real-time NLP chatbot for a hospital, which library would you choose and why?</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       LESSON FOOTER
+  ════════════════════════════════════════════════════ -->
+  <div class="lesson-footer">
+    <p>⏭️ <strong>Next:</strong> Unit 2 — Language Modeling, N-grams, POS Tagging, Morphology &amp; NER</p>
+    <p>📘 GTU Semester 7 AI&amp;DS Study Circle</p>
+  </div>
+
+</body>
+</html>

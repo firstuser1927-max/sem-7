@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 5: Machine Translation</title>
+    <link rel="stylesheet" href="../../assets/lesson.css">
+    <!-- MathJax CDN -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            securityLevel: 'loose'
+        });
+    </script>
+</head>
+<body>
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <span class="subject-badge">NLP (3174205)</span>
+            <h1>Unit 5: Machine Translation — Complete Study Notes</h1>
+            <div class="lesson-meta">
+                <span>⏱️ <strong>Duration:</strong> 20 mins</span> | 
+                <span>📖 <strong>Unit:</strong> 5 of 5</span> | 
+                <span>🎯 <strong>GTU Weightage:</strong> 20%</span>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">🎣 The Hook</div>
+            <p>In 1954, IBM and Georgetown University demonstrated the first automatic translation of Russian sentences into English. It used just 250 vocabulary words and 6 grammar rules. Scientists predicted machine translation would be "solved" within 5 years.</p>
+            <p>It took 65 more years and the invention of deep neural networks before translation became genuinely useful. Today, Google Translate handles 100+ languages and 100 billion words per day. This is the story of <strong>Machine Translation</strong>.</p>
+        </div>
+
+        <h2>Topic 1: Need of Machine Translation (MT)</h2>
+        <p><strong>Machine Translation (MT)</strong> is the use of software to automatically translate text or speech from one human language (source language) to another (target language).</p>
+
+        <h3>Why We Need MT:</h3>
+        <ol>
+            <li><strong>Globalisation:</strong> Businesses operate across countries — product manuals, legal contracts, websites must be in local languages.</li>
+            <li><strong>Information Access:</strong> Billions of web pages are in languages the user cannot read. MT makes all knowledge accessible.</li>
+            <li><strong>Crisis Response:</strong> In disaster relief, first responders need to communicate across language barriers instantly.</li>
+            <li><strong>Real-time Communication:</strong> WhatsApp, Skype, and similar apps use MT for live chat translation between speakers of different languages.</li>
+            <li><strong>Cost Efficiency:</strong> Human translators are expensive and slow — MT enables instant, affordable translation at scale.</li>
+            <li><strong>Scientific Research:</strong> Research papers published in non-English languages become accessible to the global research community.</li>
+        </ol>
+
+        <h2>Topic 2: Problems of Machine Translation</h2>
+        <p>MT is one of the hardest NLP problems because translation is not just word-for-word substitution:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Problem</th>
+                    <th>Explanation</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Lexical Ambiguity</strong></td>
+                    <td>One word = multiple translations depending on context.</td>
+                    <td>"bank" &rarr; <em>बैंक</em> (financial) or <em>किनारा</em> (riverbank) in Hindi</td>
+                </tr>
+                <tr>
+                    <td><strong>Structural Difference</strong></td>
+                    <td>Languages have different word order (SVO, SOV, VSO).</td>
+                    <td>English: <em>"I eat rice"</em> (SVO) &rarr; Japanese: <em>"I rice eat"</em> (SOV)</td>
+                </tr>
+                <tr>
+                    <td><strong>Idiomatic Expressions</strong></td>
+                    <td>Literal translation of idioms is meaningless.</td>
+                    <td><em>"It's raining cats and dogs"</em> &rarr; cannot translate word-for-word</td>
+                </tr>
+                <tr>
+                    <td><strong>Morphological Complexity</strong></td>
+                    <td>Some languages pack many meanings into one word.</td>
+                    <td>Finnish: <em>talossanikin</em> = <em>"in my house too"</em> (one word = 4 English words)</td>
+                </tr>
+                <tr>
+                    <td><strong>Named Entity Translation</strong></td>
+                    <td>Proper nouns need transliteration or cultural adaptation.</td>
+                    <td><em>"WhatsApp"</em> &rarr; kept as-is; but person names may be transliterated</td>
+                </tr>
+                <tr>
+                    <td><strong>Lack of Parallel Data</strong></td>
+                    <td>Many language pairs have almost no parallel training text.</td>
+                    <td>Translating Gujarati &harr; Swahili is extremely difficult.</td>
+                </tr>
+                <tr>
+                    <td><strong>Preserving Pragmatics</strong></td>
+                    <td>Tone, formality, and cultural nuance are lost.</td>
+                    <td>French has formal (<em>vous</em>) and informal (<em>tu</em>) — which to use?</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Topic 3: MT Approaches (Overview)</h2>
+        <p>Machine Translation has evolved through 4 major paradigm shifts:</p>
+
+        <div class="mermaid">
+        graph LR
+            D["Direct MT&lt;br/&gt;(1950s)"] --> R["Rule-Based MT&lt;br/&gt;(1970s–80s)"]
+            R --> S["Statistical MT&lt;br/&gt;(1990s–2010s)"]
+            S --> N["Neural MT&lt;br/&gt;(2014–Present)"]
+            style N fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h2>Topic 4: Direct Machine Translation</h2>
+        <p><strong>Direct MT</strong> is the oldest and simplest approach. It works by:</p>
+        <ol>
+            <li>Looking up each source word in a <strong>bilingual dictionary</strong>.</li>
+            <li>Applying simple <strong>local grammar rules</strong> to reorder words.</li>
+            <li>Producing the translated output word by word.</li>
+        </ol>
+
+        <div class="mermaid">
+        graph LR
+            SRC["Source Language Text"] --> Dict["Word-by-Word Dictionary Lookup"]
+            Dict --> Rules["Apply Simple Grammar Rules"]
+            Rules --> TGT["Target Language Text"]
+        </div>
+
+        <h3>Example:</h3>
+        <p>English: <em>"The boy plays football"</em><br>
+        &rarr; Dictionary lookup: The=El, boy=niño, plays=juega, football=fútbol<br>
+        &rarr; Apply Spanish word order: <em>"El niño juega fútbol"</em> ✅ (works by coincidence here)</p>
+
+        <h3>Drawbacks:</h3>
+        <ul>
+            <li>Completely <strong>fails for idioms</strong> and complex sentences.</li>
+            <li>No understanding of sentence-level context.</li>
+            <li>Requires a separate system for EVERY language pair (100 languages = 9,900 separate systems).</li>
+            <li>Cannot handle morphological variations (<em>"runs"</em>, <em>"running"</em>, <em>"ran"</em> all need separate entries).</li>
+        </ul>
+
+        <h2>Topic 5: Rule-Based Machine Translation (RBMT)</h2>
+        <p><strong>RBMT</strong> uses hand-crafted <strong>linguistic rules</strong> created by expert linguists to perform translation. It analyses the source sentence deeply, builds an internal representation, then generates the target sentence.</p>
+
+        <h3>Architecture (Transfer-Based RBMT):</h3>
+        <div class="mermaid">
+        graph LR
+            SRC["Source Text"] --> MA["Morphological&lt;br/&gt;Analysis"]
+            MA --> PA["Syntactic&lt;br/&gt;Parsing"]
+            PA --> ST["Semantic&lt;br/&gt;Transfer Rules"]
+            ST --> TG["Target Language&lt;br/&gt;Generation"]
+            TG --> TGT["Target Text"]
+            style ST fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        </div>
+
+        <h3>3 Types of RBMT:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Direct</strong></td>
+                    <td>Source &rarr; Target with minimal analysis (word replacement + local reordering).</td>
+                </tr>
+                <tr>
+                    <td><strong>Transfer-Based</strong></td>
+                    <td>Source analysis &rarr; Structural transfer &rarr; Target generation. Works at syntax level.</td>
+                </tr>
+                <tr>
+                    <td><strong>Interlingual</strong></td>
+                    <td>Source &rarr; Universal abstract representation (interlingua) &rarr; Target. Language-independent intermediate.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Advantages of RBMT:</h3>
+        <ul>
+            <li>Linguistically principled and transparent — rules are human-readable.</li>
+            <li>Works well for closely related languages (Spanish &harr; Portuguese).</li>
+        </ul>
+
+        <h3>Disadvantages:</h3>
+        <ul>
+            <li>Rules are hand-crafted &rarr; enormously expensive in human expert time.</li>
+            <li>Cannot handle all exceptions, slang, or informal text.</li>
+            <li>Scaling to new language pairs requires rebuilding all rules from scratch.</li>
+        </ul>
+
+        <h2>Topic 6: Knowledge-Based MT System</h2>
+        <p><strong>Knowledge-Based MT</strong> extends rule-based approaches by incorporating <strong>structured world knowledge</strong> (ontologies, semantic networks) to better understand and translate text.</p>
+
+        <h3>How it differs from RBMT:</h3>
+        <ul>
+            <li>Uses domain-specific knowledge bases to resolve ambiguity.</li>
+            <li>Example: A medical MT system uses a medical ontology to correctly translate drug names, procedures, and diagnoses.</li>
+            <li>Example: A legal MT system uses a legal knowledge base to distinguish between similar legal terms across jurisdictions.</li>
+        </ul>
+
+        <h3>Components:</h3>
+        <ol>
+            <li><strong>Lexical Knowledge Base:</strong> Bilingual dictionaries + synonym information.</li>
+            <li><strong>Ontological Knowledge:</strong> Domain-specific concept hierarchies (e.g., SNOMED CT for medicine).</li>
+            <li><strong>Inference Rules:</strong> Logic rules that reason about the meaning of sentences.</li>
+        </ol>
+
+        <h3>Limitation:</h3>
+        <p>Knowledge bases are domain-limited and require massive manual curation. They do not generalise well to open-domain text.</p>
+
+        <h2>Topic 7: Statistical Machine Translation (SMT) 🔥</h2>
+        <p><strong>SMT</strong> replaces hand-crafted rules with <strong>statistics learned from large amounts of parallel text</strong> (bilingual corpora — the same text in both languages side-by-side).</p>
+
+        <h3>Core Idea (Noisy Channel Model):</h3>
+        $$P(\text{target} | \text{source}) = \arg\max_T P(T|S) = \arg\max_T \underbrace{P(S|T)}_{\text{Translation Model}} \times \underbrace{P(T)}_{\text{Language Model}}$$
+
+        <ul>
+            <li><strong>Translation Model $P(S|T)$:</strong> What source words/phrases does a given target phrase translate to?</li>
+            <li><strong>Language Model $P(T)$:</strong> Is the target sentence grammatically fluent?</li>
+        </ul>
+        <p>The decoder finds the target sentence T that maximises both probabilities simultaneously.</p>
+
+        <h3>SMT Pipeline:</h3>
+        <div class="mermaid">
+        graph LR
+            PC["Parallel Corpus&lt;br/&gt;(Bilingual Text)"] --> Word["Word Alignment&lt;br/&gt;(IBM Models)"]
+            Word --> PT["Phrase Table&lt;br/&gt;(Source&harr;Target phrase pairs)"]
+            PT --> Dec["Decoder&lt;br/&gt;(Finds best translation)"]
+            Dec --> LM["Language Model&lt;br/&gt;(Ensures fluency)"]
+            LM --> Out["Output Translation"]
+            style Out fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h3>Phrase-Based SMT:</h3>
+        <p>Instead of word-by-word alignment, Phrase-Based SMT aligns <strong>phrases</strong> (multi-word sequences):</p>
+        <ul>
+            <li><em>"the car"</em> (English) &rarr; <em>"la voiture"</em> (French) as a single unit.</li>
+            <li>This handles local word reordering better than word-by-word approaches.</li>
+        </ul>
+
+        <h2>Topic 8: Parameter Learning in SMT (IBM Models + EM Algorithm)</h2>
+
+        <h3>IBM Models:</h3>
+        <p><strong>IBM Models (1–5)</strong> are a series of statistical word alignment models developed at IBM in the early 1990s that learn how words in a source sentence correspond to words in a target sentence.</p>
+        <ul>
+            <li><strong>IBM Model 1:</strong> Simplest. Assumes any source word can align to any target word with equal probability. Ignores word order.</li>
+            <li><strong>IBM Model 2:</strong> Adds positional alignment — words in similar positions are more likely to align.</li>
+            <li><strong>IBM Models 3–5:</strong> Progressively add fertility (one word translates to multiple words), word order distortion, and phrase-level modelling.</li>
+        </ul>
+
+        <h3>The EM Algorithm (Expectation-Maximisation):</h3>
+        <p>IBM models are trained using the <strong>EM algorithm</strong> because we have a <em>hidden</em> variable — the actual word alignments are not given in the training data (we only have the parallel sentence pairs, not which specific words correspond).</p>
+        <p><strong>EM works in 2 repeating steps:</strong></p>
+
+        <div class="mermaid">
+        graph LR
+            Init["Initialize&lt;br/&gt;(Random translation probs)"] --> E["E-Step (Expectation)&lt;br/&gt;Estimate alignment probabilities&lt;br/&gt;given current parameters"]
+            E --> M["M-Step (Maximisation)&lt;br/&gt;Update parameters to&lt;br/&gt;maximise expected likelihood"]
+            M --> Check{"Converged?"}
+            Check -->|No| E
+            Check -->|Yes| Final["Final Translation&lt;br/&gt;Probabilities"]
+            style Final fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <p><strong>E-Step:</strong> Given the current translation probability table, estimate how likely each possible word alignment is for every sentence pair.</p>
+        <p><strong>M-Step:</strong> Update the translation probabilities to reflect the expected alignments from the E-step.</p>
+        <p><strong>Repeat</strong> until the probabilities stop changing (convergence).</p>
+
+        <div class="callout">
+            <p>💡 <em>Example:</em> Parallel sentences: <code>"the house" &harr; "la maison"</code><br>
+            EM starts with equal probability for all alignments, then iteratively learns:</p>
+            <ul>
+                <li><code>the</code> &rarr; <code>la</code> (high probability)</li>
+                <li><code>house</code> &rarr; <code>maison</code> (high probability)</li>
+                <li><code>the</code> &rarr; <code>maison</code> (low probability)</li>
+            </ul>
+        </div>
+
+        <h2>Topic 9: Encoder-Decoder Architecture 🔥</h2>
+        <p>The <strong>Encoder-Decoder</strong> (also called Sequence-to-Sequence or Seq2Seq) architecture is a neural network design that takes a <strong>variable-length input sequence</strong> and produces a <strong>variable-length output sequence</strong> — perfect for translation.</p>
+
+        <div class="mermaid">
+        graph LR
+            SRC["Source Sentence&lt;br/&gt;'I love NLP'"] --> E1["Encoder RNN&lt;br/&gt;Step 1: 'I'"]
+            E1 --> E2["Encoder RNN&lt;br/&gt;Step 2: 'love'"]
+            E2 --> E3["Encoder RNN&lt;br/&gt;Step 3: 'NLP'"]
+            E3 --> CV["Context Vector&lt;br/&gt;(Sentence Meaning)"]
+            CV --> D1["Decoder RNN&lt;br/&gt;Step 1: 'J'aime'"]
+            D1 --> D2["Decoder RNN&lt;br/&gt;Step 2: 'le'"]
+            D2 --> D3["Decoder RNN&lt;br/&gt;Step 3: 'NLP'"]
+            style CV fill:#ffe8cc,stroke:#d9480f,stroke-width:2px
+        </div>
+
+        <h3>How It Works:</h3>
+        <p><strong>Encoder:</strong></p>
+        <ul>
+            <li>Reads the source sentence <strong>word by word</strong>.</li>
+            <li>Each word updates a <strong>hidden state</strong> (a vector of numbers).</li>
+            <li>After reading the last word, produces a <strong>context vector</strong> (also called thought vector) — a fixed-size dense vector that encodes the meaning of the entire source sentence.</li>
+        </ul>
+        <p><strong>Decoder:</strong></p>
+        <ul>
+            <li>Takes the context vector as its initial hidden state.</li>
+            <li>Generates the target sentence <strong>one word at a time</strong>.</li>
+            <li>At each step, it takes the previous word generated and the current hidden state to predict the next word.</li>
+        </ul>
+
+        <h3>The Bottleneck Problem:</h3>
+        <ul>
+            <li>The entire source sentence must be compressed into <strong>one fixed-size context vector</strong>.</li>
+            <li>For long sentences, this vector cannot capture all the information — quality degrades.</li>
+            <li><strong>Solution:</strong> <strong>Attention Mechanism</strong> — instead of one fixed vector, the decoder looks at <strong>all encoder hidden states</strong> and dynamically focuses on the most relevant source words at each decoding step.</li>
+        </ul>
+
+        <h2>Topic 10: Neural Machine Translation (NMT) 🔥</h2>
+        <p><strong>NMT</strong> uses deep neural networks (primarily Encoder-Decoder with Attention) to translate text, learned end-to-end from parallel data without hand-crafted rules or phrase tables.</p>
+
+        <h3>NMT vs. SMT:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Statistical MT (SMT)</th>
+                    <th>Neural MT (NMT)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Architecture</strong></td>
+                    <td>Separate components (alignment, LM, decoder)</td>
+                    <td>One unified neural network</td>
+                </tr>
+                <tr>
+                    <td><strong>Translation Unit</strong></td>
+                    <td>Words / Phrases</td>
+                    <td>Subword tokens (BPE)</td>
+                </tr>
+                <tr>
+                    <td><strong>Context Window</strong></td>
+                    <td>Limited (local phrases)</td>
+                    <td>Full sentence (with attention)</td>
+                </tr>
+                <tr>
+                    <td><strong>Rare Word Handling</strong></td>
+                    <td>Poor</td>
+                    <td>Better (subword tokenization)</td>
+                </tr>
+                <tr>
+                    <td><strong>Training Data Needed</strong></td>
+                    <td>Less</td>
+                    <td>More</td>
+                </tr>
+                <tr>
+                    <td><strong>Fluency</strong></td>
+                    <td>Lower</td>
+                    <td>Higher — outputs read naturally</td>
+                </tr>
+                <tr>
+                    <td><strong>Current Usage</strong></td>
+                    <td>Largely replaced</td>
+                    <td>Dominant (Google Translate, DeepL)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>The Transformer (2017) — The Game Changer:</h3>
+        <p>The paper <strong>"Attention Is All You Need"</strong> (Vaswani et al., 2017) replaced the RNN-based Encoder-Decoder with a <strong>Transformer</strong> architecture that uses <strong>self-attention</strong> — allowing the model to look at all words in the sentence simultaneously (not sequentially like RNNs).</p>
+        <p><strong>Why Transformers outperform RNN-based NMT:</strong></p>
+        <ul>
+            <li>Parallelizable (RNNs must process sequentially).</li>
+            <li>Better at capturing long-range dependencies.</li>
+            <li>Scales to much larger datasets and model sizes.</li>
+        </ul>
+        <p><strong>Modern NMT Systems:</strong> Google Translate (switched neural 2016), DeepL, NLLB (Meta).</p>
+
+        <div class="callout exam">
+            <div class="callout-title">🎯 GTU Exam Corner — Unit 5</div>
+            <p><strong>Q1. What is Machine Translation? Why do we need it? (3 Marks) [W23, S26]</strong><br>
+            &rarr; Define MT. List 4 needs: globalisation, information access, real-time communication, cost efficiency.</p>
+
+            <p><strong>Q2. List the problems / challenges of Machine Translation. (3 Marks) [W24, W25, S26]</strong><br>
+            &rarr; Use the table from Topic 2: lexical ambiguity, structural difference, idioms, morphological complexity, parallel data scarcity.</p>
+
+            <p><strong>Q3. 🔥 Draw and explain the Encoder-Decoder architecture for MT. (4–7 Marks) [W23, W24, W25, S26 — ALL PAPERS]</strong><br>
+            &rarr; Draw the full diagram. Explain encoder (reads source, produces context vector). Explain decoder (uses context vector, generates target word-by-word). Mention the bottleneck problem and attention as solution.</p>
+
+            <p><strong>Q4. 🔥 Write a note on Statistical Machine Translation (SMT). (7 Marks) [W23, W25, S26]</strong><br>
+            &rarr; Explain the noisy channel model formula. Translation model + language model. Phrase-Based SMT. IBM Models (briefly). Draw SMT pipeline.</p>
+
+            <p><strong>Q5. 🔥 Write a note on Neural Machine Translation (NMT). (7 Marks) [W23, W25, S26]</strong><br>
+            &rarr; Explain Seq2Seq with attention. Compare with SMT using the table. Mention Transformer (2017) breakthrough. Modern examples.</p>
+
+            <p><strong>Q6. Explain Rule-Based Machine Translation. (3–4 Marks) [W25, S26]</strong><br>
+            &rarr; 3 types: Direct, Transfer-Based, Interlingual. Draw Transfer-Based pipeline. Advantages (transparent rules) and disadvantages (expensive, doesn't scale).</p>
+
+            <p><strong>Q7. Explain parameter learning in SMT using EM. (7 Marks) [W25]</strong><br>
+            &rarr; Explain why EM is needed (hidden alignment variable). E-step definition. M-step definition. Draw iterative convergence diagram. Small word alignment example.</p>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+            <ol>
+                <li>In the noisy channel model for SMT, what are the two probability terms and what does each measure?</li>
+                <li>What is the <strong>bottleneck problem</strong> in the basic Encoder-Decoder architecture, and how does <strong>attention</strong> solve it?</li>
+                <li>Name <strong>3 problems of Machine Translation</strong> with one example each.</li>
+                <li>In the EM algorithm for IBM Models, what is the <strong>hidden variable</strong> that we cannot observe directly?</li>
+                <li>What major paper introduced the <strong>Transformer</strong> architecture, and in which year?</li>
+            </ol>
+        </div>
+
+        <h2>📚 Complete NLP Unit Summary</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Unit</th>
+                    <th>Key Topics</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Unit 1</strong></td>
+                    <td>What is NLP, Difficulty, History, Advantages/Disadvantages, Components, Applications, Pipeline, <strong>6 Phases</strong>, NLP APIs, Libraries</td>
+                    <td>14%</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit 2</strong></td>
+                    <td>Unigram/Bigram/Trigram, N-gram, <strong>Smoothing</strong>, Applications of LM, NLG, <strong>POS Tagging</strong>, <strong>Morphology</strong>, <strong>NER</strong></td>
+                    <td>28%</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit 3</strong></td>
+                    <td><strong>BoW</strong>, <strong>Skip-gram</strong>, <strong>CBOW</strong>, Embeddings, Lexical Semantics, <strong>WSD</strong>, Knowledge-Based WSD, Supervised WSD</td>
+                    <td>14%</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit 4</strong></td>
+                    <td><strong>Sentiment Mining</strong>, Text Classification, <strong>Text Summarization</strong>, <strong>IE</strong>, NER in IE, <strong>Relation Extraction</strong>, QA, <strong>NLP in IR</strong>, <strong>Cross-Lingual IR</strong></td>
+                    <td>24%</td>
+                </tr>
+                <tr>
+                    <td><strong>Unit 5</strong></td>
+                    <td>Need/Problems of MT, Approaches, <strong>Direct MT</strong>, <strong>RBMT</strong>, Knowledge-Based MT, <strong>SMT (IBM+EM)</strong>, <strong>Encoder-Decoder</strong>, <strong>NMT</strong></td>
+                    <td>20%</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>🎯 <strong>Study Priority:</strong> Unit 2 (28%) &gt; Unit 4 (24%) &gt; Unit 5 (20%) &gt; Unit 1 (14%) = Unit 3 (14%)</p>
+
+        <div class="lesson-footer">
+            <p>NLP (3174205) — All 5 Units Complete</p>
+            <p>GTU Semester 7 AI&DS Study Circle</p>
+        </div>
+    </div>
+</body>
+</html>

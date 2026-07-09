@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 4: Text Analysis, Summarization & Extraction</title>
+    <link rel="stylesheet" href="../../assets/lesson.css">
+    <!-- MathJax CDN -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            securityLevel: 'loose'
+        });
+    </script>
+</head>
+<body>
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <span class="subject-badge">NLP (3174205)</span>
+            <h1>Unit 4: Text Analysis, Summarization & Extraction — Complete Study Notes</h1>
+            <div class="lesson-meta">
+                <span>⏱️ <strong>Duration:</strong> 20 mins</span> | 
+                <span>📖 <strong>Unit:</strong> 4 of 5</span> | 
+                <span>🎯 <strong>GTU Weightage:</strong> 24%</span>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">🎣 The Hook</div>
+            <p>Imagine you need to read 10,000 customer reviews for a product. Or scan 500 news articles to find all mentions of a specific company. Or search documents in French even though your query is in English.</p>
+            <p>This is exactly what Unit 4 teaches — <strong>extracting value from massive text collections</strong> automatically. This is the practical power of NLP.</p>
+        </div>
+
+        <h2>Topic 1: Sentiment Mining (Sentiment Analysis)</h2>
+        <p><strong>Sentiment Mining</strong> (also called <strong>Sentiment Analysis</strong> or <strong>Opinion Mining</strong>) is the automated process of identifying and classifying the <strong>emotional tone</strong> or <strong>opinion</strong> expressed in text.</p>
+
+        <div class="callout">
+            <p>💡 <em>Real use:</em> A company posts a new product. Millions of tweets are posted. Sentiment analysis automatically classifies each tweet as positive, negative, or neutral — giving instant customer feedback without reading every tweet.</p>
+        </div>
+
+        <h3>Types of Sentiment:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Level</th>
+                    <th>What is Analysed</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Document-level</strong></td>
+                    <td>The overall sentiment of an entire document.</td>
+                    <td>An entire 5-star review is classified as "positive".</td>
+                </tr>
+                <tr>
+                    <td><strong>Sentence-level</strong></td>
+                    <td>Sentiment of each individual sentence.</td>
+                    <td><em>"The food was great. BUT the service was terrible."</em> &rarr; Sentence 1 positive, Sentence 2 negative.</td>
+                </tr>
+                <tr>
+                    <td><strong>Aspect-level</strong></td>
+                    <td>Sentiment about a specific feature/aspect.</td>
+                    <td><em>"The camera is excellent but the battery life is poor."</em> &rarr; Camera: positive, Battery: negative.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Sentiment Classes:</h3>
+        <div class="mermaid">
+        graph LR
+            Text["Input Text"] --> Model["Sentiment Model"]
+            Model --> Pos["😊 Positive"]
+            Model --> Neg["😠 Negative"]
+            Model --> Neu["😐 Neutral"]
+            style Pos fill:#d3f9d8,stroke:#2f9e44
+            style Neg fill:#ffe3e3,stroke:#c92a2a
+            style Neu fill:#f8fafc,stroke:#868e96
+        </div>
+
+        <h3>Approaches to Sentiment Analysis:</h3>
+        <ol>
+            <li><strong>Lexicon-Based:</strong> Use a pre-built dictionary of words labelled positive/negative (e.g., SentiWordNet). Count positive vs negative words.</li>
+            <li><strong>Machine Learning:</strong> Train a classifier (Naïve Bayes, SVM) on labelled training data.</li>
+            <li><strong>Deep Learning:</strong> Use LSTM/BERT models for state-of-the-art accuracy — understand context, negation (<em>"not good"</em> &ne; <em>"good"</em>).</li>
+        </ol>
+
+        <h3>Challenges:</h3>
+        <ul>
+            <li><strong>Negation:</strong> <em>"This is NOT a good product."</em> (contains "good" but is negative!)</li>
+            <li><strong>Sarcasm:</strong> <em>"Oh sure, another delay. Perfect."</em> (positive words, negative intent)</li>
+            <li><strong>Domain dependency:</strong> <em>"This phone is sick!"</em> (negative in medical, positive in slang)</li>
+        </ul>
+
+        <h2>Topic 2: Text Classification</h2>
+        <p><strong>Text Classification</strong> (or <strong>Document Classification</strong>) is the task of assigning a text document to one or more predefined <strong>categories</strong>.</p>
+        <p>💡 <em>Examples:</em> Gmail classifying email as Spam/Not-Spam. Google News categorising articles as Sports/Technology/Politics. Medical system tagging patient notes by disease category.</p>
+
+        <h3>Common Text Classification Tasks:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Task</th>
+                    <th>Categories</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Spam Detection</strong></td>
+                    <td>Spam / Not Spam</td>
+                </tr>
+                <tr>
+                    <td><strong>Sentiment Classification</strong></td>
+                    <td>Positive / Negative / Neutral</td>
+                </tr>
+                <tr>
+                    <td><strong>Topic Classification</strong></td>
+                    <td>Sports / Tech / Politics / Finance</td>
+                </tr>
+                <tr>
+                    <td><strong>Language Detection</strong></td>
+                    <td>English / Hindi / French / ...</td>
+                </tr>
+                <tr>
+                    <td><strong>Intent Classification</strong></td>
+                    <td>Book flight / Check weather / Play music</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Pipeline for Text Classification:</h3>
+        <div class="mermaid">
+        graph LR
+            Raw["Raw Text"] --> Pre["Preprocessing&lt;br/&gt;(Tokenize, Stopwords, Lemmatize)"]
+            Pre --> Feat["Feature Extraction&lt;br/&gt;(BoW / TF-IDF / Embeddings)"]
+            Feat --> Model["Classifier&lt;br/&gt;(NB / SVM / BERT)"]
+            Model --> Label["Category Label"]
+            style Label fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h3>Standard Evaluation Metrics:</h3>
+        $$\text{Precision} = \frac{TP}{TP + FP}, \quad \text{Recall} = \frac{TP}{TP + FN}, \quad F_1 = \frac{2 \times P \times R}{P + R}$$
+
+        <p><strong>Confusion Matrix:</strong> A table showing how well a classifier performed across all categories:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Predicted Positive</th>
+                    <th>Predicted Negative</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Actual Positive</strong></td>
+                    <td>TP (True Positive)</td>
+                    <td>FN (False Negative)</td>
+                </tr>
+                <tr>
+                    <td><strong>Actual Negative</strong></td>
+                    <td>FP (False Positive)</td>
+                    <td>TN (True Negative)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Topic 3: Text Summarization 🔥</h2>
+        <p><strong>Text Summarization</strong> is the task of automatically creating a shorter version of a document that retains its most important information.</p>
+
+        <h3>Two Main Approaches:</h3>
+        <div class="mermaid">
+        graph TD
+            TS["Text Summarization"] --> Ext["Extractive&lt;br/&gt;Summarization"]
+            TS --> Abs["Abstractive&lt;br/&gt;Summarization"]
+            Ext --> E1["Selects & copies&lt;br/&gt;original sentences"]
+            Abs --> A1["Generates new&lt;br/&gt;sentences (paraphrases)"]
+            style Ext fill:#e7f5ff,stroke:#1971c2
+            style Abs fill:#e8f5e9,stroke:#2e7d32
+        </div>
+
+        <h3>Dimensions of Text Summarization (GTU Favorite!):</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dimension</th>
+                    <th>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Input Size</strong></td>
+                    <td>Single Document vs. Multi-Document</td>
+                </tr>
+                <tr>
+                    <td><strong>Output Type</strong></td>
+                    <td>Extractive (copies sentences) vs. Abstractive (generates new text)</td>
+                </tr>
+                <tr>
+                    <td><strong>Purpose</strong></td>
+                    <td>Generic (captures main ideas) vs. Query-focused (answers a specific question)</td>
+                </tr>
+                <tr>
+                    <td><strong>Language</strong></td>
+                    <td>Monolingual vs. Cross-lingual (summarize French document in English)</td>
+                </tr>
+                <tr>
+                    <td><strong>Domain</strong></td>
+                    <td>General vs. Domain-specific (medical, legal, news)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Extractive Summarization:</h3>
+        <ul>
+            <li><strong>Selects</strong> the most important sentences from the original document and combines them.</li>
+            <li>Sentences are scored using TF-IDF, TextRank (graph-based algorithm), or position (first/last sentences tend to be important).</li>
+            <li>Output uses <strong>original words only</strong> — never paraphrases.</li>
+        </ul>
+
+        <h3>Abstractive Summarization:</h3>
+        <ul>
+            <li><strong>Generates</strong> a new, shorter text that captures the meaning — may use words not in the original.</li>
+            <li>Requires deep language understanding — typically done with sequence-to-sequence neural models (Transformer, BART, T5).</li>
+            <li>Output reads more naturally but can introduce errors (hallucinations).</li>
+        </ul>
+
+        <h2>Topic 4: Information Extraction (IE)</h2>
+        <p><strong>Information Extraction (IE)</strong> is the task of automatically extracting <strong>structured information</strong> (specific facts) from <strong>unstructured text</strong>.</p>
+        <p>💡 <em>Difference from Search:</em> Search retrieves relevant documents. IE extracts specific facts FROM those documents.</p>
+        <p><em>Example:</em> From a news article, IE extracts: WHO (Steve Jobs), DID WHAT (co-founded), WHAT (Apple Inc.), WHEN (1976).</p>
+
+        <h3>IE Pipeline:</h3>
+        <div class="mermaid">
+        graph LR
+            Raw["Unstructured Text"] --> NER2["Named Entity&lt;br/&gt;Recognition (NER)"]
+            NER2 --> Rel["Relation&lt;br/&gt;Extraction"]
+            Rel --> Co["Coreference&lt;br/&gt;Resolution"]
+            Co --> DB["Structured&lt;br/&gt;Knowledge Base"]
+            style DB fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h3>Stages of Information Extraction:</h3>
+        <ol>
+            <li><strong>Named Entity Recognition (NER):</strong> Identify named entities (people, organizations, dates).</li>
+            <li><strong>Relation Extraction:</strong> Find relationships between entities.</li>
+            <li><strong>Event Extraction:</strong> Identify events (what happened, when, where, who was involved).</li>
+            <li><strong>Coreference Resolution:</strong> Resolve pronouns to their entities (<em>"He founded Apple"</em> &rarr; <em>"Steve Jobs founded Apple"</em>).</li>
+            <li><strong>Template Filling:</strong> Fill a predefined schema with extracted facts.</li>
+        </ol>
+
+        <h2>Topic 5: Named Entity Recognition (NER) in IE Context</h2>
+        <p><em>(NER was also covered in Unit 2 — here we focus on its role within Information Extraction)</em></p>
+        <p>NER is the <strong>first and most critical stage</strong> of the IE pipeline. Without correctly identifying entities, relation extraction and template filling cannot work.</p>
+
+        <h3>The BIO Tagging Scheme:</h3>
+        <p>NER systems use a tagging scheme to label each token:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Meaning</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>B-PER</strong></td>
+                    <td>Beginning of a Person entity</td>
+                    <td><strong>Steve</strong> Jobs</td>
+                </tr>
+                <tr>
+                    <td><strong>I-PER</strong></td>
+                    <td>Inside (continuation of) a Person entity</td>
+                    <td>Steve <strong>Jobs</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>B-ORG</strong></td>
+                    <td>Beginning of an Organization</td>
+                    <td><strong>Apple</strong> Inc.</td>
+                </tr>
+                <tr>
+                    <td><strong>I-ORG</strong></td>
+                    <td>Inside of an Organization</td>
+                    <td>Apple <strong>Inc.</strong></td>
+                </tr>
+                <tr>
+                    <td><strong>O</strong></td>
+                    <td>Outside — not part of any entity</td>
+                    <td>was, founded, in</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Tagged Example:</strong> <em>"Steve Jobs founded Apple Inc. in 1976"</em> &rarr; <code>Steve/B-PER Jobs/I-PER founded/O Apple/B-ORG Inc./I-ORG in/O 1976/B-DATE</code></p>
+
+        <h2>Topic 6: Relation Extraction 🔥</h2>
+        <p><strong>Relation Extraction (RE)</strong> identifies and classifies the <strong>semantic relationship</strong> between two named entities in a text.</p>
+        <p>💡 <em>Example:</em> <em>"Steve Jobs co-founded Apple Inc."</em> &rarr; Entity 1: <em>Steve Jobs (PER)</em>, Entity 2: <em>Apple Inc. (ORG)</em>, Relation: <strong>FOUNDED-BY</strong></p>
+
+        <h3>Common Relation Types:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Relation</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>WORKS-AT</td>
+                    <td><em>"Sundar Pichai works at Google."</em></td>
+                </tr>
+                <tr>
+                    <td>FOUNDED-BY</td>
+                    <td><em>"Apple was founded by Steve Jobs."</em></td>
+                </tr>
+                <tr>
+                    <td>LOCATED-IN</td>
+                    <td><em>"ISRO is located in Bengaluru."</em></td>
+                </tr>
+                <tr>
+                    <td>BORN-IN</td>
+                    <td><em>"Einstein was born in Germany."</em></td>
+                </tr>
+                <tr>
+                    <td>PART-OF</td>
+                    <td><em>"Gujarat is part of India."</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Approaches to Relation Extraction:</h3>
+        <ol>
+            <li><strong>Rule-Based:</strong> Hand-crafted patterns using POS tags and entity types.
+                <ul>
+                    <li>Pattern: <code>[PER] founded [ORG]</code> &rarr; FOUNDED-BY relation.</li>
+                </ul>
+            </li>
+            <li><strong>Supervised Learning:</strong> Train a classifier on labelled examples with entity pairs and their relation labels.</li>
+            <li><strong>Distant Supervision:</strong> Automatically generate training data by aligning existing knowledge bases (Wikipedia) with text.</li>
+        </ol>
+
+        <h2>Topic 7: Question Answering in Multilingual Setting</h2>
+        <p><strong>Question Answering (QA)</strong> is the task of automatically answering questions posed in natural language.</p>
+
+        <h3>Types of QA Systems:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>How It Works</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Factoid QA</strong></td>
+                    <td>Returns a specific fact (person, date, number).</td>
+                    <td><em>"Who founded Apple?"</em> &rarr; <em>"Steve Jobs"</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Open-Domain QA</strong></td>
+                    <td>Searches a large knowledge base or the web for the answer.</td>
+                    <td>Google's featured snippets.</td>
+                </tr>
+                <tr>
+                    <td><strong>Closed-Domain QA</strong></td>
+                    <td>Answers questions from a specific domain corpus.</td>
+                    <td>Medical QA, Legal QA.</td>
+                </tr>
+                <tr>
+                    <td><strong>Reading Comprehension QA</strong></td>
+                    <td>Given a passage, answer questions about it.</td>
+                    <td>SQuAD dataset — BERT-based models.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Phases of an IR-Based QA Model:</h3>
+        <div class="mermaid">
+        graph LR
+            Q["User Question"] --> QP["1. Question Processing&lt;br/&gt;(Parse intent, identify answer type)"]
+            QP --> DR["2. Document Retrieval&lt;br/&gt;(Find relevant documents using IR)"]
+            DR --> PP["3. Passage Retrieval&lt;br/&gt;(Extract relevant paragraphs)"]
+            PP --> AE["4. Answer Extraction&lt;br/&gt;(Extract the specific answer span)"]
+            AE --> A["Final Answer"]
+            style A fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h3>Multilingual QA Challenges:</h3>
+        <ul>
+            <li>Answering questions in one language (e.g., Hindi) from documents in another language (e.g., English).</li>
+            <li>Requires Cross-Lingual embeddings (mBERT, XLM-R) trained on 100+ languages simultaneously.</li>
+            <li>Challenge: Low-resource languages have fewer training examples for fine-tuning.</li>
+        </ul>
+
+        <h2>Topic 8: NLP in Information Retrieval 🔥</h2>
+        <p><strong>Information Retrieval (IR)</strong> is the task of finding relevant documents from a large collection in response to a user query.</p>
+        <p>💡 <em>Examples:</em> Google Search, PubMed (medical literature search), Lexis Nexis (legal document search).</p>
+
+        <h3>How NLP Improves IR:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>NLP Technique</th>
+                    <th>How it Helps IR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Tokenization & Stemming</strong></td>
+                    <td>Matches <em>"running"</em> to documents containing <em>"run"</em>, <em>"ran"</em>.</td>
+                </tr>
+                <tr>
+                    <td><strong>Named Entity Recognition</strong></td>
+                    <td>Identifies that the query <em>"Apple earnings"</em> refers to the company, not the fruit.</td>
+                </tr>
+                <tr>
+                    <td><strong>Query Expansion</strong></td>
+                    <td>Automatically adds synonyms to a query (<em>"car"</em> &rarr; also search for <em>"automobile"</em>, <em>"vehicle"</em>).</td>
+                </tr>
+                <tr>
+                    <td><strong>Language Models</strong></td>
+                    <td>Rank documents by probability that they would generate the query.</td>
+                </tr>
+                <tr>
+                    <td><strong>Word Embeddings</strong></td>
+                    <td>Find semantically similar documents even if they don't share exact keywords.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Traditional IR vs. NLP-Enhanced IR:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Aspect</th>
+                    <th>Traditional IR (TF-IDF)</th>
+                    <th>NLP-Enhanced IR</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Matching</strong></td>
+                    <td>Exact keyword matching</td>
+                    <td>Semantic similarity matching</td>
+                </tr>
+                <tr>
+                    <td><strong>Query Understanding</strong></td>
+                    <td>No — treats query as bag of keywords</td>
+                    <td>Yes — understands query intent</td>
+                </tr>
+                <tr>
+                    <td><strong>Synonym Handling</strong></td>
+                    <td>Poor</td>
+                    <td>Good (via embeddings/expansion)</td>
+                </tr>
+                <tr>
+                    <td><strong>Accuracy</strong></td>
+                    <td>Lower</td>
+                    <td>Higher</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Topic 9: Cross-Lingual Information Retrieval 🔥</h2>
+        <p><strong>Cross-Lingual IR (CLIR)</strong> is the task of finding relevant documents written in <strong>language B</strong> using a query written in <strong>language A</strong>.</p>
+        <p>💡 <em>Example:</em> A researcher types a query in English &rarr; CLIR finds relevant French, German, and Spanish documents automatically.</p>
+
+        <div class="mermaid">
+        graph LR
+            EQ["Query in English&lt;br/&gt;'climate change effects'"] --> CLIR["CLIR System"]
+            CLIR --> FD["French Documents"]
+            CLIR --> SD["Spanish Documents"]
+            CLIR --> HD["Hindi Documents"]
+            style CLIR fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        </div>
+
+        <h3>Approaches to Cross-Lingual IR:</h3>
+        <ol>
+            <li><strong>Query Translation:</strong> Translate the user's query into the target document language using Machine Translation, then run standard IR.
+                <ul>
+                    <li><em>English query &rarr; translated to French &rarr; search French documents</em></li>
+                </ul>
+            </li>
+            <li><strong>Document Translation:</strong> Translate all documents into the query language.
+                <ul>
+                    <li>Expensive computationally — must translate entire corpus.</li>
+                </ul>
+            </li>
+            <li><strong>Cross-Lingual Embeddings (Best Modern Approach):</strong> Map words from both languages into the <strong>same shared vector space</strong>. <em>"car"</em> (English) and <em>"voiture"</em> (French) become close vectors — then similarity search works across languages.</li>
+        </ol>
+
+        <h3>Challenges of CLIR:</h3>
+        <ul>
+            <li>Machine translation errors propagate into retrieval errors.</li>
+            <li>Proper nouns, domain-specific terms are often mistranslated.</li>
+            <li>Cultural and linguistic gaps that no translation captures perfectly.</li>
+        </ul>
+
+        <div class="callout exam">
+            <div class="callout-title">🎯 GTU Exam Corner — Unit 4</div>
+            <p><strong>Q1. What is Sentiment Mining and its types? (3 Marks) [W23, W24, W25, S26]</strong><br>
+            &rarr; Define sentiment analysis. 3 types: document-level, sentence-level, aspect-level. 3 sentiment classes: positive, negative, neutral.</p>
+
+            <p><strong>Q2. What is Information Extraction? How does it differ from data retrieval? (4 Marks) [S26]</strong><br>
+            &rarr; IR finds documents. IE extracts specific structured facts from text. Draw IE pipeline: NER &rarr; Relation Extraction &rarr; Template Filling.</p>
+
+            <p><strong>Q3. 🔥 Explain Text Summarization with different dimensions. (7 Marks) [W24, W25, S26]</strong><br>
+            &rarr; Define. Extractive vs. Abstractive. 5 dimensions: input size, output type, purpose, language, domain. Examples for each.</p>
+
+            <p><strong>Q4. Explain Relation Extraction via Supervised Learning. (4 Marks) [W23]</strong><br>
+            &rarr; Define RE. Common relation types. Supervised approach: labelled entity pairs &rarr; feature extraction &rarr; classifier &rarr; relation label.</p>
+
+            <p><strong>Q5. 🔥 Explain how NLP is useful in Information Retrieval. (7 Marks) [W23, W25, S26]</strong><br>
+            &rarr; NLP techniques in IR: tokenization/stemming, NER, query expansion, language models, word embeddings. Comparison table: traditional vs NLP-enhanced IR.</p>
+
+            <p><strong>Q6. 🔥 Explain phases of an IR-based QA model. (7 Marks) [W25, S26]</strong><br>
+            &rarr; Draw flowchart: Question Processing &rarr; Document Retrieval &rarr; Passage Retrieval &rarr; Answer Extraction. Explain each phase.</p>
+
+            <p><strong>Q7. Explain Cross-Lingual IR. (4–7 Marks) [W23, W24, W25]</strong><br>
+            &rarr; Define CLIR + example. 3 approaches: query translation, document translation, cross-lingual embeddings. 2 challenges.</p>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+            <ol>
+                <li>What is <strong>aspect-level</strong> sentiment analysis? Give an example sentence where the aspects have opposite sentiments.</li>
+                <li>What is the difference between <strong>extractive</strong> and <strong>abstractive</strong> summarization?</li>
+                <li>In the BIO tagging scheme, what does <strong>B-ORG</strong> mean? Give an example token.</li>
+                <li>What is <strong>query expansion</strong> in IR, and how does it help with synonyms?</li>
+                <li>In CLIR, what is the <strong>cross-lingual embeddings</strong> approach and why is it better than query translation?</li>
+            </ol>
+        </div>
+
+        <div class="lesson-footer">
+            <p>Next: <a href="0005-unit5-machine-translation.html">Unit 5 — Machine Translation</a></p>
+            <p>GTU Semester 7 AI&DS Study Circle</p>
+        </div>
+    </div>
+</body>
+</html>

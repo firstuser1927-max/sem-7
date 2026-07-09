@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 3 – Words & Word Forms | NLP (3174205)</title>
+  <meta name="description" content="NLP Unit 3: Bag of Words, Skip-gram, CBOW, Word Embeddings, Lexical Semantics, and Word Sense Disambiguation for GTU 3174205." />
+  <link rel="stylesheet" href="../../assets/lesson.css" />
+
+  <!-- Mermaid CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#4f46e5', primaryTextColor: '#fff', primaryBorderColor: '#3730a3', lineColor: '#6b7280', secondaryColor: '#eef2ff', tertiaryColor: '#f9fafb' } });</script>
+
+  <!-- MathJax CDN -->
+  <script>window.MathJax = { tex: { inlineMath: [['$','$'],['\\(','\\)']] }, svg: { fontCache: 'global' } };</script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+
+  <style>
+    /* ── Unit 3 extra styles ─────────────────────── */
+    .mermaid { margin: 1.5rem 0; }
+    .step-list { counter-reset: step; list-style: none; padding: 0; margin: 1rem 0 1.2rem; }
+    .step-list li { counter-increment: step; display: flex; gap: 0.9rem; align-items: flex-start; margin-bottom: 0.7rem; font-family: var(--sans); font-size: 0.93rem; }
+    .step-list li::before { content: counter(step); min-width: 1.7rem; height: 1.7rem; background: var(--accent); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .tag-hot { background: #fef2f2; color: #dc2626; border: 1px solid #fca5a5; font-family: var(--sans); font-size: 0.7rem; font-weight: 700; padding: 0.1rem 0.45rem; border-radius: 999px; letter-spacing: 0.04em; vertical-align: middle; margin-left: 0.3rem; }
+    .exam-q { margin-bottom: 0.6rem; padding: 0.5rem 0.75rem; border-radius: 6px; background: #fff7ed; border-left: 3px solid #f97316; font-family: var(--sans); font-size: 0.9rem; }
+    .exam-q strong { color: #c2410c; }
+    .analogy-box { background: linear-gradient(135deg,#eef2ff 0%,#f0fdf4 100%); border: 1px solid #c7d2fe; border-radius: 10px; padding: 1.1rem 1.4rem; margin: 1.4rem 0; font-family: var(--sans); font-size: 0.95rem; }
+    .analogy-box .eq { font-size: 1.15rem; font-weight: 700; color: var(--accent); text-align: center; margin-top: 0.4rem; letter-spacing: 0.02em; }
+    ol.plain { padding-left: 1.5rem; font-family: var(--sans); font-size: 0.93rem; }
+    ol.plain li { margin-bottom: 0.5rem; }
+    ul.plain { padding-left: 1.5rem; font-family: var(--sans); font-size: 0.93rem; }
+    ul.plain li { margin-bottom: 0.4rem; }
+    .wsd-sense { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; font-family: var(--mono); font-size: 0.82rem; font-weight: 600; }
+    .sense-a { background: #dcfce7; color: #15803d; }
+    .sense-b { background: #fee2e2; color: #dc2626; }
+    .pipeline-steps { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0; align-items: center; }
+    .pipeline-steps .ps { background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.75rem; border-radius: 6px; }
+    .pipeline-steps .arr { color: var(--muted); font-size: 1.1rem; font-weight: 700; }
+    .topic-num { display: inline-block; background: var(--accent); color: #fff; font-family: var(--sans); font-size: 0.75rem; font-weight: 700; width: 1.6rem; height: 1.6rem; border-radius: 50%; text-align: center; line-height: 1.6rem; margin-right: 0.4rem; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  HEADER                                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<header class="lesson-header">
+  <span class="subject-badge">NLP · 3174205</span>
+  <h1>Unit 3 — Words &amp; Word Forms</h1>
+  <div class="lesson-meta">
+    <span>📚 Unit 3 of 5</span>
+    <span>⏱ 7 Hours</span>
+    <span>🎯 14% Weightage</span>
+    <span>📅 Sem 7 · GTU</span>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  HOOK                                              -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="callout">
+  <div class="callout-title">🤔 Why Does This Unit Matter?</div>
+  <p style="margin-bottom:0.4rem;">How does Google know <strong>king − man + woman = queen</strong>? How does a search engine know <em>automobiles</em> is relevant to <em>cars</em> even though the words are different?</p>
+  <p style="margin-bottom:0">Words must be converted into <strong>smart numbers (vectors)</strong> that capture meaning and relationships — not just counts. This unit shows you exactly how.</p>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 1 — BAG OF WORDS                           -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="bow"><span class="topic-num">1</span> Bag of Words (BoW)</h2>
+
+<h3>Definition</h3>
+<p>A <span class="key-term">Bag of Words</span> model represents a document as an <strong>unordered collection of word counts</strong>, completely ignoring grammar and word order. Think of tipping a bag of scrabble tiles — only which tiles (words) are present matters, not their arrangement.</p>
+
+<h3>Step-by-Step Construction</h3>
+<ol class="step-list">
+  <li><strong>Build Vocabulary</strong> — collect every unique word across all documents.</li>
+  <li><strong>Count Vector Representation</strong> — for each document, record how many times each vocabulary word appears. Words absent = 0.</li>
+</ol>
+
+<h3>Worked Example</h3>
+<p>Consider three documents:</p>
+<ul class="plain">
+  <li>D1: <em>"I love NLP"</em></li>
+  <li>D2: <em>"I love cricket"</em></li>
+  <li>D3: <em>"NLP is amazing"</em></li>
+</ul>
+<p><strong>Vocabulary:</strong> {I, love, NLP, cricket, is, amazing}</p>
+<table>
+  <thead>
+    <tr><th>Document</th><th>I</th><th>love</th><th>NLP</th><th>cricket</th><th>is</th><th>amazing</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>D1</strong></td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr>
+    <tr><td><strong>D2</strong></td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr>
+    <tr><td><strong>D3</strong></td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr>
+  </tbody>
+</table>
+
+<h3>BoW Pipeline for Text Classification</h3>
+<p>A classic <strong>7-step pipeline</strong> (frequently asked in GTU — W23, 7 marks):</p>
+<div class="pipeline-steps">
+  <span class="ps">Raw Text</span><span class="arr">→</span>
+  <span class="ps">Normalize</span><span class="arr">→</span>
+  <span class="ps">Tokenize</span><span class="arr">→</span>
+  <span class="ps">Remove Stopwords</span><span class="arr">→</span>
+  <span class="ps">Build Vocabulary</span><span class="arr">→</span>
+  <span class="ps">Count Vectors</span><span class="arr">→</span>
+  <span class="ps">ML Classifier</span>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["Raw Text"] --> B["Normalize\n(lowercase, strip)"]
+    B --> C["Tokenize\n(split words)"]
+    C --> D["Remove\nStopwords"]
+    D --> E["Build\nVocabulary"]
+    E --> F["Count\nVectors"]
+    F --> G["ML Classifier\n(Naïve Bayes, SVM…)"]
+    style G fill:#4f46e5,color:#fff
+</div>
+
+<h3>Limitations of BoW</h3>
+<ol class="plain">
+  <li><strong>Ignores word order</strong> — "Dog bites man" and "Man bites dog" produce identical vectors.</li>
+  <li><strong>High dimensionality</strong> — vocabulary of 50,000 words → 50,000-dimensional sparse vectors.</li>
+  <li><strong>No semantic meaning</strong> — "car" and "automobile" are treated as completely different features.</li>
+  <li><strong>Frequent words dominate</strong> — "the", "is", "a" score high unless removed (TF-IDF partially fixes this).</li>
+</ol>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 2 — SKIP-GRAM                              -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="skipgram"><span class="topic-num">2</span> Skip-gram</h2>
+
+<h3>Definition</h3>
+<p>Skip-gram is a <span class="key-term">neural network</span> trained to predict surrounding <strong>context words</strong> from a given <strong>center word</strong>. The network learns rich word representations (embeddings) as a by-product of this prediction task.</p>
+
+<div class="analogy-box">
+  <strong>💡 Intuition:</strong> <em>"You shall know a word by the company it keeps."</em> — J.R. Firth, 1957.
+  <div class="eq">center word → predict neighbours</div>
+</div>
+
+<h3>Architecture</h3>
+<div class="mermaid">
+flowchart TD
+    CW["Center Word\n(One-hot Input)"]
+    H["Hidden Layer\n(Embedding — e.g. 300-dim)"]
+    C1["Context Word C₁"]
+    C2["Context Word C₂"]
+    C3["Context Word C₃"]
+    CW --> H
+    H --> C1
+    H --> C2
+    H --> C3
+    style H fill:#4f46e5,color:#fff
+    style CW fill:#eef2ff
+    style C1 fill:#f0fdf4
+    style C2 fill:#f0fdf4
+    style C3 fill:#f0fdf4
+</div>
+
+<h3>Training Process</h3>
+<ol class="step-list">
+  <li><strong>Slide a window</strong> of size <em>w</em> across the corpus sentence by sentence.</li>
+  <li>The <strong>center word</strong> becomes the input (one-hot encoded).</li>
+  <li>Every word within the window is a <strong>target context word</strong>.</li>
+  <li><strong>Backpropagation</strong> nudges the hidden-layer weights so context words score high; all other words score low.</li>
+  <li>After training, the <strong>hidden-layer weight matrix rows</strong> are the word embeddings.</li>
+</ol>
+
+<h3>Worked Example — Window = 2</h3>
+<p>Sentence: <em>"I love studying NLP deeply"</em></p>
+<table>
+  <thead>
+    <tr><th>Center Word</th><th>Context Words (window = 2)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>I</td><td>love, studying</td></tr>
+    <tr><td>love</td><td>I, studying, NLP</td></tr>
+    <tr><td>studying</td><td>I, love, NLP, deeply</td></tr>
+    <tr><td>NLP</td><td>love, studying, deeply</td></tr>
+    <tr><td>deeply</td><td>studying, NLP</td></tr>
+  </tbody>
+</table>
+
+<h3>Skip-gram with Negative Sampling</h3>
+<p>Standard Skip-gram must update weights for <strong>every word in the vocabulary</strong> on each training step — very slow for a 50,000-word vocabulary. <strong>Negative Sampling</strong> is the fix:</p>
+<ul class="plain">
+  <li>For each positive (center, context) pair, randomly sample <em>k</em> <strong>negative</strong> (non-context) words.</li>
+  <li>Only update weights for <strong>k + 1</strong> output nodes instead of all 50,000.</li>
+  <li>Typical <em>k</em> = 5–20. Training speed improves dramatically with negligible quality loss.</li>
+</ul>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 3 — CBOW                                   -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="cbow"><span class="topic-num">3</span> CBOW (Continuous Bag of Words)</h2>
+
+<h3>Definition</h3>
+<p><span class="key-term">CBOW</span> is the <strong>mirror image of Skip-gram</strong>. Instead of predicting context from the center word, CBOW <strong>predicts the center word from the averaged context words</strong>.</p>
+
+<div class="mermaid">
+flowchart TD
+    C1["Context Word C₁"]
+    C2["Context Word C₂"]
+    C3["Context Word C₃"]
+    H["Hidden Layer\n(Averaged Embeddings)"]
+    CW["Center Word\n(Predicted Output)"]
+    C1 --> H
+    C2 --> H
+    C3 --> H
+    H --> CW
+    style H fill:#10b981,color:#fff
+    style CW fill:#4f46e5,color:#fff
+</div>
+
+<h3>CBOW vs Skip-gram Comparison</h3>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>CBOW</th><th>Skip-gram</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Input</strong></td><td>Context words</td><td>Center word</td></tr>
+    <tr><td><strong>Output (Predicts)</strong></td><td>Center word</td><td>Context words</td></tr>
+    <tr><td><strong>Training Speed</strong></td><td>Faster (averages context)</td><td>Slower (multiple targets)</td></tr>
+    <tr><td><strong>Rare Words</strong></td><td>Weaker</td><td>Better</td></tr>
+    <tr><td><strong>Frequent Words</strong></td><td>Better</td><td>Comparable</td></tr>
+    <tr><td><strong>Use When</strong></td><td>Large corpus, speed needed</td><td>Rare words important, quality first</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 4 — WORD EMBEDDINGS                        -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="embeddings"><span class="topic-num">4</span> Embedding Representations for Words</h2>
+
+<h3>Definition</h3>
+<p>A <span class="key-term">word embedding</span> is a <strong>dense, low-dimensional, real-valued vector</strong> that places semantically similar words close together in vector space. Unlike BoW (sparse, high-dimensional), embeddings are compact and meaning-aware.</p>
+
+<h3>BoW vs Word Embeddings</h3>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>BoW</th><th>Word Embeddings</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Size</strong></td><td>Vocabulary-sized (sparse)</td><td>Fixed small dim (e.g. 300)</td></tr>
+    <tr><td><strong>Semantic Meaning</strong></td><td>❌ None</td><td>✅ Captured</td></tr>
+    <tr><td><strong>Word Order</strong></td><td>❌ Ignored</td><td>✅ Partially captured</td></tr>
+    <tr><td><strong>Arithmetic</strong></td><td>❌ Meaningless</td><td>✅ king − man + woman ≈ queen</td></tr>
+  </tbody>
+</table>
+
+<h3>The Magic: Vector Arithmetic</h3>
+<div class="analogy-box">
+  <p>Embeddings encode <em>relationships</em> as directions in space:</p>
+  <div class="eq">king − man + woman ≈ queen</div>
+  <div class="eq">Paris − France + India ≈ Delhi</div>
+  <p style="margin-top:0.6rem; font-size:0.88rem; color:#374151;">The difference vector (man → woman) represents gender. Adding it to "king" navigates to "queen". Similarly, (France → India) represents country shift.</p>
+</div>
+
+<h3>Word2Vec (Google, 2013)</h3>
+<p>The landmark paper by Mikolov et al. introduced <span class="key-term">Word2Vec</span> — a framework that trains either <strong>Skip-gram</strong> or <strong>CBOW</strong> to produce one fixed-size vector per word. Pre-trained on Google News corpus (100 billion words).</p>
+
+<h3>Major Embedding Models</h3>
+<table>
+  <thead>
+    <tr><th>Model</th><th>Year</th><th>By</th><th>Key Innovation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Word2Vec</strong></td><td>2013</td><td>Google</td><td>Skip-gram / CBOW; efficient neural embeddings</td></tr>
+    <tr><td><strong>GloVe</strong></td><td>2014</td><td>Stanford</td><td>Global co-occurrence statistics + local context</td></tr>
+    <tr><td><strong>FastText</strong></td><td>2016</td><td>Facebook</td><td>Subword (character n-gram) embeddings; handles OOV words</td></tr>
+    <tr><td><strong>BERT</strong></td><td>2018</td><td>Google</td><td>Contextual embeddings; same word → different vectors per context</td></tr>
+  </tbody>
+</table>
+
+<div class="callout tip">
+  <div class="callout-title">💡 Key Limitation of Word2Vec / GloVe</div>
+  Each word gets <em>one</em> fixed vector regardless of context. "bank" in "river bank" and "bank account" get the same vector. BERT fixes this with contextual embeddings.
+</div>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 5 — LEXICAL SEMANTICS                      -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="lexical"><span class="topic-num">5</span> Lexical Semantics</h2>
+
+<h3>Definition</h3>
+<p><span class="key-term">Lexical Semantics</span> is the branch of linguistics that studies <strong>word meanings and the relationships between words</strong>. It provides the theoretical foundation for knowledge-based NLP.</p>
+
+<h3>Key Semantic Relationships</h3>
+<table>
+  <thead>
+    <tr><th>Relation</th><th>Symbol</th><th>Description</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Synonymy</strong></td><td>≈</td><td>Same / similar meaning</td><td>car ≈ automobile</td></tr>
+    <tr><td><strong>Antonymy</strong></td><td>↔</td><td>Opposite meaning</td><td>hot ↔ cold</td></tr>
+    <tr><td><strong>Polysemy</strong></td><td>—</td><td>One word, multiple <em>related</em> meanings</td><td>"bank" — financial institution / river bank</td></tr>
+    <tr><td><strong>Homonymy</strong></td><td>—</td><td>Same spelling, <em>unrelated</em> meanings</td><td>"bat" — flying animal / cricket bat</td></tr>
+    <tr><td><strong>Hyponymy (IS-A)</strong></td><td>⊆</td><td>A is a type of B</td><td>poodle IS-A dog IS-A animal</td></tr>
+    <tr><td><strong>Meronymy (PART-OF)</strong></td><td>∈</td><td>A is a part of B</td><td>wheel PART-OF car</td></tr>
+  </tbody>
+</table>
+
+<div class="callout warn">
+  <div class="callout-title">⚠️ Polysemy vs Homonymy — The Tricky Distinction</div>
+  <strong>Polysemy:</strong> senses are etymologically related ("bank" = riverbank → financial bank, both involve deposit/holding). <br/>
+  <strong>Homonymy:</strong> same spelling, completely unrelated origin ("bat" the animal and "bat" the wooden stick are coincidentally spelled the same).
+</div>
+
+<h3>WordNet</h3>
+<p><span class="key-term">WordNet</span> is a large lexical database of English, organized hierarchically. Instead of alphabetical ordering, words are grouped by <strong>meaning</strong>.</p>
+
+<table>
+  <thead>
+    <tr><th>Term</th><th>Definition</th><th>Example</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Synset</strong></td><td>A set of synonymous words expressing the same concept</td><td>{ car, auto, automobile, machine, motorcar }</td></tr>
+    <tr><td><strong>Gloss</strong></td><td>A short textual definition of a synset</td><td>"a motor vehicle with four wheels; usually propelled by…"</td></tr>
+    <tr><td><strong>Supersense</strong></td><td>Broad semantic category for the synset</td><td>noun.artifact (for vehicles, tools, etc.)</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 6 — WSD                                    -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="wsd"><span class="topic-num">6</span> Word Sense Disambiguation (WSD)</h2>
+
+<h3>Definition</h3>
+<p><span class="key-term">Word Sense Disambiguation (WSD)</span> is the task of automatically determining <strong>which sense of an ambiguous word is intended</strong> given its surrounding context.</p>
+
+<h3>Motivating Example — "bank"</h3>
+<ul class="plain">
+  <li><span class="wsd-sense sense-a">Sense 1</span> <em>"She deposited money in the <strong>bank</strong>."</em> → financial institution</li>
+  <li><span class="wsd-sense sense-b">Sense 2</span> <em>"He fished from the river <strong>bank</strong>."</em> → side of a river</li>
+</ul>
+
+<div class="mermaid">
+flowchart TD
+    AW["Ambiguous Word\n(bank)"]
+    CTX["Context Sentence\n+ Surrounding Words"]
+    WSD["WSD System"]
+    S1["✅ Sense 1: Financial Institution"]
+    S2["❌ Sense 2: River Bank"]
+    S3["❌ Sense 3: Tilt of Aircraft"]
+    AW --> WSD
+    CTX --> WSD
+    WSD --> S1
+    WSD -.-> S2
+    WSD -.-> S3
+    style WSD fill:#4f46e5,color:#fff
+    style S1 fill:#d1fae5,color:#065f46
+    style S2 fill:#fee2e2,color:#991b1b
+    style S3 fill:#fee2e2,color:#991b1b
+</div>
+
+<h3>Why is WSD Hard? (3 Reasons)</h3>
+<ol class="plain">
+  <li><strong>High Ambiguity:</strong> Common words like "run", "bank", "light" can have 20+ senses. Automatically selecting the right one is non-trivial.</li>
+  <li><strong>Context Sensitivity:</strong> The correct sense depends on subtle cues — domain, topic, even tone — requiring deep language understanding.</li>
+  <li><strong>Knowledge Acquisition Bottleneck:</strong> Building comprehensive sense-labelled corpora or knowledge bases is expensive, slow, and language-specific.</li>
+</ol>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 7 — KNOWLEDGE-BASED WSD                    -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="knowledge-wsd"><span class="topic-num">7</span> Knowledge-Based WSD</h2>
+
+<h3>Core Idea</h3>
+<p>Uses an <strong>external knowledge base</strong> (typically WordNet) rather than labelled training data. No annotation effort needed — works out-of-the-box for any word in the dictionary.</p>
+
+<h3>The Lesk Algorithm</h3>
+<p>The <span class="key-term">Lesk Algorithm</span> (1986) is the classic knowledge-based WSD method:</p>
+<ol class="step-list">
+  <li>For each possible sense of the ambiguous word, retrieve its <strong>gloss</strong> (definition) from WordNet.</li>
+  <li>Count the number of <strong>overlapping words</strong> between the gloss and the surrounding context sentence.</li>
+  <li>The sense whose gloss has the <strong>most overlaps wins</strong> — assign that sense.</li>
+</ol>
+
+<h3>Worked Example</h3>
+<p>Sentence: <em>"I deposited money in the <strong>bank</strong>."</em></p>
+<p>Context words: {I, deposited, money, in, the}</p>
+<table>
+  <thead>
+    <tr><th>Sense</th><th>WordNet Gloss (simplified)</th><th>Overlaps with Context</th><th>Score</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="wsd-sense sense-a">Sense 1</span></td>
+      <td>"a financial institution where you can <strong>deposit</strong> or withdraw <strong>money</strong>"</td>
+      <td>deposited ✓, money ✓</td>
+      <td><strong>2</strong></td>
+    </tr>
+    <tr>
+      <td><span class="wsd-sense sense-b">Sense 2</span></td>
+      <td>"sloping land beside a body of water; a river bank"</td>
+      <td>(none)</td>
+      <td><strong>0</strong></td>
+    </tr>
+  </tbody>
+</table>
+<div class="callout tip">
+  <div class="callout-title">✅ Winner: Sense 1 — Financial Institution (Score = 2)</div>
+  The gloss for Sense 1 contains "deposit" and "money" which appear in the context. Sense 2 has zero overlaps.
+</div>
+
+<h3>Advantages &amp; Disadvantages</h3>
+<table>
+  <thead>
+    <tr><th>Advantages</th><th>Disadvantages</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>✅ No training data required</td><td>❌ Lower accuracy than supervised methods</td></tr>
+    <tr><td>✅ Works for any word in WordNet</td><td>❌ Depends on gloss quality and coverage</td></tr>
+    <tr><td>✅ Transparent and interpretable</td><td>❌ Glosses are often short → sparse overlaps</td></tr>
+    <tr><td>✅ Language-portable if WordNet exists</td><td>❌ Does not adapt to domain-specific usage</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  TOPIC 8 — SUPERVISED WSD                         -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="supervised-wsd"><span class="topic-num">8</span> Supervised WSD</h2>
+
+<h3>Core Idea</h3>
+<p>Uses a <strong>manually labelled corpus</strong> where every ambiguous word occurrence is tagged with its correct sense. A machine learning classifier then learns to predict senses from contextual features.</p>
+
+<h3>How It Works — 4 Steps</h3>
+<ol class="step-list">
+  <li><strong>Collect Labelled Corpus</strong> — human annotators tag each occurrence of the target word with the correct WordNet sense.</li>
+  <li><strong>Extract Features</strong> — for each occurrence, extract: surrounding words (± 5 window), POS tags, collocations, syntactic relations.</li>
+  <li><strong>Train Classifier</strong> — train SVM, Naïve Bayes, or neural classifier to map features → sense label.</li>
+  <li><strong>Predict at Test Time</strong> — extract same features from unseen sentence, classifier outputs the predicted sense.</li>
+</ol>
+
+<h3>Worked Example — "bank"</h3>
+<table>
+  <thead>
+    <tr><th>Training Sentence</th><th>Key Nearby Words</th><th>Label</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>"She went to the <strong>bank</strong> to withdraw cash."</td><td>withdraw, cash</td><td>Sense 1 (Financial)</td></tr>
+    <tr><td>"The <strong>bank</strong> offered 6% interest."</td><td>interest, offered</td><td>Sense 1 (Financial)</td></tr>
+    <tr><td>"We sat on the grassy river <strong>bank</strong>."</td><td>river, grassy</td><td>Sense 2 (Riverbank)</td></tr>
+    <tr><td>"Floods eroded the <strong>bank</strong> overnight."</td><td>floods, eroded</td><td>Sense 2 (Riverbank)</td></tr>
+  </tbody>
+</table>
+<p>Pattern learned: <em>river / water / grassy</em> nearby → <strong>Sense 2</strong>; <em>money / deposit / interest</em> nearby → <strong>Sense 1</strong>.</p>
+
+<h3>Knowledge-Based vs Supervised WSD</h3>
+<table>
+  <thead>
+    <tr><th>Dimension</th><th>Knowledge-Based</th><th>Supervised</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Training Data</strong></td><td>None needed</td><td>Large labelled corpus required</td></tr>
+    <tr><td><strong>Knowledge Resource</strong></td><td>WordNet / ontology</td><td>Annotated sense corpus</td></tr>
+    <tr><td><strong>Accuracy</strong></td><td>Moderate (≈65–75%)</td><td>Higher (≈80–90%)</td></tr>
+    <tr><td><strong>Scalability</strong></td><td>High (works for all words)</td><td>Low (per-word classifiers)</td></tr>
+    <tr><td><strong>Domain Adaptation</strong></td><td>Poor (fixed glosses)</td><td>Good (retrain on domain data)</td></tr>
+    <tr><td><strong>Best When</strong></td><td>No labelled data, quick deployment</td><td>High accuracy needed, data available</td></tr>
+  </tbody>
+</table>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  GTU EXAM CORNER                                   -->
+<!-- ══════════════════════════════════════════════════ -->
+<h2 id="exam">🎓 GTU Exam Corner</h2>
+<div class="callout exam">
+  <div class="callout-title">📋 Frequently Asked Questions — Unit 3</div>
+
+  <div class="exam-q"><strong>Q1 [3–4 marks | W23, W24, W25]</strong> — Explain Bag of Words with a suitable example. Build the BoW matrix for at least 2 documents.</div>
+  <div class="exam-q"><strong>Q2 [7 marks | W23]</strong> — Explain the BoW pipeline for text classification. Draw the end-to-end stages from raw text to classifier output.</div>
+  <div class="exam-q"><strong>Q3 <span class="tag-hot">🔥 ALL 4 PAPERS</span> [7 marks]</strong> — Explain Skip-gram model with architecture and example. Show center word → context word pairs for a given sentence with window size.</div>
+  <div class="exam-q"><strong>Q4 [4 marks | W24, S26]</strong> — What is CBOW? Compare CBOW with Skip-gram in a table.</div>
+  <div class="exam-q"><strong>Q5 <span class="tag-hot">🔥 ALL 4 PAPERS</span> [7 marks]</strong> — What is Word Sense Disambiguation? Explain the Lesk Algorithm with a worked example.</div>
+  <div class="exam-q"><strong>Q6 [7 marks | W25]</strong> — Compare Knowledge-Based and Supervised WSD. When would you prefer one over the other?</div>
+  <div class="exam-q"><strong>Q7 [3 marks | W24]</strong> — Define word embeddings. List and briefly describe any three embedding methods (Word2Vec, GloVe, FastText, BERT).</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  ACTIVE RECALL                                     -->
+<!-- ══════════════════════════════════════════════════ -->
+<div class="recall-box">
+  <div class="recall-title">🧠 Active Recall — Test Yourself</div>
+  <ol class="plain">
+    <li>Build the BoW count matrix for: D1="the cat sat", D2="the cat ate", D3="the dog ate". What are the vocabulary and count vectors?</li>
+    <li>For the sentence "Deep learning beats classical NLP" with window=2, list all (center word, context word) pairs for Skip-gram training.</li>
+    <li>How is CBOW architecturally different from Skip-gram? Which performs better on rare words and why?</li>
+    <li>Explain why <strong>king − man + woman ≈ queen</strong> works in embedding space. What property of the embedding enables this?</li>
+    <li>Apply the Lesk Algorithm to disambiguate "light" in <em>"She switched on the light"</em> vs <em>"The feather is very light"</em>. What gloss overlaps would you expect?</li>
+  </ol>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════ -->
+<!--  FOOTER                                            -->
+<!-- ══════════════════════════════════════════════════ -->
+<footer class="lesson-footer">
+  <span>NLP · 3174205 · Unit 3 of 5</span>
+  <span>⏭ Next: <strong>Unit 4 — Text Analysis, Summarization &amp; Extraction</strong></span>
+</footer>
+
+</body>
+</html>

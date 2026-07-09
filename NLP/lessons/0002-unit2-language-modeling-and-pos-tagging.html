@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2: Language Modeling & Part of Speech Tagging</title>
+    <link rel="stylesheet" href="../../assets/lesson.css">
+    <!-- MathJax CDN -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <!-- Mermaid CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'neutral',
+            securityLevel: 'loose'
+        });
+    </script>
+</head>
+<body>
+    <div class="lesson-container">
+        <div class="lesson-header">
+            <span class="subject-badge">NLP (3174205)</span>
+            <h1>Unit 2: Language Modeling & Part of Speech Tagging — Complete Study Notes</h1>
+            <div class="lesson-meta">
+                <span>⏱️ <strong>Duration:</strong> 25 mins</span> | 
+                <span>📖 <strong>Unit:</strong> 2 of 5</span> | 
+                <span>🎯 <strong>GTU Weightage:</strong> 28% (HIGHEST!)</span>
+            </div>
+        </div>
+
+        <div class="callout">
+            <div class="callout-title">🎣 The Hook</div>
+            <p>How does your phone's keyboard suggest the next word? How does Google Translate produce grammatically fluent sentences? How does Grammarly know <em>"I goes"</em> is wrong?</p>
+            <p>The answer is <strong>Language Models</strong> — probability engines that have "read" billions of sentences and learned which word sequences are likely. This unit is the biggest unit (12 hrs, 28% marks) — master it!</p>
+        </div>
+
+        <h2>Topic 1: Unigram Language Model</h2>
+        <p>A <strong>Language Model</strong> assigns a probability to a sequence of words, answering: <em>"How likely is this sentence to appear in real human text?"</em></p>
+
+        <h3>Unigram Model (N=1):</h3>
+        <p>The simplest language model. Treats <strong>every word as completely independent</strong> — the probability of a word does NOT depend on any surrounding words.</p>
+
+        <p><strong>Formula:</strong></p>
+        $$P(w_1, w_2, w_3, \ldots, w_n) = \prod_{i=1}^{n} P(w_i) = P(w_1) \times P(w_2) \times \cdots \times P(w_n)$$
+
+        <p><strong>How to calculate $P(w_i)$:</strong></p>
+        $$P(w_i) = \frac{\text{Count of word } w_i \text{ in corpus}}{\text{Total words in corpus}}$$
+
+        <p><strong>Example:</strong> Corpus = <em>"the cat sat on the mat"</em> (6 words)</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Word</th>
+                    <th>Count</th>
+                    <th>Probability</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>the</td>
+                    <td>2</td>
+                    <td>2/6 = 0.33</td>
+                </tr>
+                <tr>
+                    <td>cat</td>
+                    <td>1</td>
+                    <td>1/6 = 0.17</td>
+                </tr>
+                <tr>
+                    <td>sat</td>
+                    <td>1</td>
+                    <td>1/6 = 0.17</td>
+                </tr>
+                <tr>
+                    <td>on</td>
+                    <td>1</td>
+                    <td>1/6 = 0.17</td>
+                </tr>
+                <tr>
+                    <td>mat</td>
+                    <td>1</td>
+                    <td>1/6 = 0.17</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>$P(\text{"the cat"}) = P(\text{"the"}) \times P(\text{"cat"}) = 0.33 \times 0.17 = 0.056$</p>
+
+        <div class="callout">
+            <p>⚠️ <strong>Limitation:</strong> No context! A unigram model thinks <em>"cat the"</em> and <em>"the cat"</em> are equally probable because it ignores word order.</p>
+        </div>
+
+        <h2>Topic 2: Bigram Model (N=2)</h2>
+        <p>A <strong>Bigram</strong> model estimates the probability of a word based on the <strong>1 word immediately before it</strong> (the previous word).</p>
+        <p><strong>Markov Assumption:</strong> We only need the immediately preceding word, not the entire sentence history.</p>
+
+        $$P(w_i | w_{i-1}) = \frac{C(w_{i-1}, w_i)}{C(w_{i-1})}$$
+        <p>where $C$ = count of how many times that sequence appeared in training.</p>
+
+        <p><strong>Example Sentence:</strong> <em>"This is a sentence"</em></p>
+        <p>All Bigrams extracted:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Bigram</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&lt;START&gt; This</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>This is</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>is a</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>a sentence</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>sentence &lt;END&gt;</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>$P(\text{"is"} | \text{"This"}) = \frac{C(\text{"This is"})}{C(\text{"This"})} = \frac{1}{1} = 1.0$</p>
+        <p><strong>Full sentence probability:</strong></p>
+        $$P(\text{"This is a sentence"}) = P(\text{This}|\text{START}) \times P(\text{is}|\text{This}) \times P(\text{a}|\text{is}) \times P(\text{sentence}|\text{a})$$
+
+        <h2>Topic 3: Trigram Model (N=3)</h2>
+        <p>A <strong>Trigram</strong> model estimates the probability of a word based on the <strong>2 words immediately before it</strong>.</p>
+        $$P(w_i | w_{i-2}, w_{i-1}) = \frac{C(w_{i-2}, w_{i-1}, w_i)}{C(w_{i-2}, w_{i-1})}$$
+
+        <p><strong>Example Sentence:</strong> <em>"This is a sentence"</em></p>
+        <p>All Trigrams extracted:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Trigram</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>&lt;START&gt; &lt;START&gt; This</td>
+                </tr>
+                <tr>
+                    <td>&lt;START&gt; This is</td>
+                </tr>
+                <tr>
+                    <td>This is a</td>
+                </tr>
+                <tr>
+                    <td>is a sentence</td>
+                </tr>
+                <tr>
+                    <td>a sentence &lt;END&gt;</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Topic 4: N-gram (Generalization)</h2>
+        <p><strong>N-gram</strong> is the general term for a contiguous sequence of <strong>N words</strong>.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>N</th>
+                    <th>Name</th>
+                    <th>Context Used</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Unigram</strong></td>
+                    <td>None — each word independent</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Bigram</strong></td>
+                    <td>Previous 1 word</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Trigram</strong></td>
+                    <td>Previous 2 words</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>4-gram</strong></td>
+                    <td>Previous 3 words</td>
+                </tr>
+                <tr>
+                    <td>N</td>
+                    <td><strong>N-gram</strong></td>
+                    <td>Previous N-1 words</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="mermaid">
+        graph LR
+            U["Unigram&lt;br/&gt;No Context"] --> B["Bigram&lt;br/&gt;1 word back"]
+            B --> T["Trigram&lt;br/&gt;2 words back"]
+            T --> NG["N-gram&lt;br/&gt;N-1 words back"]
+            style NG fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        </div>
+
+        <p><strong>Trade-off:</strong></p>
+        <ul>
+            <li><strong>Higher N</strong> &rarr; More context &rarr; More accurate &rarr; BUT needs much more data</li>
+            <li><strong>Lower N</strong> &rarr; Less context &rarr; Less accurate &rarr; BUT works even with small data</li>
+        </ul>
+        <p><strong>Data Sparsity Problem:</strong> As N increases, most N-gram sequences will have never appeared in training data (zero counts), causing the zero-probability problem.</p>
+
+        <h2>Topic 5: Advanced Smoothing for Language Modeling 🔥</h2>
+        <p><strong>The Problem:</strong> If a word sequence never appeared in training, its count = 0, so probability = 0. Even one 0-probability word makes an entire sentence probability = 0!</p>
+
+        <h3>A. Add-One (Laplace) Smoothing — GTU Favorite!</h3>
+        <p>Add 1 to every bigram count, including unseen pairs.</p>
+        $$P_{Laplace}(w_i | w_{i-1}) = \frac{C(w_{i-1}, w_i) + 1}{C(w_{i-1}) + V}$$
+        <p>where $V$ = vocabulary size (total unique words).</p>
+
+        <div class="callout">
+            <p><strong>Example:</strong> Training = <em>"This is a sentence"</em> ($V = 4$)</p>
+            <ul>
+                <li>Seen bigram: $P(\text{"a"} | \text{"is"}) = \frac{1+1}{1+4} = \frac{2}{5} = 0.4$</li>
+                <li>Unseen bigram: $P(\text{"cat"} | \text{"is"}) = \frac{0+1}{1+4} = \frac{1}{5} = 0.2$ (not 0 anymore!)</li>
+            </ul>
+        </div>
+
+        <h3>B. Good-Turing Smoothing</h3>
+        <p>Estimate the count of unseen events based on <strong>how many events were seen exactly once</strong>.</p>
+        <p><strong>Core Idea:</strong> If we saw some things <em>once</em>, there are probably similar things we haven't seen yet. Give those unseen things a small probability based on this estimate.</p>
+        $$C^*(w_{i-1}, w_i) = \frac{(C(w_{i-1}, w_i) + 1) \times N_{C+1}}{N_C}$$
+        <p>where $N_C$ = number of N-grams seen exactly $C$ times.</p>
+
+        <h3>C. Kneser-Ney Smoothing (Most Effective)</h3>
+        <p>The most widely used smoothing method in practice. Instead of just redistributing counts, it models <strong>how likely a word is to appear as a novel continuation</strong> — measured by how many <em>different</em> words it has followed in the corpus.</p>
+        <p><em>"San Francisco"</em> — <em>"Francisco"</em> appears a lot, but only after <em>"San"</em>. So Kneser-Ney gives <em>"Francisco"</em> low probability as a general word. This is more accurate than Laplace.</p>
+
+        <h2>Topic 6: Empirical Comparison of Smoothing Techniques</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Method</th>
+                    <th>Simple?</th>
+                    <th>Handles Zeros?</th>
+                    <th>Accuracy</th>
+                    <th>Use When</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>No Smoothing</strong></td>
+                    <td>✅ Simplest</td>
+                    <td>❌ No</td>
+                    <td>Very Low</td>
+                    <td>Never in practice</td>
+                </tr>
+                <tr>
+                    <td><strong>Add-One (Laplace)</strong></td>
+                    <td>✅ Easy</td>
+                    <td>✅ Yes</td>
+                    <td>Low–Medium</td>
+                    <td>Small toy datasets, learning</td>
+                </tr>
+                <tr>
+                    <td><strong>Good-Turing</strong></td>
+                    <td>Medium</td>
+                    <td>✅ Yes</td>
+                    <td>Medium</td>
+                    <td>Medium corpora</td>
+                </tr>
+                <tr>
+                    <td><strong>Kneser-Ney</strong></td>
+                    <td>Complex</td>
+                    <td>✅ Yes</td>
+                    <td><strong>Best</strong></td>
+                    <td>Production systems</td>
+                </tr>
+                <tr>
+                    <td><strong>Witten-Bell</strong></td>
+                    <td>Medium</td>
+                    <td>✅ Yes</td>
+                    <td>Medium–High</td>
+                    <td>General use</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>🏆 <strong>Kneser-Ney</strong> consistently outperforms other methods in empirical tests on large corpora. Most modern language model toolkits (SRILM, KenLM) use it as default.</p>
+
+        <h2>Topic 7: Applications of Language Modeling</h2>
+        <p>Language models are the <strong>core engine</strong> behind:</p>
+        <ol>
+            <li>📱 <strong>Autocomplete / Predictive Text:</strong> Phone keyboard suggests next word using N-gram or neural LM.</li>
+            <li>🔍 <strong>Speech Recognition:</strong> Selecting the most probable word sequence from audio input (e.g., Alexa, Siri).</li>
+            <li>🌐 <strong>Machine Translation:</strong> Ensuring translated output is fluent and grammatical.</li>
+            <li>🤖 <strong>Chatbots / LLMs:</strong> GPT-4, Gemini — trained on trillions of tokens. These are <em>very deep</em> language models.</li>
+            <li>📧 <strong>Spell & Grammar Check:</strong> Grammarly detects unlikely word sequences.</li>
+            <li>📑 <strong>Text Generation:</strong> Writing assistants that auto-complete paragraphs.</li>
+            <li>🎯 <strong>Information Retrieval:</strong> Ranking documents by how likely they contain the answer to a query.</li>
+        </ol>
+
+        <h2>Topic 8: Natural Language Generation (NLG)</h2>
+        <p><strong>NLG</strong> is the process of converting structured data or internal representations into <strong>readable, natural human-language text</strong>.</p>
+
+        <div class="mermaid">
+        graph LR
+            Data["Structured Data&lt;br/&gt;(Numbers / Tables / Facts)"] --> NLG["NLG System&lt;br/&gt;(6 Stages)"]
+            NLG --> Text["Natural Language Text&lt;br/&gt;(Human-readable sentence)"]
+            style NLG fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px
+        </div>
+
+        <h3>The 6 Stages of NLG:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Stage</th>
+                    <th>Task</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. Content Determination</strong></td>
+                    <td>Decide what information to include.</td>
+                    <td>Weather data &rarr; only include temperature, condition, and wind.</td>
+                </tr>
+                <tr>
+                    <td><strong>2. Document Structuring</strong></td>
+                    <td>Decide the order of information.</td>
+                    <td>Lead with most important fact first.</td>
+                </tr>
+                <tr>
+                    <td><strong>3. Aggregation</strong></td>
+                    <td>Combine related information into one sentence.</td>
+                    <td>"It's 32°C and sunny" instead of two sentences.</td>
+                </tr>
+                <tr>
+                    <td><strong>4. Lexicalization</strong></td>
+                    <td>Choose the right words and phrases.</td>
+                    <td>"hot" vs "warm" vs "scorching" based on temperature value.</td>
+                </tr>
+                <tr>
+                    <td><strong>5. Referring Expression Generation</strong></td>
+                    <td>Use pronouns/references to avoid repetition.</td>
+                    <td>"It will be sunny &rarr; It stays sunny &rarr; temperatures remain..."</td>
+                </tr>
+                <tr>
+                    <td><strong>6. Realization</strong></td>
+                    <td>Apply grammar rules to produce the final grammatical sentence.</td>
+                    <td>Correct verb tense, subject-verb agreement, punctuation.</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Real-world Example:</strong> Weather apps — raw data <code>{temp: 32, condition: "sunny"}</code> &rarr; NLG produces: <em>"It will be a hot and sunny day with temperatures reaching 32°C."</em></p>
+
+        <h2>Topic 9: Parts of Speech (POS) Tagging 🔥</h2>
+        <p><strong>POS Tagging</strong> is the process of labelling each word in a sentence with its grammatical role (noun, verb, adjective, etc.).</p>
+
+        <h3>Standard POS Tags (Penn Treebank Tags):</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Part of Speech</th>
+                    <th>Example</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>NN</strong></td>
+                    <td>Noun (singular)</td>
+                    <td>dog, city, NLP</td>
+                </tr>
+                <tr>
+                    <td><strong>NNS</strong></td>
+                    <td>Noun (plural)</td>
+                    <td>dogs, cities</td>
+                </tr>
+                <tr>
+                    <td><strong>VB</strong></td>
+                    <td>Verb (base form)</td>
+                    <td>run, eat</td>
+                </tr>
+                <tr>
+                    <td><strong>VBD</strong></td>
+                    <td>Verb (past tense)</td>
+                    <td>ran, ate</td>
+                </tr>
+                <tr>
+                    <td><strong>JJ</strong></td>
+                    <td>Adjective</td>
+                    <td>happy, fast</td>
+                </tr>
+                <tr>
+                    <td><strong>RB</strong></td>
+                    <td>Adverb</td>
+                    <td>quickly, very</td>
+                </tr>
+                <tr>
+                    <td><strong>IN</strong></td>
+                    <td>Preposition</td>
+                    <td>in, on, at, of</td>
+                </tr>
+                <tr>
+                    <td><strong>DT</strong></td>
+                    <td>Determiner</td>
+                    <td>the, a, an</td>
+                </tr>
+                <tr>
+                    <td><strong>PRP</strong></td>
+                    <td>Personal Pronoun</td>
+                    <td>I, he, she, they</td>
+                </tr>
+                <tr>
+                    <td><strong>CC</strong></td>
+                    <td>Coordinating Conjunction</td>
+                    <td>and, but, or</td>
+                </tr>
+            </tbody>
+        </table>
+        <p><strong>Example:</strong> <em>"The quick brown fox jumps"</em> &rarr; <code>The/DT quick/JJ brown/JJ fox/NN jumps/VBZ</code></p>
+
+        <h3>POS Tagging Approaches:</h3>
+        <div class="mermaid">
+        graph TD
+            POS["POS Tagging Methods"] --> R["Rule-Based&lt;br/&gt;(Hand-written grammar rules)"]
+            POS --> S["Statistical&lt;br/&gt;(HMM — Hidden Markov Model)"]
+            POS --> DL["Deep Learning&lt;br/&gt;(BiLSTM, BERT — most accurate)"]
+            style DL fill:#e7f5ff,stroke:#1971c2,stroke-width:2px
+        </div>
+
+        <p><strong>Statistical (HMM):</strong> Uses two probabilities:</p>
+        <ul>
+            <li><strong>Emission Probability:</strong> $P(\text{word} | \text{tag})$ — e.g., $P(\text{"dog"} | \text{NN})$</li>
+            <li><strong>Transition Probability:</strong> $P(\text{tag}_i | \text{tag}_{i-1})$ — e.g., $P(\text{NN} | \text{DT})$ (a noun after a determiner is likely)</li>
+        </ul>
+
+        <h3>Why POS Tagging is Useful:</h3>
+        <ul>
+            <li>Helps in parsing sentence structure (syntax analysis).</li>
+            <li>Resolves word sense ambiguity (<em>"book"</em> as noun vs. verb).</li>
+            <li>Essential for Named Entity Recognition.</li>
+            <li>Improves machine translation quality.</li>
+        </ul>
+
+        <h2>Topic 10: Morphology 🔥</h2>
+        <p><strong>Morphology</strong> is the study of the internal structure of words — how words are built from smaller meaning units called <strong>morphemes</strong>.</p>
+
+        <h3>What is a Morpheme?</h3>
+        <p>A <strong>morpheme</strong> is the <strong>smallest unit of language that carries meaning</strong>.</p>
+        <ul>
+            <li><em>"cats"</em> = <code>cat</code> (free morpheme — can stand alone) + <code>s</code> (bound morpheme — plural suffix)</li>
+            <li><em>"unbelievable"</em> = <code>un-</code> (prefix) + <code>believ</code> (root) + <code>-able</code> (suffix)</li>
+            <li><em>"walked"</em> = <code>walk</code> (root) + <code>-ed</code> (past tense morpheme)</li>
+        </ul>
+
+        <h3>Types of Morphemes:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Definition</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Free Morpheme</strong></td>
+                    <td>Can stand alone as a complete word</td>
+                    <td><em>cat, run, happy, book</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Bound Morpheme</strong></td>
+                    <td>Cannot stand alone — must attach to another morpheme</td>
+                    <td><em>-s, -ed, -ing, un-, re-</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Prefix</strong></td>
+                    <td>Bound morpheme added at the start</td>
+                    <td><em>un-happy, re-write, pre-paid</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Suffix</strong></td>
+                    <td>Bound morpheme added at the end</td>
+                    <td><em>walk-ed, teach-er, quick-ly</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Infix</strong></td>
+                    <td>Bound morpheme inserted in the middle (rare in English)</td>
+                    <td>Common in Filipino: <em>sumunod</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Morphological Parsing in NLP:</h3>
+        <ul>
+            <li><strong>Stemming:</strong> Crudely chops off affixes. Fast but inaccurate.
+                <ul>
+                    <li><em>"playing"</em> &rarr; <em>"play"</em> | <em>"studies"</em> &rarr; <em>"studi"</em> ❌</li>
+                </ul>
+            </li>
+            <li><strong>Lemmatization:</strong> Uses dictionary to find correct base form. Slower but accurate.
+                <ul>
+                    <li><em>"playing"</em> &rarr; <em>"play"</em> | <em>"studies"</em> &rarr; <em>"study"</em> ✅ | <em>"was"</em> &rarr; <em>"be"</em> ✅</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>Why Morphology Matters in NLP:</h3>
+        <ul>
+            <li>Helps the model understand that <em>"run"</em>, <em>"runs"</em>, <em>"ran"</em>, <em>"running"</em> all refer to the same action.</li>
+            <li>Reduces vocabulary size significantly — instead of 4 entries, just 1 root form.</li>
+            <li>Essential for morphologically rich languages (Arabic, Turkish, Finnish) where one word can have 100+ forms.</li>
+        </ul>
+
+        <h2>Topic 11: Named Entity Recognition (NER) 🔥</h2>
+        <p><strong>NER</strong> is the task of identifying and classifying <strong>named entities</strong> in text — real-world objects with specific names like people, places, organizations, and dates.</p>
+
+        <h3>Standard NER Categories:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Tag</th>
+                    <th>Examples</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Person</strong></td>
+                    <td>PER</td>
+                    <td><em>Steve Jobs, Narendra Modi, Elon Musk</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Organization</strong></td>
+                    <td>ORG</td>
+                    <td><em>Apple Inc., Google, GTU, ISRO</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Location</strong></td>
+                    <td>LOC</td>
+                    <td><em>Ahmedabad, India, Silicon Valley</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Date/Time</strong></td>
+                    <td>DATE</td>
+                    <td><em>2024, January 15th, last Monday</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Money</strong></td>
+                    <td>MONEY</td>
+                    <td><em>$500, ₹10,000</em></td>
+                </tr>
+                <tr>
+                    <td><strong>Percentage</strong></td>
+                    <td>PERCENT</td>
+                    <td><em>85%, 3.5%</em></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout">
+            <p><strong>Example from W24 paper:</strong></p>
+            <p>Sentence: <em>"Apple Inc. was founded by Steve Jobs and Steve Wozniak in a garage"</em></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>NER Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Apple Inc.</td>
+                        <td>ORG</td>
+                    </tr>
+                    <tr>
+                        <td>Steve Jobs</td>
+                        <td>PER</td>
+                    </tr>
+                    <tr>
+                        <td>Steve Wozniak</td>
+                        <td>PER</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="callout">
+            <p><strong>From S26 paper:</strong></p>
+            <p>Sentence: <em>"Steve Jobs co-founded Apple Inc. in 1976, revolutionizing the technology industry..."</em></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>NER Tag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Steve Jobs</td>
+                        <td>PER</td>
+                    </tr>
+                    <tr>
+                        <td>Apple Inc.</td>
+                        <td>ORG</td>
+                    </tr>
+                    <tr>
+                        <td>1976</td>
+                        <td>DATE</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3>NER Approaches:</h3>
+        <div class="mermaid">
+        graph TD
+            NER["NER Approaches"] --> A["Rule-Based&lt;br/&gt;(Hand-crafted patterns + Gazetteers)"]
+            NER --> B["Statistical&lt;br/&gt;(HMM, CRF — Conditional Random Field)"]
+            NER --> C["Deep Learning&lt;br/&gt;(BiLSTM-CRF, BERT — Best Accuracy)"]
+            style C fill:#d3f9d8,stroke:#2f9e44,stroke-width:2px
+        </div>
+
+        <h3>Challenges in NER:</h3>
+        <ol>
+            <li><strong>Ambiguity:</strong> <em>"Apple"</em> = fruit OR company?</li>
+            <li><strong>Multi-word entities:</strong> <em>"New York City"</em> is one entity, not three.</li>
+            <li><strong>New/rare entities:</strong> NER systems fail on names they've never seen.</li>
+            <li><strong>Domain specificity:</strong> Medical NER (drug names, diseases) requires domain-specific training.</li>
+        </ol>
+
+        <div class="callout exam">
+            <div class="callout-title">🎯 GTU Exam Corner — Unit 2</div>
+            <p><strong>Q1. Explain Unigram Language Model. (3 Marks) [S26]</strong><br>
+            &rarr; Define language model. State Markov assumption (words independent in unigram). Write formula: $P(w_1...w_n) = \prod P(w_i)$. Small example.</p>
+
+            <p><strong>Q2. Explain Unigram, Bigram, and Trigram using: "This is a sentence". (7 Marks) [W23, W24, W25]</strong><br>
+            &rarr; List all unigrams, bigrams, and trigrams of the example sentence. Write formula for each. Show count table.</p>
+
+            <p><strong>Q3. Explain Add-One smoothing with example. (3–4 Marks) [W24, S26]</strong><br>
+            &rarr; State problem (zero probability). Write Laplace formula with V. Apply to one unseen bigram example.</p>
+
+            <p><strong>Q4. Explain various smoothing techniques with example. (7 Marks) [W23]</strong><br>
+            &rarr; Cover: Add-One (formula + example), Good-Turing (intuition), Kneser-Ney (why it's best). Use comparison table.</p>
+
+            <p><strong>Q5. 🔥 Explain NER with example: "Apple Inc. was founded by Steve Jobs..." (7 Marks) [W24, W25, S26]</strong><br>
+            &rarr; Define NER, list entity categories (PER, ORG, LOC, DATE). Tag the example sentence word-by-word. Explain 3 NER challenges.</p>
+
+            <p><strong>Q6. What is morphology? Describe morphology parsing. (4 Marks) [W24, W25]</strong><br>
+            &rarr; Define morpheme. Types (free/bound, prefix/suffix). Explain stemming vs. lemmatization with examples. Why it matters in NLP.</p>
+
+            <p><strong>Q7. POS Tagging — Deconstruct with example. (7 Marks) [S26]</strong><br>
+            &rarr; Define POS tagging. List 8 common POS tags with examples. Tag the sentence word by word. Explain HMM-based approach (emission + transition probability).</p>
+        </div>
+
+        <div class="exercise">
+            <div class="exercise-title">🧠 Prof. Nova's Active Recall Challenge</div>
+            <ol>
+                <li>In a bigram model, to find $P(\text{"sat"} | \text{"cat"})$, what do you divide by what?</li>
+                <li>What does Laplace smoothing ADD to prevent zero probability — and what does the $V$ represent?</li>
+                <li>Name the 6 standard NER categories with one example each.</li>
+                <li>What is the difference between a free morpheme and a bound morpheme? Give 2 examples of each.</li>
+                <li>In POS tagging, what is an "emission probability"?</li>
+            </ol>
+        </div>
+
+        <div class="lesson-footer">
+            <p>Next: <a href="0003-unit3-words-and-word-forms.html">Unit 3 — Words & Word Forms</a></p>
+            <p>GTU Semester 7 AI&DS Study Circle</p>
+        </div>
+    </div>
+</body>
+</html>
